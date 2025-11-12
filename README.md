@@ -73,11 +73,10 @@ python main.py backfill category_name
 
 ### Current Status
 
-- ✅ 20 political parties downloaded
-- ✅ 13 categories defined
-- ✅ 260 complete analyses (20 parties × 13 categories)
-- ✅ Total cost: $7.79 USD
-- ✅ 1.4M tokens processed
+- 20 political parties downloaded
+- 13 categories defined
+- 260 complete analyses (20 parties × 13 categories)
+- 1.4M tokens processed
 
 ## Website (Next.js)
 
@@ -240,15 +239,15 @@ sqlite3 data/database.db ".mode csv" ".output export.csv" "SELECT * FROM party_p
 
 ## Future Ideas & Enhancements
 
-### Completed ✅
+### Completed
 
-- ✅ Dark mode support with theme persistence
-- ✅ Party flag images
-- ✅ Docker deployment infrastructure
-- ✅ CI/CD pipeline with GitHub Actions
-- ✅ Static export optimization
-- ✅ Responsive mobile design
-- ✅ Suspense boundaries for optimal SSG
+- Dark mode support with theme persistence
+- Party flag images
+- Docker deployment infrastructure
+- CI/CD pipeline with GitHub Actions
+- Static export optimization
+- Responsive mobile design
+- Suspense boundaries for optimal SSG
 
 ### Potential Enhancements
 
