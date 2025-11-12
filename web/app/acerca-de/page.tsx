@@ -10,7 +10,6 @@ import {
   Eye,
   FileText,
   Github,
-  Globe,
   MessageSquare,
   Scale,
   Shield,
@@ -201,20 +200,6 @@ export default function AboutPage() {
             </p>
           </div>
 
-          <div className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900">
-            <div className="mb-3 flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
-                <Globe className="h-5 w-5" />
-              </span>
-              <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-                Presentación Web
-              </h3>
-            </div>
-            <p className="text-gray-700 dark:text-gray-300">
-              Generamos un sitio web estático optimizado que presenta la información de manera clara
-              y accesible, sin necesidad de consultar los documentos originales de 100+ páginas.
-            </p>
-          </div>
         </div>
       </section>
 
