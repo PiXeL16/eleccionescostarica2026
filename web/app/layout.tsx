@@ -118,6 +118,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     <span>Código y datos open source</span>
                   </a>
                 </div>
+                <p className="mt-4 text-xs text-gray-500 dark:text-gray-500">
+                  Made with ❤️ by Chris, Esteban & Leo
+                </p>
               </div>
             </footer>
           </div>

@@ -199,7 +199,6 @@ export default function AboutPage() {
               información.
             </p>
           </div>
-
         </div>
       </section>
 
