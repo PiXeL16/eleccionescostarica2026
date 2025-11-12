@@ -6,7 +6,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { parseBudget } from '@/lib/budget-parser';
+import { getBudgetTypeLabel, parseBudget } from '@/lib/budget-parser';
 import { getCategoryDisplayName } from '@/lib/category-display';
 import type { Category, Party, PartyPosition } from '@/lib/database';
 import { getPartyFlagPath } from '@/lib/party-images';
@@ -160,12 +160,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                               {position.budget_mentioned &&
                                 position.budget_mentioned !== 'No especificado' && (
                                   <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-200">
-                                    {parseBudget(position.budget_mentioned).type !== 'description'
-                                      ? parseBudget(position.budget_mentioned).type.replace(
-                                          '_',
-                                          ' '
-                                        )
-                                      : 'presupuesto'}
+                                    {getBudgetTypeLabel(parseBudget(position.budget_mentioned).type)}
                                   </span>
                                 )}
                             </div>

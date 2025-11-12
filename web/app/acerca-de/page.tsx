@@ -58,9 +58,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-            <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-              Comparación Fácil
-            </h3>
+            <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">Comparación Fácil</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Proporcionamos una comparación clara, lado a lado, de hasta 3 partidos a través de 13
               categorías clave de políticas públicas
@@ -346,9 +344,7 @@ export default function AboutPage() {
               rel="noopener noreferrer"
               className="block rounded-lg border border-gray-200 p-4 transition hover:border-gray-300 hover:bg-gray-50 dark:border-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-850"
             >
-              <div className="font-medium text-gray-900 dark:text-white">
-                Reportar un problema
-              </div>
+              <div className="font-medium text-gray-900 dark:text-white">Reportar un problema</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">
                 Si encuentras datos incorrectos o errores técnicos
               </div>
