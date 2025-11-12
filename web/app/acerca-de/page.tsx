@@ -50,7 +50,7 @@ export default function AboutPage() {
         <div className="grid gap-4 md:grid-cols-2">
           <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
             <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-              🤖 Análisis Automatizado
+              Análisis Automatizado
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Utilizamos inteligencia artificial para extraer y estructurar información de extensos
@@ -59,7 +59,7 @@ export default function AboutPage() {
           </div>
           <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
             <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-              ⚖️ Comparación Fácil
+              Comparación Fácil
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Proporcionamos una comparación clara, lado a lado, de hasta 3 partidos a través de 13
@@ -67,21 +67,21 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-            <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">🔓 Transparencia</h3>
+            <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">Transparencia</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Todos los datos y metodologías son de código abierto, permitiendo que cualquiera pueda
               verificar y construir sobre nuestro trabajo
             </p>
           </div>
           <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-            <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">📱 Accesibilidad</h3>
+            <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">Accesibilidad</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Sitio web rápido, optimizado para dispositivos móviles, con soporte para modo oscuro y
               diseño responsivo
             </p>
           </div>
           <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-            <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">🎯 Apartidista</h3>
+            <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">Apartidista</h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Presentamos información objetiva sin sesgo editorial, permitiendo que los votantes
               formen sus propias opiniones
@@ -89,7 +89,7 @@ export default function AboutPage() {
           </div>
           <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
             <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-              📊 Datos Estructurados
+              Datos Estructurados
             </h3>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Convertimos documentos extensos en resúmenes estructurados, facilitando la comprensión
@@ -261,7 +261,7 @@ export default function AboutPage() {
         <div className="space-y-3">
           <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-900 dark:bg-yellow-950">
             <h3 className="mb-2 font-semibold text-yellow-900 dark:text-yellow-100">
-              ⚠️ Análisis Automatizado
+              Análisis Automatizado
             </h3>
             <p className="text-sm text-yellow-800 dark:text-yellow-200">
               Los resúmenes y análisis son generados por inteligencia artificial. Aunque nos
@@ -271,7 +271,7 @@ export default function AboutPage() {
           </div>
           <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-900 dark:bg-yellow-950">
             <h3 className="mb-2 font-semibold text-yellow-900 dark:text-yellow-100">
-              📄 Documentos Completos
+              Documentos Completos
             </h3>
             <p className="text-sm text-yellow-800 dark:text-yellow-200">
               Esta plataforma presenta resúmenes y puntos clave. Para obtener el contexto completo y
@@ -281,7 +281,7 @@ export default function AboutPage() {
           </div>
           <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-900 dark:bg-yellow-950">
             <h3 className="mb-2 font-semibold text-yellow-900 dark:text-yellow-100">
-              🔄 Información Estática
+              Información Estática
             </h3>
             <p className="text-sm text-yellow-800 dark:text-yellow-200">
               Los análisis se realizaron en un momento específico. Los partidos pueden actualizar
@@ -347,7 +347,7 @@ export default function AboutPage() {
               className="block rounded-lg border border-gray-200 p-4 transition hover:border-gray-300 hover:bg-gray-50 dark:border-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-850"
             >
               <div className="font-medium text-gray-900 dark:text-white">
-                🐛 Reportar un problema
+                Reportar un problema
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400">
                 Si encuentras datos incorrectos o errores técnicos
@@ -359,7 +359,7 @@ export default function AboutPage() {
               rel="noopener noreferrer"
               className="block rounded-lg border border-gray-200 p-4 transition hover:border-gray-300 hover:bg-gray-50 dark:border-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-850"
             >
-              <div className="font-medium text-gray-900 dark:text-white">💡 Sugerir mejoras</div>
+              <div className="font-medium text-gray-900 dark:text-white">Sugerir mejoras</div>
               <div className="text-sm text-gray-600 dark:text-gray-400">
                 Ideas para nuevas funcionalidades o mejoras
               </div>

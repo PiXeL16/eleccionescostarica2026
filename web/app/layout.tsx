@@ -36,33 +36,36 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body className="min-h-screen bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <div className="flex min-h-screen flex-col">
-            <header className="border-b border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
-              {/* Decorative header pattern */}
-              <div className="relative h-32 w-full overflow-hidden bg-black">
+            <header className="relative border-b border-gray-200 shadow-sm dark:border-gray-800">
+              {/* Background image */}
+              <div className="absolute inset-0 overflow-hidden bg-black">
                 <Image
                   src="/header-pattern.jpg"
                   alt="Patrón decorativo costarricense"
                   fill
-                  className="object-cover object-center opacity-85 dark:opacity-60"
+                  className="object-cover object-center opacity-75 dark:opacity-50"
                   priority
                   unoptimized
                 />
+                {/* Gradient overlay for better text readability */}
+                <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60" />
               </div>
 
-              <div className="container mx-auto px-4 py-6">
+              {/* Content overlay */}
+              <div className="relative container mx-auto px-4 py-12">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h1 className="text-3xl font-bold text-gray-900 dark:text-white">
+                    <h1 className="text-3xl font-bold text-white drop-shadow-lg">
                       Plataformas Políticas Costa Rica 2026
                     </h1>
-                    <p className="mt-2 text-sm text-gray-600 dark:text-gray-400">
+                    <p className="mt-2 text-sm text-white/90 drop-shadow">
                       Compara y analiza las propuestas de los partidos políticos
                     </p>
                   </div>
                   <div className="flex items-center gap-4">
                     <Link
                       href="/acerca-de"
-                      className="text-sm font-medium text-gray-700 hover:text-gray-900 transition dark:text-gray-300 dark:hover:text-white"
+                      className="text-sm font-medium text-white/90 hover:text-white transition drop-shadow"
                     >
                       Acerca de
                     </Link>
