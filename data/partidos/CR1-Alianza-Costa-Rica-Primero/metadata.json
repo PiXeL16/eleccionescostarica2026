@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Alianza Costa Rica Primero",
+    "abbreviation": "CR1",
+    "folder": "CR1-Alianza-Costa-Rica-Primero"
+  },
+  "pdf": {
+    "filename": "CR1.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/CR1.pdf",
+    "downloaded": true,
+    "file_size_bytes": 837754,
+    "checksum_sha256": "5435deb365f889e53d06d8b8058010da10199d6ddcf71d3422e043d9b90668ba",
+    "downloaded_at": "2025-11-12T18:03:19.550502"
+  }
+}

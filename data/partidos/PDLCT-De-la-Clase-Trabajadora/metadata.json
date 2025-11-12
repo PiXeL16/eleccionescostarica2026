@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "De la Clase Trabajadora",
+    "abbreviation": "PDLCT",
+    "folder": "PDLCT-De-la-Clase-Trabajadora"
+  },
+  "pdf": {
+    "filename": "PDLCT.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/PDLCT.pdf",
+    "downloaded": true,
+    "file_size_bytes": 970117,
+    "checksum_sha256": "fd79c8d94aaa3866f7917bf158824302df8b20d29a33867c2bb90b2cb429bf97",
+    "downloaded_at": "2025-11-12T18:03:33.158883"
+  }
+}

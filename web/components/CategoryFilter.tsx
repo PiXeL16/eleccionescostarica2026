@@ -1,0 +1,52 @@
+// ABOUTME: Category filter dropdown for comparison page
+// ABOUTME: Client-side component for filtering comparison by category
+
+'use client';
+
+import { useRouter, useSearchParams } from 'next/navigation';
+import type { Category } from '@/lib/database';
+import { getCategoryDisplayName } from '@/lib/category-display';
+
+interface CategoryFilterProps {
+  categories: Category[];
+}
+
+export function CategoryFilter({ categories }: CategoryFilterProps) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const selectedCategory = searchParams.get('category') || 'all';
+
+  const handleChange = (categoryKey: string) => {
+    const params = new URLSearchParams(searchParams);
+
+    if (categoryKey === 'all') {
+      params.delete('category');
+    } else {
+      params.set('category', categoryKey);
+    }
+
+    router.push(`/comparar?${params.toString()}`);
+  };
+
+  return (
+    <div className="flex items-center gap-3">
+      <label htmlFor="category-filter" className="text-sm font-medium text-gray-400">
+        Categoría:
+      </label>
+      <select
+        id="category-filter"
+        value={selectedCategory}
+        onChange={(e) => handleChange(e.target.value)}
+        className="rounded-lg border border-gray-800 bg-gray-900 px-4 py-2 text-white focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20"
+      >
+        <option value="all">Todas las categorías</option>
+        {categories.map((cat) => (
+          <option key={cat.id} value={cat.category_key}>
+            {getCategoryDisplayName(cat.name)}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+}

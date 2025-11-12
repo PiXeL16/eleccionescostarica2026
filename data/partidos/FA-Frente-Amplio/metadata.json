@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Frente Amplio",
+    "abbreviation": "FA",
+    "folder": "FA-Frente-Amplio"
+  },
+  "pdf": {
+    "filename": "FA.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/FA.pdf",
+    "downloaded": true,
+    "file_size_bytes": 4573981,
+    "checksum_sha256": "730e990bdfc5a0283b5912cdde182ff05ac1097dd9ac786fedb7479e3638cdd1",
+    "downloaded_at": "2025-11-12T18:03:42.251276"
+  }
+}

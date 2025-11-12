@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Pueblo Soberano",
+    "abbreviation": "PPSO",
+    "folder": "PPSO-Pueblo-Soberano"
+  },
+  "pdf": {
+    "filename": "PPSO.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/PPSO.pdf",
+    "downloaded": true,
+    "file_size_bytes": 6616836,
+    "checksum_sha256": "83de1eb335c3e834c09459fd780a0f9f6939c35a286f1c0562305e2331a4823b",
+    "downloaded_at": "2025-11-12T18:04:10.357502"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Nueva Generación",
+    "abbreviation": "PNG",
+    "folder": "PNG-Nueva-Generacion"
+  },
+  "pdf": {
+    "filename": "PNG.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/PNG.pdf",
+    "downloaded": true,
+    "file_size_bytes": 7425497,
+    "checksum_sha256": "7fa8d050593df694bc509fe2c1c5482b5513d53967207828bdac32070b0b13e1",
+    "downloaded_at": "2025-11-12T18:03:58.628866"
+  }
+}

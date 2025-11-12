@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Avanza",
+    "abbreviation": "PA",
+    "folder": "PA-Avanza"
+  },
+  "pdf": {
+    "filename": "PA.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/PA.pdf",
+    "downloaded": true,
+    "file_size_bytes": 917445,
+    "checksum_sha256": "aad848e673a21777dc9bc649d1c6a2d4562811c13a37fcdffdce16463e13034c",
+    "downloaded_at": "2025-11-12T18:03:24.955295"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Esperanza y Libertad",
+    "abbreviation": "PEL",
+    "folder": "PEL-Esperanza-y-Libertad"
+  },
+  "pdf": {
+    "filename": "PEL.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/PEL.pdf",
+    "downloaded": true,
+    "file_size_bytes": 896820,
+    "checksum_sha256": "7ea087e741cb792b34c4a5f7376441f143f18dbfcf87b22942a0853286e10ada",
+    "downloaded_at": "2025-11-12T18:03:38.527204"
+  }
+}

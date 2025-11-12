@@ -1,0 +1,28 @@
+{
+  "successful": [
+    "CR1",
+    "ACRM",
+    "PA",
+    "CDS",
+    "CAC",
+    "PDLCT",
+    "PEN",
+    "PEL",
+    "FA",
+    "PIN",
+    "PJSC",
+    "PLN",
+    "PLP",
+    "PNG",
+    "PNR",
+    "PSD",
+    "PPSO",
+    "PUSC",
+    "UP",
+    "PUCD"
+  ],
+  "failed": [],
+  "total": 20,
+  "start_time": "2025-11-12T18:03:18.484095",
+  "end_time": "2025-11-12T18:04:19.899236"
+}

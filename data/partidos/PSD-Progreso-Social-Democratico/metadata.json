@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Progreso Social Democrático",
+    "abbreviation": "PSD",
+    "folder": "PSD-Progreso-Social-Democratico"
+  },
+  "pdf": {
+    "filename": "PSD.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/PSD.pdf",
+    "downloaded": true,
+    "file_size_bytes": 1138363,
+    "checksum_sha256": "9c580b632de1c4795453e1380ddb4e561a4460cce536b6858e05a7ebd47173e9",
+    "downloaded_at": "2025-11-12T18:04:06.070677"
+  }
+}

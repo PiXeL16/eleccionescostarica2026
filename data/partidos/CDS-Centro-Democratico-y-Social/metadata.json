@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Centro Democrático y Social",
+    "abbreviation": "CDS",
+    "folder": "CDS-Centro-Democratico-y-Social"
+  },
+  "pdf": {
+    "filename": "CDS.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/CDS.pdf",
+    "downloaded": true,
+    "file_size_bytes": 1950009,
+    "checksum_sha256": "6ea3b1c98571c2b4612cb0a10c92d95581b0f780ca7840abc7535aa955501d48",
+    "downloaded_at": "2025-11-12T18:03:27.846655"
+  }
+}

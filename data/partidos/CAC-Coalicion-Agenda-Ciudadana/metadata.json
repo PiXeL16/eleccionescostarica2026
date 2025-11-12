@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Coalición Agenda Ciudadana",
+    "abbreviation": "CAC",
+    "folder": "CAC-Coalicion-Agenda-Ciudadana"
+  },
+  "pdf": {
+    "filename": "CAC.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/CAC.pdf",
+    "downloaded": true,
+    "file_size_bytes": 1187917,
+    "checksum_sha256": "0674994b585ba0b5f8769740bf9b83b7e01be4a35aeb7f5fd5c4c348362cc545",
+    "downloaded_at": "2025-11-12T18:03:30.518771"
+  }
+}

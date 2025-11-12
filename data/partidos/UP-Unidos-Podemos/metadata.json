@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Unidos Podemos",
+    "abbreviation": "UP",
+    "folder": "UP-Unidos-Podemos"
+  },
+  "pdf": {
+    "filename": "UP.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/UP.pdf",
+    "downloaded": true,
+    "file_size_bytes": 5556916,
+    "checksum_sha256": "1d44c225bef90ed98db80da6c7d891be8cd1ccd1c919a57ff2e1e5d431db94bd",
+    "downloaded_at": "2025-11-12T18:04:17.487860"
+  }
+}

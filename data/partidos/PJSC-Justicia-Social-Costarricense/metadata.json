@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Justicia Social Costarricense",
+    "abbreviation": "PJSC",
+    "folder": "PJSC-Justicia-Social-Costarricense"
+  },
+  "pdf": {
+    "filename": "PJSC.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/PJSC.pdf",
+    "downloaded": true,
+    "file_size_bytes": 1184542,
+    "checksum_sha256": "9fa22dc38895a6e706669f636e7619ca6dd9b4878e1831b6704d7887ec379db9",
+    "downloaded_at": "2025-11-12T18:03:48.347074"
+  }
+}

@@ -1,0 +1,38 @@
+# ABOUTME: Python dependencies for political party analysis pipeline
+# ABOUTME: Includes PDF extraction, OCR, AI analysis, and database tools
+
+# PDF Processing
+PyMuPDF>=1.23.0
+pymupdf4llm>=0.0.5
+
+# OCR for scanned PDFs
+easyocr>=1.7.0
+torch>=2.0.0
+torchvision>=0.15.0
+
+# AI/LLM Integration
+openai>=1.12.0
+anthropic>=0.18.0  # Optional: if we want to switch to Claude later
+tiktoken>=0.6.0  # Token counting
+
+# Data Processing
+pydantic>=2.5.0
+python-dotenv>=1.0.0
+
+# Database
+sqlite-utils>=3.35.0
+
+# Progress & CLI
+tqdm>=4.66.0
+click>=8.1.0
+rich>=13.7.0  # Better terminal output
+
+# Utilities
+tenacity>=8.2.0  # Retry logic
+python-dateutil>=2.8.0
+requests>=2.31.0
+
+# Development/Testing (optional)
+pytest>=8.0.0
+pytest-asyncio>=0.23.0
+black>=24.0.0

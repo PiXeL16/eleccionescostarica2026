@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Integración Nacional",
+    "abbreviation": "PIN",
+    "folder": "PIN-Integracion-Nacional"
+  },
+  "pdf": {
+    "filename": "PIN.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/PIN.pdf",
+    "downloaded": true,
+    "file_size_bytes": 5046058,
+    "checksum_sha256": "4ddbbe20eee3c0beb3de1ae63d17f9989e332ec1c280299a2b09240b491ea7cb",
+    "downloaded_at": "2025-11-12T18:03:45.696507"
+  }
+}

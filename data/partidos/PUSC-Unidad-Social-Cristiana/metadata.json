@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Unidad Social Cristiana",
+    "abbreviation": "PUSC",
+    "folder": "PUSC-Unidad-Social-Cristiana"
+  },
+  "pdf": {
+    "filename": "PUSC.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/PUSC.pdf",
+    "downloaded": true,
+    "file_size_bytes": 1115087,
+    "checksum_sha256": "3d60fac904f4c97dc189e2068420092dd2746f8663da2c0ee974b42498415646",
+    "downloaded_at": "2025-11-12T18:04:12.928249"
+  }
+}

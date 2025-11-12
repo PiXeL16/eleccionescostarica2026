@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Unión Costarricense Democrática",
+    "abbreviation": "PUCD",
+    "folder": "PUCD-Union-Costarricense-Democratica"
+  },
+  "pdf": {
+    "filename": "PUCD.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/PUCD.pdf",
+    "downloaded": true,
+    "file_size_bytes": 243460,
+    "checksum_sha256": "98448acd5bc60e00a92f5106fd05c96067db3ab025e18e6f3903a06c3393092d",
+    "downloaded_at": "2025-11-12T18:04:19.896589"
+  }
+}

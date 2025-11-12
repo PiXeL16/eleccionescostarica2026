@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Esperanza Nacional",
+    "abbreviation": "PEN",
+    "folder": "PEN-Esperanza-Nacional"
+  },
+  "pdf": {
+    "filename": "PEN.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/PEN.pdf",
+    "downloaded": true,
+    "file_size_bytes": 2383670,
+    "checksum_sha256": "eaa633c48542f9088c9f68eb8319e89abf09aaa5c082792d68cd9ef3f9eb8751",
+    "downloaded_at": "2025-11-12T18:03:35.983922"
+  }
+}

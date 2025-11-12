@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Aquí Costa Rica Manda",
+    "abbreviation": "ACRM",
+    "folder": "ACRM-Aqui-Costa-Rica-Manda"
+  },
+  "pdf": {
+    "filename": "ACRM.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/ACRM.pdf",
+    "downloaded": true,
+    "file_size_bytes": 1969990,
+    "checksum_sha256": "d48e49cdc17a4dda67f102d1e45242ad9ce4a0aa16573b36832281dd81a6f441",
+    "downloaded_at": "2025-11-12T18:03:22.425285"
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Liberación Nacional",
+    "abbreviation": "PLN",
+    "folder": "PLN-Liberacion-Nacional"
+  },
+  "pdf": {
+    "filename": "PLN.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/PLN.pdf",
+    "downloaded": true,
+    "file_size_bytes": 662234,
+    "checksum_sha256": "c4d6d118bc7790504cb6af37720e302ec4c730b3c89ea65713c33e7c4fd802f4",
+    "downloaded_at": "2025-11-12T18:03:50.928705"
+  }
+}

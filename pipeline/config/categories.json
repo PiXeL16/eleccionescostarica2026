@@ -1,0 +1,222 @@
+{
+  "categories": [
+    {
+      "id": "economia",
+      "name": "Economía",
+      "description": "Política fiscal, empleo, comercio, inversión y crecimiento económico",
+      "key_topics": [
+        "política fiscal",
+        "empleo y desempleo",
+        "comercio internacional",
+        "inversión privada y extranjera",
+        "crecimiento económico",
+        "deuda pública",
+        "inflación",
+        "salario mínimo"
+      ],
+      "prompt_context": "políticas económicas, planes de desarrollo económico, estrategias de crecimiento, empleo, comercio e inversión"
+    },
+    {
+      "id": "impuestos",
+      "name": "Impuestos",
+      "description": "Sistema tributario, reforma fiscal, impuestos directos e indirectos",
+      "key_topics": [
+        "reforma tributaria",
+        "impuesto sobre la renta",
+        "IVA",
+        "impuestos corporativos",
+        "evasión fiscal",
+        "simplificación tributaria",
+        "progresividad fiscal",
+        "incentivos fiscales"
+      ],
+      "prompt_context": "políticas tributarias, reformas fiscales, estructura impositiva, recaudación y evasión fiscal"
+    },
+    {
+      "id": "salud",
+      "name": "Salud",
+      "description": "Sistema sanitario, acceso a servicios de salud, financiamiento y calidad",
+      "key_topics": [
+        "sistema sanitario público",
+        "acceso a servicios de salud",
+        "financiamiento de la salud",
+        "medicina preventiva",
+        "CCSS",
+        "hospitales y clínicas",
+        "medicamentos",
+        "salud mental"
+      ],
+      "prompt_context": "políticas de salud pública, sistema sanitario, acceso y calidad de servicios médicos"
+    },
+    {
+      "id": "educacion",
+      "name": "Educación",
+      "description": "Sistema educativo, calidad, acceso y formación técnica",
+      "key_topics": [
+        "educación básica y primaria",
+        "educación secundaria",
+        "educación superior y universitaria",
+        "calidad educativa",
+        "infraestructura educativa",
+        "formación técnica y vocacional",
+        "becas y financiamiento",
+        "educación inclusiva"
+      ],
+      "prompt_context": "políticas educativas, reforma educativa, calidad y acceso a la educación"
+    },
+    {
+      "id": "seguridad",
+      "name": "Seguridad",
+      "description": "Seguridad ciudadana, sistema judicial, policía y prevención del crimen",
+      "key_topics": [
+        "seguridad ciudadana",
+        "policía nacional",
+        "sistema penitenciario",
+        "reforma judicial",
+        "prevención del crimen",
+        "crimen organizado",
+        "narcotráfico",
+        "violencia doméstica"
+      ],
+      "prompt_context": "políticas de seguridad, prevención del crimen, sistema judicial y policial"
+    },
+    {
+      "id": "medio_ambiente",
+      "name": "Medio Ambiente",
+      "description": "Cambio climático, energía renovable, conservación y recursos naturales",
+      "key_topics": [
+        "cambio climático",
+        "energía renovable",
+        "conservación de bosques",
+        "biodiversidad",
+        "gestión de residuos",
+        "agua potable y saneamiento",
+        "contaminación",
+        "áreas protegidas"
+      ],
+      "prompt_context": "políticas ambientales, cambio climático, energía y conservación"
+    },
+    {
+      "id": "politica_social",
+      "name": "Política Social",
+      "description": "Reducción de pobreza, igualdad, derechos humanos y programas sociales",
+      "key_topics": [
+        "reducción de la pobreza",
+        "desigualdad social",
+        "igualdad de género",
+        "derechos humanos",
+        "programas sociales",
+        "inclusión social",
+        "derechos LGBTQ+",
+        "adultos mayores",
+        "personas con discapacidad"
+      ],
+      "prompt_context": "políticas sociales, reducción de pobreza, igualdad y derechos humanos"
+    },
+    {
+      "id": "infraestructura",
+      "name": "Infraestructura",
+      "description": "Transporte, vivienda, obras públicas y telecomunicaciones",
+      "key_topics": [
+        "transporte público",
+        "carreteras y puentes",
+        "vivienda social",
+        "agua y saneamiento",
+        "telecomunicaciones",
+        "internet y banda ancha",
+        "infraestructura urbana",
+        "obras públicas"
+      ],
+      "prompt_context": "infraestructura de transporte, vivienda, telecomunicaciones y obras públicas"
+    },
+    {
+      "id": "politica_exterior",
+      "name": "Política Exterior",
+      "description": "Relaciones internacionales, comercio exterior e integración regional",
+      "key_topics": [
+        "relaciones internacionales",
+        "tratados comerciales",
+        "integración regional",
+        "cooperación internacional",
+        "diplomacia",
+        "organismos internacionales",
+        "migración",
+        "comercio exterior"
+      ],
+      "prompt_context": "política exterior, relaciones internacionales, comercio y cooperación"
+    },
+    {
+      "id": "reforma_institucional",
+      "name": "Reforma Institucional",
+      "description": "Transparencia, anticorrupción, reforma electoral y modernización del Estado",
+      "key_topics": [
+        "transparencia gubernamental",
+        "lucha contra la corrupción",
+        "reforma electoral",
+        "participación ciudadana",
+        "descentralización",
+        "modernización del Estado",
+        "gobierno digital",
+        "rendición de cuentas"
+      ],
+      "prompt_context": "reforma del Estado, transparencia, anticorrupción y modernización institucional"
+    },
+    {
+      "id": "cultura_deporte",
+      "name": "Cultura y Deporte",
+      "description": "Patrimonio cultural, promoción artística, deporte y recreación",
+      "key_topics": [
+        "patrimonio cultural",
+        "promoción de las artes",
+        "museos y teatros",
+        "identidad nacional",
+        "deporte de alto rendimiento",
+        "deporte recreativo",
+        "infraestructura deportiva",
+        "cultura popular"
+      ],
+      "prompt_context": "políticas culturales, deportivas, patrimonio y promoción artística"
+    },
+    {
+      "id": "tecnologia",
+      "name": "Tecnología e Innovación",
+      "description": "Transformación digital, innovación tecnológica, inteligencia artificial y desarrollo del sector tech",
+      "key_topics": [
+        "transformación digital",
+        "innovación tecnológica",
+        "inteligencia artificial",
+        "ciberseguridad",
+        "startups y emprendimiento tech",
+        "gobierno digital",
+        "industria 4.0",
+        "investigación y desarrollo"
+      ],
+      "prompt_context": "políticas de innovación, transformación digital, desarrollo tecnológico y economía digital"
+    },
+    {
+      "id": "ambiente",
+      "name": "Ambiente",
+      "description": "Liderazgo ambiental de Costa Rica, carbono neutralidad, eco-turismo y conservación como país verde",
+      "key_topics": [
+        "carbono neutralidad",
+        "país carbono neutral 2050",
+        "liderazgo climático internacional",
+        "eco-turismo sostenible",
+        "áreas protegidas y parques nacionales",
+        "pago por servicios ambientales",
+        "reforestación",
+        "energía 100% renovable",
+        "economía verde",
+        "marca país verde"
+      ],
+      "prompt_context": "liderazgo ambiental de Costa Rica, compromiso con carbono neutralidad, conservación, eco-turismo y posicionamiento como país verde"
+    }
+  ],
+  "metadata": {
+    "version": "1.2",
+    "country": "Costa Rica",
+    "election_year": 2026,
+    "total_categories": 13,
+    "last_updated": "2025-11-12"
+  }
+}

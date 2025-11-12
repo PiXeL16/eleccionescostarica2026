@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Liberal Progresista",
+    "abbreviation": "PLP",
+    "folder": "PLP-Liberal-Progresista"
+  },
+  "pdf": {
+    "filename": "PLP.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/PLP.pdf",
+    "downloaded": true,
+    "file_size_bytes": 2937513,
+    "checksum_sha256": "ceaea387ba0db5f0637e4779dacadb81a7a2c73af3e9427fb2cfa86fa70d5ed4",
+    "downloaded_at": "2025-11-12T18:03:54.036735"
+  }
+}

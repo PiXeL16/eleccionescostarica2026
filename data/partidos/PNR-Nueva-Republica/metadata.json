@@ -1,0 +1,18 @@
+{
+  "source": "https://www.tse.go.cr/2026/planesgobierno.html",
+  "election_year": 2026,
+  "country": "Costa Rica",
+  "party": {
+    "name": "Nueva República",
+    "abbreviation": "PNR",
+    "folder": "PNR-Nueva-Republica"
+  },
+  "pdf": {
+    "filename": "PNR.pdf",
+    "url": "https://www.tse.go.cr/2026/docus/planesgobierno/PNR.pdf",
+    "downloaded": true,
+    "file_size_bytes": 6277032,
+    "checksum_sha256": "cf97498b7e83307502d0b2844bddaadc919358ac720a69c104e29bdc259d6a3f",
+    "downloaded_at": "2025-11-12T18:04:03.469022"
+  }
+}
