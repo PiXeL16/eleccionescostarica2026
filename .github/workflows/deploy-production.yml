@@ -57,14 +57,14 @@ jobs:
         run: echo ${{ steps.meta.outputs.digest }}
 
       - name: Trigger Coolify deployment
-        if: secrets.COOLIFY_WEBHOOK != ''
+        continue-on-error: true
         run: |
-          echo "🚀 Triggering Coolify deployment..."
+          echo "Triggering Coolify deployment..."
           curl --request GET "${{ secrets.COOLIFY_WEBHOOK }}" \
             --header "Authorization: Bearer ${{ secrets.COOLIFY_TOKEN }}" \
             --fail-with-body \
             --silent \
             --show-error
-          echo "✅ Deployment triggered successfully!"
-          echo "📋 Coolify will now pull and deploy the latest image"
-          echo "   Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
+          echo "Deployment triggered successfully!"
+          echo "Coolify will now pull and deploy the latest image"
+          echo "Image: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest"
