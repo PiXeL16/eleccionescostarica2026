@@ -274,12 +274,6 @@ sqlite3 data/database.db ".mode csv" ".output export.csv" "SELECT * FROM party_p
 4. **Timeline Extraction**: Extract implementation timelines
 5. **Cost Analysis**: Detailed budget breakdown per proposal
 
-**Deployment:**
-1. **CDN**: Deploy to Cloudflare Pages or Vercel
-2. **Custom Domain**: elecciones2026.cr or similar
-3. **Monitoring**: Uptime monitoring and error tracking
-4. **Staging Environment**: Preview deployments for testing
-
 ## Data Source
 
 Data comes from the **Tribunal Supremo de Elecciones (TSE)** of Costa Rica:
