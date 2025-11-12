@@ -6,12 +6,11 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { type BudgetType, parseBudget } from '@/lib/budget-parser';
+import { parseBudget } from '@/lib/budget-parser';
 import { getCategoryDisplayName } from '@/lib/category-display';
 import type { Category, Party, PartyPosition } from '@/lib/database';
 import { getPartyFlagPath } from '@/lib/party-images';
-import { ComparisonStats } from './ComparisonStats';
-import { FilterPanel } from './FilterPanel';
+import { PartySelector } from './PartySelector';
 
 interface ComparisonViewProps {
   allParties: Party[];
@@ -26,9 +25,6 @@ interface ComparisonViewProps {
 export function ComparisonView({ allParties, allCategories, comparisonData }: ComparisonViewProps) {
   const searchParams = useSearchParams();
   const partiesParam = searchParams.get('parties');
-  const categoryParam = searchParams.get('category');
-  const ideologyFilter = searchParams.get('ideology') || 'all';
-  const budgetTypeFilter = (searchParams.get('budget_type') as BudgetType) || 'all';
 
   // Parse selected parties from URL
   const selectedSlugs =
@@ -46,30 +42,8 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
         }
       : null;
 
-  // Filter categories if specific category selected
-  const displayCategories = categoryParam
-    ? allCategories.filter((c) => c.category_key === categoryParam)
-    : allCategories;
-
-  // Helper function to check if a position passes filters
-  const passesFilters = (position: PartyPosition | undefined): boolean => {
-    if (!position) return false;
-
-    // Check ideology filter
-    if (ideologyFilter !== 'all' && position.ideology_position !== ideologyFilter) {
-      return false;
-    }
-
-    // Check budget type filter
-    if (budgetTypeFilter !== 'all') {
-      const parsed = parseBudget(position.budget_mentioned);
-      if (parsed.type !== budgetTypeFilter) {
-        return false;
-      }
-    }
-
-    return true;
-  };
+  // Show all categories
+  const displayCategories = allCategories;
 
   return (
     <div className="space-y-8">
@@ -102,26 +76,12 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
         </p>
       </div>
 
-      {/* Filters */}
-      <FilterPanel
-        showPartySelector={true}
-        showCategoryFilter={true}
-        showIdeologyFilter={true}
-        showBudgetTypeFilter={true}
-        parties={allParties}
-        categories={allCategories}
-      />
+      {/* Party Selector */}
+      <PartySelector parties={allParties} />
 
       {/* Comparison View */}
       {comparison && comparison.parties.length > 0 ? (
         <div className="space-y-6">
-          {/* Statistics Panel */}
-          <ComparisonStats
-            parties={comparison.parties}
-            categories={displayCategories}
-            positions={comparison.positions}
-          />
-
           {/* Sticky Header with Party Info */}
           <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-gray-200 pb-4 dark:bg-gray-950/95 dark:border-gray-800">
             <div className="mb-4">
@@ -186,11 +146,9 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                       ? JSON.parse(position.key_proposals)
                       : [];
 
-                    const showPosition = passesFilters(position);
-
                     return (
                       <div key={party.id} className="space-y-4">
-                        {position && showPosition ? (
+                        {position ? (
                           <>
                             {/* Ideology & Budget Info */}
                             <div className="flex flex-wrap gap-2 mb-2">
@@ -244,10 +202,6 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                               </div>
                             )}
                           </>
-                        ) : position && !showPosition ? (
-                          <p className="text-sm text-gray-500 italic">
-                            Esta posición no coincide con los filtros seleccionados
-                          </p>
                         ) : (
                           <p className="text-sm text-gray-500 italic">
                             No hay información disponible para esta categoría

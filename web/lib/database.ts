@@ -56,6 +56,7 @@ export interface Document {
   word_count: number | null;
   extracted_at: string | null;
   created_at: string;
+  source_url: string | null;
 }
 
 // Database singleton

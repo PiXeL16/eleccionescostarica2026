@@ -152,14 +152,14 @@ export default async function PartyDetailPage({ params }: PageProps) {
               >
                 Comparar con otros
               </Link>
-              {document && (
+              {document?.source_url && (
                 <a
-                  href={`/../data/partidos/${party.folder_name}/${party.abbreviation}.pdf`}
+                  href={document.source_url}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-lg border border-gray-200 bg-white px-6 py-2 font-medium text-gray-900 transition hover:bg-gray-50 hover:border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
                 >
-                  📄 Ver PDF Original
+                  📄 Ver PDF Original en TSE
                 </a>
               )}
             </div>
