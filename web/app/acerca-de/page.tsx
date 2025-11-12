@@ -4,17 +4,28 @@
 import {
   AlertTriangle,
   BarChart3,
+  BookOpen,
   Brain,
+  Briefcase,
+  Building2,
+  Cpu,
   Database,
   Download,
   Eye,
   FileText,
   Github,
+  Globe,
+  HeartPulse,
+  Landmark,
   MessageSquare,
+  Palette,
   Scale,
   Shield,
+  ShieldCheck,
   Smartphone,
   Sparkles,
+  TreePine,
+  Users,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -210,24 +221,53 @@ export default function AboutPage() {
         </p>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
           {[
-            { key: 'economia', name: 'Economía y Empleo' },
-            { key: 'educacion', name: 'Educación' },
-            { key: 'salud', name: 'Salud' },
-            { key: 'seguridad', name: 'Seguridad' },
-            { key: 'medio_ambiente', name: 'Medio Ambiente' },
-            { key: 'infraestructura', name: 'Infraestructura' },
-            { key: 'justicia', name: 'Justicia y Derechos' },
-            { key: 'politica_social', name: 'Política Social' },
-            { key: 'corrupcion', name: 'Transparencia y Anticorrupción' },
-            { key: 'cultura', name: 'Cultura y Deporte' },
-            { key: 'tecnologia', name: 'Tecnología e Innovación' },
-            { key: 'relaciones_exteriores', name: 'Relaciones Exteriores' },
-            { key: 'reforma_estado', name: 'Reforma del Estado' },
+            { key: 'economia', name: 'Economía y Empleo', icon: <Briefcase className="h-5 w-5" /> },
+            { key: 'educacion', name: 'Educación', icon: <BookOpen className="h-5 w-5" /> },
+            { key: 'salud', name: 'Salud', icon: <HeartPulse className="h-5 w-5" /> },
+            { key: 'seguridad', name: 'Seguridad', icon: <ShieldCheck className="h-5 w-5" /> },
+            {
+              key: 'medio_ambiente',
+              name: 'Medio Ambiente',
+              icon: <TreePine className="h-5 w-5" />,
+            },
+            {
+              key: 'infraestructura',
+              name: 'Infraestructura',
+              icon: <Building2 className="h-5 w-5" />,
+            },
+            { key: 'justicia', name: 'Justicia y Derechos', icon: <Scale className="h-5 w-5" /> },
+            {
+              key: 'politica_social',
+              name: 'Política Social',
+              icon: <Users className="h-5 w-5" />,
+            },
+            {
+              key: 'corrupcion',
+              name: 'Transparencia y Anticorrupción',
+              icon: <Eye className="h-5 w-5" />,
+            },
+            { key: 'cultura', name: 'Cultura y Deporte', icon: <Palette className="h-5 w-5" /> },
+            {
+              key: 'tecnologia',
+              name: 'Tecnología e Innovación',
+              icon: <Cpu className="h-5 w-5" />,
+            },
+            {
+              key: 'relaciones_exteriores',
+              name: 'Relaciones Exteriores',
+              icon: <Globe className="h-5 w-5" />,
+            },
+            {
+              key: 'reforma_estado',
+              name: 'Reforma del Estado',
+              icon: <Landmark className="h-5 w-5" />,
+            },
           ].map((category) => (
             <div
               key={category.key}
-              className="rounded-lg border border-gray-200 bg-white p-3 text-sm font-medium text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-white"
+              className="rounded-lg border border-gray-200 bg-white p-3 text-sm font-medium text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-white flex items-center gap-2"
             >
+              {category.icon}
               {category.name}
             </div>
           ))}

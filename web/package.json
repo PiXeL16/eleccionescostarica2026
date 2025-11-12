@@ -8,8 +8,7 @@
     "start": "next start",
     "lint": "biome check .",
     "format": "biome format --write .",
-    "check": "biome check --write .",
-    "prepare": "husky"
+    "check": "biome check --write ."
   },
   "dependencies": {
     "better-sqlite3": "^12.4.1",

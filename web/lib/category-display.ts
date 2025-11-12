@@ -6,9 +6,7 @@
  * without modifying the database
  */
 export function getCategoryDisplayName(categoryName: string): string {
-  const overrides: Record<string, string> = {
-    'Ambiente y Liderazgo Verde': 'Ambiente',
-  };
+  const overrides: Record<string, string> = {};
 
   return overrides[categoryName] || categoryName;
 }
