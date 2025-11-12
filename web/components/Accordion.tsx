@@ -46,7 +46,7 @@ export function Accordion({
               onClick={() => setOpenId(isOpen ? null : item.id)}
               className="flex w-full items-center justify-between p-3 md:p-4 text-left transition hover:bg-gray-50 dark:hover:bg-gray-800"
             >
-              <span className="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+              <span className="font-semibold text-gray-900 dark:text-white dark:hover:text-gray-300 flex items-center gap-2">
                 {item.icon}
                 <span>{item.title}</span>
               </span>
