@@ -4,6 +4,7 @@
 import './globals.css';
 import type { Metadata } from 'next';
 import Image from 'next/image';
+import Link from 'next/link';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { ThemeToggle } from '@/components/ThemeToggle';
 
@@ -58,7 +59,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                       Compara y analiza las propuestas de los partidos políticos
                     </p>
                   </div>
-                  <ThemeToggle />
+                  <div className="flex items-center gap-4">
+                    <Link
+                      href="/acerca-de"
+                      className="text-sm font-medium text-gray-700 hover:text-gray-900 transition dark:text-gray-300 dark:hover:text-white"
+                    >
+                      Acerca de
+                    </Link>
+                    <ThemeToggle />
+                  </div>
                 </div>
               </div>
             </header>
