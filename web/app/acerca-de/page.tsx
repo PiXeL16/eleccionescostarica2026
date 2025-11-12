@@ -1,6 +1,22 @@
 // ABOUTME: About page explaining project mission, methodology, and data sources
 // ABOUTME: Provides transparency about AI analysis and open source nature
 
+import {
+  AlertTriangle,
+  BarChart3,
+  Brain,
+  Database,
+  Download,
+  Eye,
+  FileText,
+  Github,
+  Globe,
+  MessageSquare,
+  Scale,
+  Shield,
+  Smartphone,
+  Sparkles,
+} from 'lucide-react';
 import Link from 'next/link';
 
 export const metadata = {
@@ -49,46 +65,60 @@ export default function AboutPage() {
         </p>
         <div className="grid gap-4 md:grid-cols-2">
           <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-            <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-              Análisis Automatizado
-            </h3>
+            <div className="mb-3 flex items-center gap-2">
+              <Brain className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <h3 className="font-semibold text-gray-900 dark:text-white">Análisis Automatizado</h3>
+            </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Utilizamos inteligencia artificial para extraer y estructurar información de extensos
               PDFs de planes de gobierno (más de 100 páginas cada uno)
             </p>
           </div>
           <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-            <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">Comparación Fácil</h3>
+            <div className="mb-3 flex items-center gap-2">
+              <Scale className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <h3 className="font-semibold text-gray-900 dark:text-white">Comparación Fácil</h3>
+            </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Proporcionamos una comparación clara, lado a lado, de hasta 3 partidos a través de 13
               categorías clave de políticas públicas
             </p>
           </div>
           <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-            <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">Transparencia</h3>
+            <div className="mb-3 flex items-center gap-2">
+              <Eye className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <h3 className="font-semibold text-gray-900 dark:text-white">Transparencia</h3>
+            </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Todos los datos y metodologías son de código abierto, permitiendo que cualquiera pueda
               verificar y construir sobre nuestro trabajo
             </p>
           </div>
           <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-            <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">Accesibilidad</h3>
+            <div className="mb-3 flex items-center gap-2">
+              <Smartphone className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <h3 className="font-semibold text-gray-900 dark:text-white">Accesibilidad</h3>
+            </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Sitio web rápido, optimizado para dispositivos móviles, con soporte para modo oscuro y
               diseño responsivo
             </p>
           </div>
           <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-            <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">Apartidista</h3>
+            <div className="mb-3 flex items-center gap-2">
+              <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <h3 className="font-semibold text-gray-900 dark:text-white">Apartidista</h3>
+            </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Presentamos información objetiva sin sesgo editorial, permitiendo que los votantes
               formen sus propias opiniones
             </p>
           </div>
           <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-            <h3 className="mb-2 font-semibold text-gray-900 dark:text-white">
-              Datos Estructurados
-            </h3>
+            <div className="mb-3 flex items-center gap-2">
+              <Database className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+              <h3 className="font-semibold text-gray-900 dark:text-white">Datos Estructurados</h3>
+            </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Convertimos documentos extensos en resúmenes estructurados, facilitando la comprensión
               de las posiciones de cada partido
@@ -103,8 +133,8 @@ export default function AboutPage() {
         <div className="space-y-6">
           <div className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900">
             <div className="mb-3 flex items-center gap-3">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white font-bold">
-                1
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
+                <Download className="h-5 w-5" />
               </span>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Recolección de Documentos
@@ -119,8 +149,8 @@ export default function AboutPage() {
 
           <div className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900">
             <div className="mb-3 flex items-center gap-3">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white font-bold">
-                2
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
+                <FileText className="h-5 w-5" />
               </span>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Extracción de Texto
@@ -135,8 +165,8 @@ export default function AboutPage() {
 
           <div className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900">
             <div className="mb-3 flex items-center gap-3">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white font-bold">
-                3
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
+                <Sparkles className="h-5 w-5" />
               </span>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Análisis con IA
@@ -157,8 +187,8 @@ export default function AboutPage() {
 
           <div className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900">
             <div className="mb-3 flex items-center gap-3">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white font-bold">
-                4
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
+                <Database className="h-5 w-5" />
               </span>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Estructuración de Datos
@@ -173,8 +203,8 @@ export default function AboutPage() {
 
           <div className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900">
             <div className="mb-3 flex items-center gap-3">
-              <span className="flex h-8 w-8 items-center justify-center rounded-full bg-blue-600 text-white font-bold">
-                5
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
+                <Globe className="h-5 w-5" />
               </span>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Presentación Web
@@ -258,9 +288,12 @@ export default function AboutPage() {
         </h2>
         <div className="space-y-3">
           <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-900 dark:bg-yellow-950">
-            <h3 className="mb-2 font-semibold text-yellow-900 dark:text-yellow-100">
-              Análisis Automatizado
-            </h3>
+            <div className="mb-2 flex items-center gap-2">
+              <AlertTriangle className="h-5 w-5 text-yellow-700 dark:text-yellow-300" />
+              <h3 className="font-semibold text-yellow-900 dark:text-yellow-100">
+                Análisis Automatizado
+              </h3>
+            </div>
             <p className="text-sm text-yellow-800 dark:text-yellow-200">
               Los resúmenes y análisis son generados por inteligencia artificial. Aunque nos
               esforzamos por mantener la precisión, recomendamos consultar los documentos originales
@@ -268,9 +301,12 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-900 dark:bg-yellow-950">
-            <h3 className="mb-2 font-semibold text-yellow-900 dark:text-yellow-100">
-              Documentos Completos
-            </h3>
+            <div className="mb-2 flex items-center gap-2">
+              <FileText className="h-5 w-5 text-yellow-700 dark:text-yellow-300" />
+              <h3 className="font-semibold text-yellow-900 dark:text-yellow-100">
+                Documentos Completos
+              </h3>
+            </div>
             <p className="text-sm text-yellow-800 dark:text-yellow-200">
               Esta plataforma presenta resúmenes y puntos clave. Para obtener el contexto completo y
               detalles específicos, recomendamos leer los planes de gobierno completos disponibles
@@ -278,9 +314,12 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="rounded-lg border border-yellow-200 bg-yellow-50 p-4 dark:border-yellow-900 dark:bg-yellow-950">
-            <h3 className="mb-2 font-semibold text-yellow-900 dark:text-yellow-100">
-              Información Estática
-            </h3>
+            <div className="mb-2 flex items-center gap-2">
+              <BarChart3 className="h-5 w-5 text-yellow-700 dark:text-yellow-300" />
+              <h3 className="font-semibold text-yellow-900 dark:text-yellow-100">
+                Información Estática
+              </h3>
+            </div>
             <p className="text-sm text-yellow-800 dark:text-yellow-200">
               Los análisis se realizaron en un momento específico. Los partidos pueden actualizar
               sus planes o posiciones durante la campaña electoral.
@@ -305,13 +344,7 @@ export default function AboutPage() {
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 rounded-lg bg-gray-900 px-6 py-3 font-medium text-white transition hover:bg-gray-800 dark:bg-gray-700 dark:hover:bg-gray-600"
           >
-            <svg className="h-5 w-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path
-                fillRule="evenodd"
-                d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"
-                clipRule="evenodd"
-              />
-            </svg>
+            <Github className="h-5 w-5" />
             Ver en GitHub
           </a>
           <div className="mt-6 space-y-2 text-sm text-gray-600 dark:text-gray-400">
@@ -344,8 +377,11 @@ export default function AboutPage() {
               rel="noopener noreferrer"
               className="block rounded-lg border border-gray-200 p-4 transition hover:border-gray-300 hover:bg-gray-50 dark:border-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-850"
             >
-              <div className="font-medium text-gray-900 dark:text-white">Reportar un problema</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="flex items-center gap-2 font-medium text-gray-900 dark:text-white">
+                <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
+                Reportar un problema
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400 ml-7">
                 Si encuentras datos incorrectos o errores técnicos
               </div>
             </a>
@@ -355,8 +391,11 @@ export default function AboutPage() {
               rel="noopener noreferrer"
               className="block rounded-lg border border-gray-200 p-4 transition hover:border-gray-300 hover:bg-gray-50 dark:border-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-850"
             >
-              <div className="font-medium text-gray-900 dark:text-white">Sugerir mejoras</div>
-              <div className="text-sm text-gray-600 dark:text-gray-400">
+              <div className="flex items-center gap-2 font-medium text-gray-900 dark:text-white">
+                <MessageSquare className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                Sugerir mejoras
+              </div>
+              <div className="text-sm text-gray-600 dark:text-gray-400 ml-7">
                 Ideas para nuevas funcionalidades o mejoras
               </div>
             </a>

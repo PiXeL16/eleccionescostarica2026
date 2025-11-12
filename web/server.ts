@@ -47,8 +47,23 @@ Bun.serve({
 
     // Don't fallback to index.html for static assets (JS, CSS, images, etc.)
     // This prevents serving HTML with wrong MIME type for missing assets
-    const staticAssetExtensions = ['.js', '.css', '.json', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.webp', '.ico', '.woff', '.woff2', '.ttf', '.otf'];
-    const isStaticAsset = staticAssetExtensions.some(ext => path.endsWith(ext));
+    const staticAssetExtensions = [
+      '.js',
+      '.css',
+      '.json',
+      '.png',
+      '.jpg',
+      '.jpeg',
+      '.gif',
+      '.svg',
+      '.webp',
+      '.ico',
+      '.woff',
+      '.woff2',
+      '.ttf',
+      '.otf',
+    ];
+    const isStaticAsset = staticAssetExtensions.some((ext) => path.endsWith(ext));
 
     if (isStaticAsset) {
       return new Response('Not Found', {
@@ -84,24 +99,24 @@ function getContentType(path: string): string {
   const ext = path.split('.').pop()?.toLowerCase();
 
   const mimeTypes: Record<string, string> = {
-    'html': 'text/html; charset=utf-8',
-    'css': 'text/css; charset=utf-8',
-    'js': 'application/javascript; charset=utf-8',
-    'json': 'application/json; charset=utf-8',
-    'png': 'image/png',
-    'jpg': 'image/jpeg',
-    'jpeg': 'image/jpeg',
-    'gif': 'image/gif',
-    'svg': 'image/svg+xml',
-    'webp': 'image/webp',
-    'ico': 'image/x-icon',
-    'txt': 'text/plain; charset=utf-8',
-    'xml': 'application/xml',
-    'pdf': 'application/pdf',
-    'woff': 'font/woff',
-    'woff2': 'font/woff2',
-    'ttf': 'font/ttf',
-    'otf': 'font/otf',
+    html: 'text/html; charset=utf-8',
+    css: 'text/css; charset=utf-8',
+    js: 'application/javascript; charset=utf-8',
+    json: 'application/json; charset=utf-8',
+    png: 'image/png',
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    gif: 'image/gif',
+    svg: 'image/svg+xml',
+    webp: 'image/webp',
+    ico: 'image/x-icon',
+    txt: 'text/plain; charset=utf-8',
+    xml: 'application/xml',
+    pdf: 'application/pdf',
+    woff: 'font/woff',
+    woff2: 'font/woff2',
+    ttf: 'font/ttf',
+    otf: 'font/otf',
   };
 
   return mimeTypes[ext || ''] || 'application/octet-stream';
