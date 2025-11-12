@@ -46,6 +46,18 @@ export interface PartyWithPositions extends Party {
   positions: (PartyPosition & { category: Category })[];
 }
 
+export interface Document {
+  id: number;
+  party_id: number;
+  file_path: string;
+  title: string | null;
+  upload_date: string;
+  status: string;
+  word_count: number | null;
+  extracted_at: string | null;
+  created_at: string;
+}
+
 // Database singleton
 let db: Database.Database | null = null;
 
@@ -111,7 +123,26 @@ export function getPartyPositions(partyId: number): (PartyPosition & { category:
     ORDER BY c.display_order
   `);
 
-  const rows = stmt.all(partyId) as any[];
+  interface PositionWithCategory {
+    id: number;
+    party_id: number;
+    category_id: number;
+    document_id: number;
+    summary: string;
+    key_proposals: string;
+    ideology_position: string | null;
+    budget_mentioned: string | null;
+    confidence_score: number | null;
+    tokens_used: number | null;
+    cost_usd: number | null;
+    created_at: string;
+    category_key: string;
+    category_name: string;
+    category_description: string;
+    display_order: number;
+  }
+
+  const rows = stmt.all(partyId) as PositionWithCategory[];
 
   return rows.map((row) => ({
     id: row.id,
@@ -140,12 +171,27 @@ export function getPartyPositions(partyId: number): (PartyPosition & { category:
 }
 
 /**
+ * Get all party positions (for filtering)
+ * Returns minimal data needed for filtering logic
+ */
+export function getAllPositions(): Pick<
+  PartyPosition,
+  'party_id' | 'ideology_position' | 'budget_mentioned'
+>[] {
+  const db = getDatabase();
+  const stmt = db.prepare(
+    'SELECT party_id, ideology_position, budget_mentioned FROM party_positions'
+  );
+  return stmt.all() as Pick<PartyPosition, 'party_id' | 'ideology_position' | 'budget_mentioned'>[];
+}
+
+/**
  * Get document for a party
  */
-export function getPartyDocument(partyId: number) {
+export function getPartyDocument(partyId: number): Document | undefined {
   const db = getDatabase();
   const stmt = db.prepare('SELECT * FROM documents WHERE party_id = ?');
-  return stmt.get(partyId);
+  return stmt.get(partyId) as Document | undefined;
 }
 
 /**
@@ -153,12 +199,14 @@ export function getPartyDocument(partyId: number) {
  */
 export function getDocumentText(documentId: number): string | null {
   const db = getDatabase();
-  const stmt = db.prepare('SELECT raw_text FROM document_text WHERE document_id = ? ORDER BY page_number');
+  const stmt = db.prepare(
+    'SELECT raw_text FROM document_text WHERE document_id = ? ORDER BY page_number'
+  );
   const results = stmt.all(documentId) as { raw_text: string }[];
 
   if (results.length === 0) return null;
 
-  return results.map(r => r.raw_text).join('\n\n');
+  return results.map((r) => r.raw_text).join('\n\n');
 }
 
 /**
@@ -179,9 +227,11 @@ export function getPartyWithPositions(slug: string): PartyWithPositions | null {
 /**
  * Compare multiple parties (for comparison page)
  */
-export function compareParties(
-  slugs: string[]
-): { parties: Party[]; categories: Category[]; positions: Map<string, Map<string, PartyPosition>> } {
+export function compareParties(slugs: string[]): {
+  parties: Party[];
+  categories: Category[];
+  positions: Map<string, Map<string, PartyPosition>>;
+} {
   const parties = slugs.map((slug) => getPartyBySlug(slug)).filter((p): p is Party => p !== null);
   const categories = getAllCategories();
 

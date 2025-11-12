@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+set -e
+
+cd web
+
+echo "🔍 Running Biome checks..."
+bun run check
+
+echo "🔍 Running TypeScript type checking..."
+bunx tsc --noEmit
+
+echo "✅ Pre-commit checks passed!"

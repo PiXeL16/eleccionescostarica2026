@@ -30,6 +30,7 @@ export function Accordion({ items, defaultOpen }: AccordionProps) {
             className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm dark:border-gray-800 dark:bg-gray-900"
           >
             <button
+              type="button"
               onClick={() => setOpenId(isOpen ? null : item.id)}
               className="flex w-full items-center justify-between p-4 text-left transition hover:bg-gray-50 dark:hover:bg-gray-850"
             >
@@ -41,6 +42,7 @@ export function Accordion({ items, defaultOpen }: AccordionProps) {
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
+                aria-hidden="true"
               >
                 <path
                   strokeLinecap="round"

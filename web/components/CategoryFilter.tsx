@@ -4,8 +4,8 @@
 'use client';
 
 import { useRouter, useSearchParams } from 'next/navigation';
-import type { Category } from '@/lib/database';
 import { getCategoryDisplayName } from '@/lib/category-display';
+import type { Category } from '@/lib/database';
 
 interface CategoryFilterProps {
   categories: Category[];
@@ -31,7 +31,10 @@ export function CategoryFilter({ categories }: CategoryFilterProps) {
 
   return (
     <div className="flex items-center gap-3">
-      <label htmlFor="category-filter" className="text-sm font-medium text-gray-700 dark:text-gray-400">
+      <label
+        htmlFor="category-filter"
+        className="text-sm font-medium text-gray-700 dark:text-gray-400"
+      >
         Categoría:
       </label>
       <select

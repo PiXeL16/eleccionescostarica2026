@@ -2,8 +2,8 @@
 // ABOUTME: Server component that loads all data and passes to client component
 
 import { Suspense } from 'react';
-import { getAllParties, getAllCategories, compareParties } from '@/lib/database';
 import { ComparisonView } from '@/components/ComparisonView';
+import { compareParties, getAllCategories, getAllParties } from '@/lib/database';
 
 export default function ComparePage() {
   const allParties = getAllParties();
@@ -14,8 +14,14 @@ export default function ComparePage() {
   const comparisonData = allSlugs.length > 0 ? compareParties(allSlugs) : null;
 
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Cargando...</div>}>
-      <ComparisonView allParties={allParties} allCategories={allCategories} comparisonData={comparisonData} />
+    <Suspense
+      fallback={<div className="min-h-screen flex items-center justify-center">Cargando...</div>}
+    >
+      <ComparisonView
+        allParties={allParties}
+        allCategories={allCategories}
+        comparisonData={comparisonData}
+      />
     </Suspense>
   );
 }

@@ -3,8 +3,8 @@
 
 'use client';
 
-import { useRouter, useSearchParams } from 'next/navigation';
 import Image from 'next/image';
+import { useRouter, useSearchParams } from 'next/navigation';
 import type { Party } from '@/lib/database';
 import { getPartyColors } from '@/lib/party-colors';
 import { getPartyFlagPath } from '@/lib/party-images';
@@ -54,6 +54,7 @@ export function PartySelector({ parties }: PartySelectorProps) {
         </h3>
         {selectedSlugs.length > 0 && (
           <button
+            type="button"
             onClick={() => router.push('/comparar')}
             className="text-sm text-red-600 hover:text-red-700 transition dark:text-red-400 dark:hover:text-red-300"
           >
@@ -66,10 +67,11 @@ export function PartySelector({ parties }: PartySelectorProps) {
         {parties.map((party) => {
           const slug = party.abbreviation.toLowerCase();
           const isSelected = selectedSlugs.includes(slug);
-          const colors = getPartyColors(party.abbreviation);
+          const _colors = getPartyColors(party.abbreviation);
 
           return (
             <button
+              type="button"
               key={party.id}
               onClick={() => handleToggleParty(slug)}
               disabled={!isSelected && selectedSlugs.length >= 3}
@@ -94,7 +96,12 @@ export function PartySelector({ parties }: PartySelectorProps) {
                   <p className="text-xs text-gray-500">{party.abbreviation}</p>
                 </div>
                 {isSelected && (
-                  <svg className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400" fill="currentColor" viewBox="0 0 20 20">
+                  <svg
+                    className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400"
+                    fill="currentColor"
+                    viewBox="0 0 20 20"
+                    aria-hidden="true"
+                  >
                     <path
                       fillRule="evenodd"
                       d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"

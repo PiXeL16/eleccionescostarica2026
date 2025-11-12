@@ -19,8 +19,26 @@ export function getPartyFlagPath(abbreviation: string): string {
 export function hasPartyFlag(abbreviation: string): boolean {
   // All 20 parties in our database have flags
   const partiesWithFlags = [
-    'ACRM', 'CAC', 'CDS', 'CR1', 'FA', 'PA', 'PDLCT', 'PEL', 'PEN', 'PIN',
-    'PJSC', 'PLN', 'PLP', 'PNG', 'PNR', 'PPSO', 'PSD', 'PUCD', 'PUSC', 'UP'
+    'ACRM',
+    'CAC',
+    'CDS',
+    'CR1',
+    'FA',
+    'PA',
+    'PDLCT',
+    'PEL',
+    'PEN',
+    'PIN',
+    'PJSC',
+    'PLN',
+    'PLP',
+    'PNG',
+    'PNR',
+    'PPSO',
+    'PSD',
+    'PUCD',
+    'PUSC',
+    'UP',
   ];
   return partiesWithFlags.includes(abbreviation);
 }

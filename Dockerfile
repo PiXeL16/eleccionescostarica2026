@@ -1,5 +1,5 @@
 # ABOUTME: Multi-stage Dockerfile for Elecciones2026 static Next.js site
-# ABOUTME: Optimized for static export with nginx serving
+# ABOUTME: Optimized for static export served with Bun
 
 # Base image with Bun for building
 FROM oven/bun:1.2-alpine AS base
@@ -48,24 +48,20 @@ RUN npm run build
 # Verify the build output
 RUN ls -la /app/web/out || (echo "Error: Build output not found" && exit 1)
 
-# Production stage - serve static files with nginx
-FROM nginx:alpine AS runner
-
-# Copy nginx configuration
-COPY web/nginx.conf /etc/nginx/conf.d/default.conf
+# Production stage - serve static files with Bun
+FROM base AS runner
+WORKDIR /app
 
 # Copy static files from builder
-COPY --from=builder /app/web/out /usr/share/nginx/html
+COPY --from=builder /app/web/out ./out
 
-# Create non-root user for nginx
+# Copy Bun server
+COPY web/server.ts ./
+
+# Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
     adduser -S nextjs -u 1001 && \
-    chown -R nextjs:nodejs /usr/share/nginx/html && \
-    chown -R nextjs:nodejs /var/cache/nginx && \
-    chown -R nextjs:nodejs /var/log/nginx && \
-    chown -R nextjs:nodejs /etc/nginx/conf.d && \
-    touch /var/run/nginx.pid && \
-    chown -R nextjs:nodejs /var/run/nginx.pid
+    chown -R nextjs:nodejs /app
 
 USER nextjs
 
@@ -75,4 +71,4 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:8080/ || exit 1
 
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["bun", "run", "server.ts"]

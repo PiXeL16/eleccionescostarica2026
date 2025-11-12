@@ -4,10 +4,6 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   output: 'export',
-  experimental: {
-    // Disable static generation warnings for dynamic routes
-    staticGenerationRetryCount: 0,
-  },
   // Disable image optimization for static export
   images: {
     unoptimized: true,

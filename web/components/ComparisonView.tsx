@@ -3,15 +3,15 @@
 
 'use client';
 
-import { useSearchParams } from 'next/navigation';
-import Link from 'next/link';
 import Image from 'next/image';
-import type { Party, Category, PartyPosition } from '@/lib/database';
-import { getPartyColors } from '@/lib/party-colors';
+import Link from 'next/link';
+import { useSearchParams } from 'next/navigation';
+import { type BudgetType, parseBudget } from '@/lib/budget-parser';
 import { getCategoryDisplayName } from '@/lib/category-display';
+import type { Category, Party, PartyPosition } from '@/lib/database';
 import { getPartyFlagPath } from '@/lib/party-images';
-import { PartySelector } from './PartySelector';
-import { CategoryFilter } from './CategoryFilter';
+import { ComparisonStats } from './ComparisonStats';
+import { FilterPanel } from './FilterPanel';
 
 interface ComparisonViewProps {
   allParties: Party[];
@@ -27,6 +27,8 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
   const searchParams = useSearchParams();
   const partiesParam = searchParams.get('parties');
   const categoryParam = searchParams.get('category');
+  const ideologyFilter = searchParams.get('ideology') || 'all';
+  const budgetTypeFilter = (searchParams.get('budget_type') as BudgetType) || 'all';
 
   // Parse selected parties from URL
   const selectedSlugs =
@@ -40,9 +42,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
     comparisonData && selectedSlugs.length > 0
       ? {
           ...comparisonData,
-          parties: comparisonData.parties.filter((p) =>
-            selectedSlugs.includes(p.abbreviation)
-          ),
+          parties: comparisonData.parties.filter((p) => selectedSlugs.includes(p.abbreviation)),
         }
       : null;
 
@@ -50,6 +50,26 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
   const displayCategories = categoryParam
     ? allCategories.filter((c) => c.category_key === categoryParam)
     : allCategories;
+
+  // Helper function to check if a position passes filters
+  const passesFilters = (position: PartyPosition | undefined): boolean => {
+    if (!position) return false;
+
+    // Check ideology filter
+    if (ideologyFilter !== 'all' && position.ideology_position !== ideologyFilter) {
+      return false;
+    }
+
+    // Check budget type filter
+    if (budgetTypeFilter !== 'all') {
+      const parsed = parseBudget(position.budget_mentioned);
+      if (parsed.type !== budgetTypeFilter) {
+        return false;
+      }
+    }
+
+    return true;
+  };
 
   return (
     <div className="space-y-8">
@@ -59,7 +79,13 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
           href="/"
           className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition mb-4 dark:text-gray-400 dark:hover:text-white"
         >
-          <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg
+            className="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -76,19 +102,30 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
         </p>
       </div>
 
-      {/* Party Selector */}
-      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-        <PartySelector parties={allParties} />
-      </div>
+      {/* Filters */}
+      <FilterPanel
+        showPartySelector={true}
+        showCategoryFilter={true}
+        showIdeologyFilter={true}
+        showBudgetTypeFilter={true}
+        parties={allParties}
+        categories={allCategories}
+      />
 
       {/* Comparison View */}
       {comparison && comparison.parties.length > 0 ? (
         <div className="space-y-6">
+          {/* Statistics Panel */}
+          <ComparisonStats
+            parties={comparison.parties}
+            categories={displayCategories}
+            positions={comparison.positions}
+          />
+
           {/* Sticky Header with Party Info */}
           <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-gray-200 pb-4 dark:bg-gray-950/95 dark:border-gray-800">
-            <div className="flex justify-between items-center mb-4">
+            <div className="mb-4">
               <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Comparación</h2>
-              <CategoryFilter categories={allCategories} />
             </div>
 
             {/* Compact Party Headers */}
@@ -100,7 +137,10 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
             >
               {comparison.parties.map((party) => {
                 return (
-                  <div key={party.id} className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-3 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+                  <div
+                    key={party.id}
+                    className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-3 shadow-sm dark:border-gray-800 dark:bg-gray-900"
+                  >
                     <div className="w-20 aspect-[5/2] shrink-0 relative rounded overflow-hidden bg-gray-100 dark:bg-gray-800">
                       <Image
                         src={getPartyFlagPath(party.abbreviation)}
@@ -111,7 +151,9 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                       />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-semibold text-gray-900 truncate dark:text-white">{party.name}</p>
+                      <p className="text-sm font-semibold text-gray-900 truncate dark:text-white">
+                        {party.name}
+                      </p>
                     </div>
                   </div>
                 );
@@ -126,7 +168,9 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                 key={category.id}
                 className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-4 dark:text-white">{getCategoryDisplayName(category.name)}</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-4 dark:text-white">
+                  {getCategoryDisplayName(category.name)}
+                </h3>
 
                 <div
                   className="grid gap-6"
@@ -142,10 +186,32 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                       ? JSON.parse(position.key_proposals)
                       : [];
 
+                    const showPosition = passesFilters(position);
+
                     return (
                       <div key={party.id} className="space-y-4">
-                        {position ? (
+                        {position && showPosition ? (
                           <>
+                            {/* Ideology & Budget Info */}
+                            <div className="flex flex-wrap gap-2 mb-2">
+                              {position.ideology_position && (
+                                <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                  {position.ideology_position}
+                                </span>
+                              )}
+                              {position.budget_mentioned &&
+                                position.budget_mentioned !== 'No especificado' && (
+                                  <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-200">
+                                    {parseBudget(position.budget_mentioned).type !== 'description'
+                                      ? parseBudget(position.budget_mentioned).type.replace(
+                                          '_',
+                                          ' '
+                                        )
+                                      : 'presupuesto'}
+                                  </span>
+                                )}
+                            </div>
+
                             {/* Summary */}
                             <div>
                               <p className="text-sm text-gray-700 leading-relaxed dark:text-gray-300">
@@ -160,8 +226,11 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                                   Propuestas Clave
                                 </h4>
                                 <ul className="space-y-1">
-                                  {proposals.slice(0, 3).map((proposal: string, idx: number) => (
-                                    <li key={idx} className="flex gap-2 text-sm text-gray-600 dark:text-gray-400">
+                                  {proposals.slice(0, 3).map((proposal: string) => (
+                                    <li
+                                      key={proposal}
+                                      className="flex gap-2 text-sm text-gray-600 dark:text-gray-400"
+                                    >
                                       <span className="text-blue-600 dark:text-blue-400">•</span>
                                       <span>{proposal}</span>
                                     </li>
@@ -175,6 +244,10 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                               </div>
                             )}
                           </>
+                        ) : position && !showPosition ? (
+                          <p className="text-sm text-gray-500 italic">
+                            Esta posición no coincide con los filtros seleccionados
+                          </p>
                         ) : (
                           <p className="text-sm text-gray-500 italic">
                             No hay información disponible para esta categoría

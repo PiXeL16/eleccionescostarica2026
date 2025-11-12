@@ -1,14 +1,19 @@
 // ABOUTME: Party detail page showing complete platform with TOC and PDF link
 // ABOUTME: Displays all positions organized by category with quick navigation
 
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
 import Image from 'next/image';
-import { getAllParties, getPartyWithPositions, getPartyDocument, getDocumentText } from '@/lib/database';
-import { getPartyColors } from '@/lib/party-colors';
-import { getCategoryDisplayName } from '@/lib/category-display';
-import { getPartyFlagPath } from '@/lib/party-images';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 import { Accordion } from '@/components/Accordion';
+import { getCategoryDisplayName } from '@/lib/category-display';
+import {
+  getAllParties,
+  getDocumentText,
+  getPartyDocument,
+  getPartyWithPositions,
+} from '@/lib/database';
+import { getPartyColors } from '@/lib/party-colors';
+import { getPartyFlagPath } from '@/lib/party-images';
 
 interface PageProps {
   params: Promise<{ slug: string }>;
@@ -43,8 +48,8 @@ export default async function PartyDetailPage({ params }: PageProps) {
     notFound();
   }
 
-  const colors = getPartyColors(party.abbreviation);
-  const document = getPartyDocument(party.id) as any;
+  const _colors = getPartyColors(party.abbreviation);
+  const document = getPartyDocument(party.id);
   const extractedText = document ? getDocumentText(document.id) : null;
 
   // Prepare accordion items
@@ -65,10 +70,12 @@ export default async function PartyDetailPage({ params }: PageProps) {
           {/* Key Proposals */}
           {proposals.length > 0 && (
             <div>
-              <h4 className="text-sm font-medium text-gray-600 mb-2 dark:text-gray-400">Propuestas Clave</h4>
+              <h4 className="text-sm font-medium text-gray-600 mb-2 dark:text-gray-400">
+                Propuestas Clave
+              </h4>
               <ul className="space-y-2">
-                {proposals.map((proposal: string, idx: number) => (
-                  <li key={idx} className="flex gap-3 text-gray-700 dark:text-gray-300">
+                {proposals.map((proposal: string) => (
+                  <li key={proposal} className="flex gap-3 text-gray-700 dark:text-gray-300">
                     <span className="text-blue-600 font-bold dark:text-blue-400">•</span>
                     <span>{proposal}</span>
                   </li>
@@ -80,7 +87,9 @@ export default async function PartyDetailPage({ params }: PageProps) {
           {/* Ideology Position */}
           {pos.ideology_position && (
             <div>
-              <h4 className="text-sm font-medium text-gray-600 mb-2 dark:text-gray-400">Posición Ideológica</h4>
+              <h4 className="text-sm font-medium text-gray-600 mb-2 dark:text-gray-400">
+                Posición Ideológica
+              </h4>
               <p className="text-gray-700 dark:text-gray-300">{pos.ideology_position}</p>
             </div>
           )}
@@ -88,7 +97,9 @@ export default async function PartyDetailPage({ params }: PageProps) {
           {/* Budget Mentioned */}
           {pos.budget_mentioned && (
             <div>
-              <h4 className="text-sm font-medium text-gray-600 mb-2 dark:text-gray-400">Presupuesto Mencionado</h4>
+              <h4 className="text-sm font-medium text-gray-600 mb-2 dark:text-gray-400">
+                Presupuesto Mencionado
+              </h4>
               <p className="text-gray-700 dark:text-gray-300">{pos.budget_mentioned}</p>
             </div>
           )}
@@ -104,7 +115,13 @@ export default async function PartyDetailPage({ params }: PageProps) {
         href="/"
         className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition dark:text-gray-400 dark:hover:text-white"
       >
-        <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <svg
+          className="h-5 w-5"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
         </svg>
         Volver a todos los partidos
@@ -181,18 +198,25 @@ export default async function PartyDetailPage({ params }: PageProps) {
         <div className="space-y-8">
           {/* Positions by Category */}
           <div id="plataforma">
-            <h2 className="text-2xl font-bold text-gray-900 mb-4 dark:text-white">Plataforma Política</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4 dark:text-white">
+              Plataforma Política
+            </h2>
             {party.positions.length > 0 ? (
               <div className="space-y-4">
-                {party.positions.map((pos) => (
-                  <div
-                    key={pos.category.category_key}
-                    id={pos.category.category_key}
-                    className="scroll-mt-8"
-                  >
-                    <Accordion items={[accordionItems.find(item => item.id === pos.category.category_key)!]} />
-                  </div>
-                ))}
+                {party.positions.map((pos) => {
+                  const item = accordionItems.find((item) => item.id === pos.category.category_key);
+                  if (!item) return null;
+
+                  return (
+                    <div
+                      key={pos.category.category_key}
+                      id={pos.category.category_key}
+                      className="scroll-mt-8"
+                    >
+                      <Accordion items={[item]} />
+                    </div>
+                  );
+                })}
               </div>
             ) : (
               <div className="rounded-xl border border-gray-200 bg-white p-12 text-center shadow-sm dark:border-gray-800 dark:bg-gray-900">
@@ -206,7 +230,9 @@ export default async function PartyDetailPage({ params }: PageProps) {
           {/* Full Extracted Text */}
           {extractedText && (
             <div id="texto-completo" className="scroll-mt-8">
-              <h2 className="text-2xl font-bold text-gray-900 mb-4 dark:text-white">Texto Completo Extraído</h2>
+              <h2 className="text-2xl font-bold text-gray-900 mb-4 dark:text-white">
+                Texto Completo Extraído
+              </h2>
               <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
                 <p className="text-sm text-gray-600 mb-4 dark:text-gray-400">
                   Este es el texto completo extraído del documento PDF oficial del partido.
