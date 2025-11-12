@@ -58,18 +58,18 @@ export default async function PartyDetailPage({ params }: PageProps) {
         <div className="space-y-4">
           {/* Summary */}
           <div>
-            <h4 className="text-sm font-medium text-gray-400 mb-2">Resumen</h4>
-            <p className="text-gray-300 leading-relaxed">{pos.summary}</p>
+            <h4 className="text-sm font-medium text-gray-600 mb-2 dark:text-gray-400">Resumen</h4>
+            <p className="text-gray-700 leading-relaxed dark:text-gray-300">{pos.summary}</p>
           </div>
 
           {/* Key Proposals */}
           {proposals.length > 0 && (
             <div>
-              <h4 className="text-sm font-medium text-gray-400 mb-2">Propuestas Clave</h4>
+              <h4 className="text-sm font-medium text-gray-600 mb-2 dark:text-gray-400">Propuestas Clave</h4>
               <ul className="space-y-2">
                 {proposals.map((proposal: string, idx: number) => (
-                  <li key={idx} className="flex gap-3 text-gray-300">
-                    <span className="text-blue-400 font-bold">•</span>
+                  <li key={idx} className="flex gap-3 text-gray-700 dark:text-gray-300">
+                    <span className="text-blue-600 font-bold dark:text-blue-400">•</span>
                     <span>{proposal}</span>
                   </li>
                 ))}
@@ -80,16 +80,16 @@ export default async function PartyDetailPage({ params }: PageProps) {
           {/* Ideology Position */}
           {pos.ideology_position && (
             <div>
-              <h4 className="text-sm font-medium text-gray-400 mb-2">Posición Ideológica</h4>
-              <p className="text-gray-300">{pos.ideology_position}</p>
+              <h4 className="text-sm font-medium text-gray-600 mb-2 dark:text-gray-400">Posición Ideológica</h4>
+              <p className="text-gray-700 dark:text-gray-300">{pos.ideology_position}</p>
             </div>
           )}
 
           {/* Budget Mentioned */}
           {pos.budget_mentioned && (
             <div>
-              <h4 className="text-sm font-medium text-gray-400 mb-2">Presupuesto Mencionado</h4>
-              <p className="text-gray-300">{pos.budget_mentioned}</p>
+              <h4 className="text-sm font-medium text-gray-600 mb-2 dark:text-gray-400">Presupuesto Mencionado</h4>
+              <p className="text-gray-700 dark:text-gray-300">{pos.budget_mentioned}</p>
             </div>
           )}
         </div>
@@ -102,7 +102,7 @@ export default async function PartyDetailPage({ params }: PageProps) {
       {/* Back Button */}
       <Link
         href="/"
-        className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition"
+        className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition dark:text-gray-400 dark:hover:text-white"
       >
         <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
@@ -111,10 +111,10 @@ export default async function PartyDetailPage({ params }: PageProps) {
       </Link>
 
       {/* Party Header */}
-      <div className="rounded-xl border border-gray-800 bg-gray-900 p-8">
+      <div className="rounded-xl border border-gray-200 bg-white p-8 shadow-sm dark:border-gray-800 dark:bg-gray-900">
         <div className="flex items-center gap-6">
           {/* Party Flag */}
-          <div className="w-64 aspect-[5/2] relative rounded-xl overflow-hidden shrink-0 bg-gray-800">
+          <div className="w-64 aspect-[5/2] relative rounded-xl overflow-hidden shrink-0 bg-gray-100 dark:bg-gray-800">
             <Image
               src={getPartyFlagPath(party.abbreviation)}
               alt={`Bandera de ${party.name}`}
@@ -126,8 +126,8 @@ export default async function PartyDetailPage({ params }: PageProps) {
 
           {/* Party Info */}
           <div className="flex-1">
-            <h1 className="text-3xl font-bold text-white">{party.name}</h1>
-            <p className="mt-2 text-lg text-gray-400">{party.abbreviation}</p>
+            <h1 className="text-3xl font-bold text-gray-900 dark:text-white">{party.name}</h1>
+            <p className="mt-2 text-lg text-gray-600 dark:text-gray-400">{party.abbreviation}</p>
             <div className="mt-4 flex flex-wrap gap-3">
               <Link
                 href={`/comparar?parties=${party.abbreviation.toLowerCase()}`}
@@ -140,7 +140,7 @@ export default async function PartyDetailPage({ params }: PageProps) {
                   href={`/../data/partidos/${party.folder_name}/${party.abbreviation}.pdf`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-lg border border-gray-700 bg-gray-800 px-6 py-2 font-medium text-white transition hover:bg-gray-700"
+                  className="rounded-lg border border-gray-200 bg-white px-6 py-2 font-medium text-gray-900 transition hover:bg-gray-50 hover:border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:bg-gray-700"
                 >
                   📄 Ver PDF Original
                 </a>
@@ -153,14 +153,14 @@ export default async function PartyDetailPage({ params }: PageProps) {
       <div className="grid gap-8 lg:grid-cols-[250px_1fr]">
         {/* Table of Contents - Sticky */}
         <div className="lg:sticky lg:top-8 lg:self-start">
-          <div className="rounded-xl border border-gray-800 bg-gray-900 p-4">
-            <h3 className="font-semibold text-white mb-3">Navegación Rápida</h3>
+          <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+            <h3 className="font-semibold text-gray-900 mb-3 dark:text-white">Navegación Rápida</h3>
             <nav className="space-y-1">
               {party.positions.map((pos) => (
                 <a
                   key={pos.category.category_key}
                   href={`#${pos.category.category_key}`}
-                  className="block rounded px-3 py-2 text-sm text-gray-400 transition hover:bg-gray-800 hover:text-white"
+                  className="block rounded px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
                 >
                   {getCategoryDisplayName(pos.category.name)}
                 </a>
@@ -168,7 +168,7 @@ export default async function PartyDetailPage({ params }: PageProps) {
               {extractedText && (
                 <a
                   href="#texto-completo"
-                  className="block rounded px-3 py-2 text-sm text-gray-400 transition hover:bg-gray-800 hover:text-white"
+                  className="block rounded px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white"
                 >
                   Texto Completo
                 </a>
@@ -181,7 +181,7 @@ export default async function PartyDetailPage({ params }: PageProps) {
         <div className="space-y-8">
           {/* Positions by Category */}
           <div id="plataforma">
-            <h2 className="text-2xl font-bold text-white mb-4">Plataforma Política</h2>
+            <h2 className="text-2xl font-bold text-gray-900 mb-4 dark:text-white">Plataforma Política</h2>
             {party.positions.length > 0 ? (
               <div className="space-y-4">
                 {party.positions.map((pos) => (
@@ -195,8 +195,8 @@ export default async function PartyDetailPage({ params }: PageProps) {
                 ))}
               </div>
             ) : (
-              <div className="rounded-xl border border-gray-800 bg-gray-900 p-12 text-center">
-                <p className="text-gray-400">
+              <div className="rounded-xl border border-gray-200 bg-white p-12 text-center shadow-sm dark:border-gray-800 dark:bg-gray-900">
+                <p className="text-gray-600 dark:text-gray-400">
                   No hay información de plataforma disponible para este partido.
                 </p>
               </div>
@@ -206,13 +206,13 @@ export default async function PartyDetailPage({ params }: PageProps) {
           {/* Full Extracted Text */}
           {extractedText && (
             <div id="texto-completo" className="scroll-mt-8">
-              <h2 className="text-2xl font-bold text-white mb-4">Texto Completo Extraído</h2>
-              <div className="rounded-xl border border-gray-800 bg-gray-900 p-6">
-                <p className="text-sm text-gray-400 mb-4">
+              <h2 className="text-2xl font-bold text-gray-900 mb-4 dark:text-white">Texto Completo Extraído</h2>
+              <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+                <p className="text-sm text-gray-600 mb-4 dark:text-gray-400">
                   Este es el texto completo extraído del documento PDF oficial del partido.
                 </p>
-                <div className="prose prose-invert max-w-none">
-                  <pre className="whitespace-pre-wrap text-sm text-gray-300 leading-relaxed">
+                <div className="prose max-w-none dark:prose-invert">
+                  <pre className="whitespace-pre-wrap text-sm text-gray-700 leading-relaxed dark:text-gray-300">
                     {extractedText}
                   </pre>
                 </div>

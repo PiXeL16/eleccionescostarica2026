@@ -14,8 +14,8 @@ export default function HomePage() {
     <div className="space-y-8">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold text-white">Partidos Políticos</h2>
-          <p className="mt-1 text-gray-400">
+          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Partidos Políticos</h2>
+          <p className="mt-1 text-gray-600 dark:text-gray-400">
             Selecciona un partido para ver su plataforma completa o compara hasta 3 partidos
           </p>
           <p className="mt-2 text-sm text-gray-500">
@@ -24,7 +24,7 @@ export default function HomePage() {
               href="https://www.tse.go.cr/2026/planesgobierno.html"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-blue-400 hover:underline"
+              className="text-blue-600 hover:underline dark:text-blue-400"
             >
               planes de gobierno publicados por el TSE
             </a>
@@ -49,9 +49,9 @@ export default function HomePage() {
               href={`/partido/${party.abbreviation.toLowerCase()}`}
               className="group"
             >
-              <div className="rounded-xl border border-gray-800 bg-gray-900 p-6 transition hover:border-gray-700 hover:shadow-xl">
+              <div className="rounded-xl border border-gray-200 bg-white p-6 transition hover:border-gray-300 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 dark:hover:border-gray-700">
                 {/* Party Flag */}
-                <div className="mx-auto w-full aspect-[5/2] relative rounded-lg overflow-hidden max-w-[240px] bg-gray-800">
+                <div className="mx-auto w-full aspect-[5/2] relative rounded-lg overflow-hidden max-w-[240px] bg-gray-100 dark:bg-gray-800">
                   <Image
                     src={getPartyFlagPath(party.abbreviation)}
                     alt={`Bandera de ${party.name}`}
@@ -63,7 +63,7 @@ export default function HomePage() {
 
                 {/* Party Info */}
                 <div className="mt-4 text-center">
-                  <h3 className="font-semibold text-white group-hover:text-blue-400">
+                  <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
                     {party.name}
                   </h3>
                   <p className="mt-1 text-sm text-gray-500">{party.abbreviation}</p>
@@ -71,7 +71,7 @@ export default function HomePage() {
 
                 {/* View Button */}
                 <div className="mt-4">
-                  <div className="w-full rounded-lg bg-gray-800 py-2 text-center text-sm font-medium text-white transition group-hover:bg-gray-700">
+                  <div className="w-full rounded-lg bg-gray-100 py-2 text-center text-sm font-medium text-gray-900 transition group-hover:bg-gray-200 dark:bg-gray-800 dark:text-white dark:group-hover:bg-gray-700">
                     Ver Plataforma
                   </div>
                 </div>
@@ -82,8 +82,8 @@ export default function HomePage() {
       </div>
 
       {parties.length === 0 && (
-        <div className="rounded-xl border border-gray-800 bg-gray-900 p-12 text-center">
-          <p className="text-gray-400">No hay partidos políticos disponibles.</p>
+        <div className="rounded-xl border border-gray-200 bg-white p-12 text-center shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <p className="text-gray-600 dark:text-gray-400">No hay partidos políticos disponibles.</p>
         </div>
       )}
     </div>

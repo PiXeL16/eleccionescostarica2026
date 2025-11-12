@@ -57,7 +57,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
       <div>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition mb-4"
+          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition mb-4 dark:text-gray-400 dark:hover:text-white"
         >
           <svg className="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
@@ -70,14 +70,14 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
           Volver a inicio
         </Link>
 
-        <h1 className="text-3xl font-bold text-gray-900">Comparar Partidos</h1>
-        <p className="mt-2 text-gray-600">
+        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Comparar Partidos</h1>
+        <p className="mt-2 text-gray-600 dark:text-gray-400">
           Selecciona hasta 3 partidos para comparar sus plataformas lado a lado
         </p>
       </div>
 
       {/* Party Selector */}
-      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm">
+      <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
         <PartySelector parties={allParties} />
       </div>
 
@@ -85,9 +85,9 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
       {comparison && comparison.parties.length > 0 ? (
         <div className="space-y-6">
           {/* Sticky Header with Party Info */}
-          <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-gray-200 pb-4">
+          <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-gray-200 pb-4 dark:bg-gray-950/95 dark:border-gray-800">
             <div className="flex justify-between items-center mb-4">
-              <h2 className="text-2xl font-bold text-gray-900">Comparación</h2>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Comparación</h2>
               <CategoryFilter categories={allCategories} />
             </div>
 
@@ -100,8 +100,8 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
             >
               {comparison.parties.map((party) => {
                 return (
-                  <div key={party.id} className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-3 shadow-sm">
-                    <div className="w-20 aspect-[5/2] shrink-0 relative rounded overflow-hidden bg-gray-100">
+                  <div key={party.id} className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-3 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+                    <div className="w-20 aspect-[5/2] shrink-0 relative rounded overflow-hidden bg-gray-100 dark:bg-gray-800">
                       <Image
                         src={getPartyFlagPath(party.abbreviation)}
                         alt={`Bandera de ${party.name}`}
@@ -111,7 +111,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                       />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-semibold text-gray-900 truncate">{party.name}</p>
+                      <p className="text-sm font-semibold text-gray-900 truncate dark:text-white">{party.name}</p>
                     </div>
                   </div>
                 );
@@ -124,9 +124,9 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
             {displayCategories.map((category) => (
               <div
                 key={category.id}
-                className="rounded-xl border border-gray-800 bg-gray-900 p-6"
+                className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900"
               >
-                <h3 className="text-xl font-bold text-white mb-4">{getCategoryDisplayName(category.name)}</h3>
+                <h3 className="text-xl font-bold text-gray-900 mb-4 dark:text-white">{getCategoryDisplayName(category.name)}</h3>
 
                 <div
                   className="grid gap-6"
@@ -148,7 +148,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                           <>
                             {/* Summary */}
                             <div>
-                              <p className="text-sm text-gray-300 leading-relaxed">
+                              <p className="text-sm text-gray-700 leading-relaxed dark:text-gray-300">
                                 {position.summary}
                               </p>
                             </div>
@@ -161,8 +161,8 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                                 </h4>
                                 <ul className="space-y-1">
                                   {proposals.slice(0, 3).map((proposal: string, idx: number) => (
-                                    <li key={idx} className="flex gap-2 text-sm text-gray-400">
-                                      <span className="text-blue-400">•</span>
+                                    <li key={idx} className="flex gap-2 text-sm text-gray-600 dark:text-gray-400">
+                                      <span className="text-blue-600 dark:text-blue-400">•</span>
                                       <span>{proposal}</span>
                                     </li>
                                   ))}
@@ -189,8 +189,8 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
           </div>
         </div>
       ) : (
-        <div className="rounded-xl border border-gray-800 bg-gray-900 p-12 text-center">
-          <p className="text-gray-400">
+        <div className="rounded-xl border border-gray-200 bg-white p-12 text-center shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <p className="text-gray-600 dark:text-gray-400">
             Selecciona al menos un partido para comenzar la comparación
           </p>
         </div>

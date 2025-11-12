@@ -1,9 +1,8 @@
 // ABOUTME: Next.js configuration for the Plataformas Políticas CR 2026 website
 // ABOUTME: Configures static export, image optimization, and SQLite integration
 
-import type { NextConfig } from 'next';
-
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   output: 'export',
   experimental: {
     // Disable static generation warnings for dynamic routes
@@ -13,8 +12,6 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
-  // Empty turbopack config to silence webpack/turbopack warning
-  turbopack: {},
   // Webpack configuration for better-sqlite3
   webpack: (config, { isServer }) => {
     // Better-sqlite3 only works on the server

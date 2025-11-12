@@ -27,15 +27,15 @@ export function Accordion({ items, defaultOpen }: AccordionProps) {
         return (
           <div
             key={item.id}
-            className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm"
+            className="rounded-lg border border-gray-200 bg-white overflow-hidden shadow-sm dark:border-gray-800 dark:bg-gray-900"
           >
             <button
               onClick={() => setOpenId(isOpen ? null : item.id)}
-              className="flex w-full items-center justify-between p-4 text-left transition hover:bg-gray-50"
+              className="flex w-full items-center justify-between p-4 text-left transition hover:bg-gray-50 dark:hover:bg-gray-850"
             >
-              <span className="font-semibold text-gray-900">{item.title}</span>
+              <span className="font-semibold text-gray-900 dark:text-white">{item.title}</span>
               <svg
-                className={`h-5 w-5 text-gray-600 transition-transform ${
+                className={`h-5 w-5 text-gray-600 transition-transform dark:text-gray-400 ${
                   isOpen ? 'rotate-180' : ''
                 }`}
                 fill="none"
@@ -52,7 +52,7 @@ export function Accordion({ items, defaultOpen }: AccordionProps) {
             </button>
 
             {isOpen && (
-              <div className="border-t border-gray-200 p-4 animate-fade-in">
+              <div className="border-t border-gray-200 p-4 animate-fade-in dark:border-gray-800">
                 {item.content}
               </div>
             )}
