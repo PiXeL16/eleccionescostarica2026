@@ -1,5 +1,5 @@
 // ABOUTME: Root layout for the Plataformas Políticas CR 2026 website
-// ABOUTME: Configures dark theme, metadata, and global styling
+// ABOUTME: Configures light theme, metadata, and global styling
 
 import './globals.css';
 import type { Metadata } from 'next';
@@ -28,33 +28,33 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es" className="dark">
-      <body className="min-h-screen bg-gray-950 text-gray-100 antialiased">
+    <html lang="es">
+      <body className="min-h-screen bg-white text-gray-900 antialiased">
         <div className="flex min-h-screen flex-col">
-          <header className="border-b border-gray-800 bg-gray-900">
+          <header className="border-b border-gray-200 bg-white shadow-sm">
             <div className="container mx-auto px-4 py-6">
-              <h1 className="text-3xl font-bold text-white">
+              <h1 className="text-3xl font-bold text-gray-900">
                 Plataformas Políticas Costa Rica 2026
               </h1>
-              <p className="mt-2 text-sm text-gray-400">
+              <p className="mt-2 text-sm text-gray-600">
                 Compara y analiza las propuestas de los partidos políticos
               </p>
             </div>
           </header>
 
-          <main className="flex-1">
+          <main className="flex-1 bg-gray-50">
             <div className="container mx-auto px-4 py-8">{children}</div>
           </main>
 
-          <footer className="border-t border-gray-800 bg-gray-900 py-6">
-            <div className="container mx-auto px-4 text-center text-sm text-gray-400">
+          <footer className="border-t border-gray-200 bg-white py-6">
+            <div className="container mx-auto px-4 text-center text-sm text-gray-600">
               <p>
                 Información extraída de los{' '}
                 <a
                   href="https://www.tse.go.cr/2026/planesgobierno.html"
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-400 hover:underline"
+                  className="text-blue-600 hover:underline"
                 >
                   planes de gobierno publicados por el TSE
                 </a>
