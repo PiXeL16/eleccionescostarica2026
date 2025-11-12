@@ -287,6 +287,102 @@ Data comes from the **Tribunal Supremo de Elecciones (TSE)** of Costa Rica:
 - URL: <https://www.tse.go.cr/2026/planesgobierno.html>
 - Last updated: November 2025
 
+## Data Access & Structure
+
+All data is **publicly available** for exploration, analysis, and building upon:
+
+### Database Structure
+
+The SQLite database (`data/database.db`) contains:
+
+**Tables:**
+- `parties` - Basic party information (name, abbreviation, colors)
+- `categories` - Policy categories (economy, health, education, etc.)
+- `party_positions` - Analysis results linking parties to categories with:
+  - `summary` - Brief overview of party's position
+  - `key_proposals` - JSON array of specific proposals
+  - `ideology_position` - Ideological classification
+  - `budget_priority` - Budget allocation level
+
+**Raw PDFs:**
+- Original government plans: `data/partidos/*.pdf`
+- Direct downloads from TSE website
+
+### Accessing the Data
+
+```bash
+# Query all party positions
+sqlite3 data/database.db "SELECT * FROM party_positions;"
+
+# Export to CSV
+sqlite3 data/database.db <<EOF
+.mode csv
+.headers on
+.output party_data.csv
+SELECT
+  p.name as party_name,
+  c.name as category,
+  pp.summary,
+  pp.ideology_position,
+  pp.budget_priority
+FROM party_positions pp
+JOIN parties p ON pp.party_id = p.id
+JOIN categories c ON pp.category_id = c.id;
+EOF
+```
+
+### Use Cases
+
+The structured data enables:
+- Academic research on political platforms
+- Data journalism and visualization
+- Comparative policy analysis
+- Machine learning on political text
+- Alternative interfaces and tools
+
+All data processing code is open source in the `pipeline/` directory.
+
+## Contributing
+
+Contributions are welcome! Here's how you can help:
+
+### Adding New Categories
+
+```bash
+# 1. Add category to config
+vim pipeline/config/categories.yaml
+
+# 2. Backfill analysis for all parties
+cd pipeline
+python main.py backfill new_category_name
+
+# 3. Rebuild website
+cd ../web
+bun run build
+```
+
+### Improving Analysis
+
+- Enhance prompts in `pipeline/src/analyzer.py`
+- Add validation rules
+- Improve data extraction
+
+### Website Enhancements
+
+- Fix bugs or add features
+- Improve mobile experience
+- Add visualizations
+- Enhance accessibility
+
+### Reporting Issues
+
+Found incorrect data or analysis? Please open an issue with:
+- Party name and category
+- What's incorrect
+- Link to source in PDF (page number)
+
+Pull requests are appreciated but please open an issue first to discuss major changes.
+
 ## License
 
 Public data from TSE Costa Rica. Project code is open source.
