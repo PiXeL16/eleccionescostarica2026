@@ -299,7 +299,7 @@ export async function semanticSearch(
   }>;
 
   // Convert distance to similarity (1 - distance for cosine)
-  return results.map((row) => ({
+  const documentResults = results.map((row) => ({
     party_id: row.party_id,
     party_name: row.party_name,
     party_abbreviation: row.party_abbreviation,
@@ -308,6 +308,118 @@ export async function semanticSearch(
     chunk_text: row.chunk_text,
     similarity: 1 - row.distance,
   }));
+
+  // Check if query is about candidates and add candidate information
+  const candidateKeywords = ['candidato', 'presidente', 'presidencial', 'candidatos', 'postula', 'aspira'];
+  const isAboutCandidates = candidateKeywords.some(keyword =>
+    query.toLowerCase().includes(keyword)
+  );
+
+  if (isAboutCandidates) {
+    // Get candidate information for relevant parties
+    const candidateResults = getCandidateContext(partyIds);
+
+    // Add candidate results as high-relevance search results
+    candidateResults.forEach(candidateResult => {
+      documentResults.unshift({
+        party_id: candidateResult.party_id,
+        party_name: candidateResult.party_name,
+        party_abbreviation: candidateResult.party_abbreviation,
+        document_id: 0, // Special marker for candidate info
+        page_number: 0, // Special marker for candidate info
+        chunk_text: candidateResult.candidate_info,
+        similarity: 0.95, // High relevance for candidate queries
+      });
+    });
+  }
+
+  return documentResults.slice(0, limit);
+}
+
+/**
+ * Candidate context result for search integration
+ */
+export interface CandidateContextResult {
+  party_id: number;
+  party_name: string;
+  party_abbreviation: string;
+  candidate_info: string;
+}
+
+/**
+ * Get candidate information for parties
+ * @param partyIds - Optional array of party IDs to restrict search (undefined = all parties)
+ * @returns Array of candidate contexts
+ */
+export function getCandidateContext(partyIds?: number[]): CandidateContextResult[] {
+  const db = getDatabase();
+
+  // Build SQL query with optional party filter
+  let sql = `
+    SELECT
+      p.id as party_id,
+      p.name as party_name,
+      p.abbreviation as party_abbreviation,
+      pe.full_name,
+      pe.profession,
+      pe.age,
+      pe.profile_description,
+      pe.nickname
+    FROM parties p
+    JOIN people pe ON p.id = pe.party_id
+    WHERE pe.role = 'candidato presidencial'
+  `;
+
+  const params: number[] = [];
+
+  // Add party filter if provided
+  if (partyIds && partyIds.length > 0) {
+    const placeholders = partyIds.map(() => '?').join(',');
+    sql += ` AND p.id IN (${placeholders})`;
+    params.push(...partyIds);
+  }
+
+  sql += ` ORDER BY p.name`;
+
+  const stmt = db.prepare(sql);
+  const candidates = stmt.all(...params) as Array<{
+    party_id: number;
+    party_name: string;
+    party_abbreviation: string;
+    full_name: string;
+    profession: string | null;
+    age: number | null;
+    profile_description: string | null;
+    nickname: string | null;
+  }>;
+
+  // Format candidate information for each party
+  return candidates.map(candidate => {
+    let candidateInfo = `**Candidato presidencial:** ${candidate.full_name}`;
+
+    if (candidate.nickname) {
+      candidateInfo += ` "${candidate.nickname}"`;
+    }
+
+    if (candidate.profession) {
+      candidateInfo += `\n**Profesión:** ${candidate.profession}`;
+    }
+
+    if (candidate.age) {
+      candidateInfo += `\n**Edad:** ${candidate.age} años`;
+    }
+
+    if (candidate.profile_description) {
+      candidateInfo += `\n**Perfil:** ${candidate.profile_description}`;
+    }
+
+    return {
+      party_id: candidate.party_id,
+      party_name: candidate.party_name,
+      party_abbreviation: candidate.party_abbreviation,
+      candidate_info: candidateInfo,
+    };
+  });
 }
 
 /**
