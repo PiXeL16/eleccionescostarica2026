@@ -53,8 +53,9 @@ RUN npm rebuild better-sqlite3
 # Build Next.js application
 RUN npm run build
 
-# Production stage - serve Next.js with Bun
-FROM base AS runner
+# Production stage - serve Next.js with Node.js
+FROM node:22-alpine AS runner
+RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 # Copy built application and dependencies from builder
@@ -79,5 +80,5 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:8080/ || exit 1
 
-# Start Next.js with Bun
-CMD ["bun", "run", "next", "start", "-p", "8080"]
+# Start Next.js with Node.js
+CMD ["npm", "run", "start", "--", "-p", "8080"]
