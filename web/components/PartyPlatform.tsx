@@ -44,9 +44,10 @@ interface PartyPlatformProps {
   accordionItems: AccordionItem[];
   extractedText?: string | null;
   candidate?: (Person & { running_mates: RunningMate[] }) | null;
+  partyAbbreviation?: string;
 }
 
-export function PartyPlatform({ accordionItems, extractedText, candidate }: PartyPlatformProps) {
+export function PartyPlatform({ accordionItems, extractedText, candidate, partyAbbreviation }: PartyPlatformProps) {
   const [openId, setOpenId] = useState<string | null>(null);
 
   // Create candidate accordion item
@@ -77,7 +78,7 @@ export function PartyPlatform({ accordionItems, extractedText, candidate }: Part
               <div className="w-24 md:w-20 aspect-square relative rounded-lg overflow-hidden shrink-0 bg-gray-100 dark:bg-gray-800">
                 {candidate.photo_filename ? (
                   <Image
-                    src={`/party_flags/${candidate.photo_filename}`}
+                    src={`/party_candidates/${candidate.photo_filename}`}
                     alt={`Foto de ${candidate.full_name}`}
                     fill
                     className="object-cover"

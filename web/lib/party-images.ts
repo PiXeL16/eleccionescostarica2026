@@ -12,6 +12,39 @@ export function getPartyFlagPath(abbreviation: string): string {
 }
 
 /**
+ * Get the path to a candidate's photo
+ * @param abbreviation - Party abbreviation (e.g., "PLN", "CAC")
+ * @returns Path to the candidate photo image with correct extension
+ */
+export function getCandidatePhotoPath(abbreviation: string): string {
+  // These candidates have PNG files, others have JPG
+  const pngCandidates = ['FA', 'PLP', 'PNR', 'PSD'];
+  const extension = pngCandidates.includes(abbreviation) ? 'png' : 'jpg';
+  return `/party_flags/${abbreviation}-candidate.${extension}`;
+}
+
+/**
+ * Check if a party has a candidate photo available
+ * @param abbreviation - Party abbreviation
+ * @returns true if the party has a candidate photo
+ */
+export function hasCandidatePhoto(abbreviation: string): boolean {
+  // Parties with candidate photos available
+  const partiesWithCandidatePhotos = [
+    'CAC',
+    'FA',
+    'PIN',
+    'PLN',
+    'PLP',
+    'PNR',
+    'PPSO',
+    'PSD',
+    'UP',
+  ];
+  return partiesWithCandidatePhotos.includes(abbreviation);
+}
+
+/**
  * Check if a party has a flag image available
  * @param abbreviation - Party abbreviation
  * @returns true if the party has a flag image
