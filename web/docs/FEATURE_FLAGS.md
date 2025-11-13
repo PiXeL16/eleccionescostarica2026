@@ -14,7 +14,7 @@ Controls whether the AI chat sidebar is visible to users.
 
 - **Key**: `chat-enabled`
 - **Type**: Boolean
-- **Default**: `false` (disabled by default)
+- **Default**: `true` in development, `false` in production
 - **Location**: Chat button and sidebar in ChatProvider component
 
 **To enable in PostHog:**
@@ -98,10 +98,14 @@ NEXT_PUBLIC_POSTHOG_HOST=https://us.i.posthog.com
 
 ## Development
 
-Feature flags are disabled in development mode by default (see `instrumentation-client.js`). To test feature flags locally:
+Feature flags have different default behaviors in development vs production:
 
-1. Remove or comment out the `posthog.opt_out_capturing()` call in development mode
-2. Or set `NODE_ENV=production` when running locally
+- **Chat feature**: Enabled by default in development mode for easier testing
+- **PostHog tracking**: Disabled in development mode (see `instrumentation-client.js`)
+
+To test production behavior locally:
+1. Set `NODE_ENV=production` when running the dev server
+2. Or temporarily remove the development check in ChatProvider.tsx
 
 ## Best Practices
 

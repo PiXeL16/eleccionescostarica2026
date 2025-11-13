@@ -27,7 +27,9 @@ export function ChatProvider({ children, parties, initialPartyId }: ChatProvider
   const [selectedPartyId, setSelectedPartyId] = useState<number | undefined>(initialPartyId);
 
   // Check if chat feature is enabled via PostHog feature flag
-  const isChatEnabled = useFeatureFlag(FeatureFlags.CHAT_ENABLED, false);
+  // Enable by default in development, disabled in production (requires flag)
+  const defaultEnabled = process.env.NODE_ENV === 'development';
+  const isChatEnabled = useFeatureFlag(FeatureFlags.CHAT_ENABLED, defaultEnabled);
 
   // Auto-select party based on current page URL
   useEffect(() => {
