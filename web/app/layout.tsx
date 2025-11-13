@@ -192,7 +192,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     </a>
                   </div>
                   <p className="mt-4 text-xs text-gray-500 dark:text-gray-500">
-                    Made with ❤️ by Chris, Esteban & Leo • v1.1.0
+                    Made with ❤️ by Chris, Esteban & Leo • v1.1.1
                   </p>
                 </div>
               </footer>
