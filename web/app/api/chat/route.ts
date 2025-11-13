@@ -8,6 +8,10 @@ import { semanticSearch } from '@/lib/chat-data';
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
+// Mark as runtime-only to avoid build-time evaluation
+export const runtime = 'nodejs';
+export const dynamic = 'force-dynamic';
+
 export async function POST(req: Request) {
   try {
     const { messages, partyIds } = await req.json();
