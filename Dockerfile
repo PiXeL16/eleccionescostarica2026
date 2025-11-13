@@ -47,25 +47,24 @@ ENV OPENAI_API_KEY=$OPENAI_API_KEY
 
 # Build the static export using Node.js
 WORKDIR /app/web
-# Rebuild native modules for Node.js (were compiled for Bun)
-RUN npm rebuild better-sqlite3 && \
-    npm install --force sqlite-vec
+# Rebuild better-sqlite3 for Node.js (was compiled for Bun)
+RUN npm rebuild better-sqlite3
 
-# Build the static export
+# Build Next.js application
 RUN npm run build
 
-# Verify the build output
-RUN ls -la /app/web/out || (echo "Error: Build output not found" && exit 1)
-
-# Production stage - serve static files with Bun
+# Production stage - serve Next.js with Bun
 FROM base AS runner
 WORKDIR /app
 
-# Copy static files from builder
-COPY --from=builder /app/web/out ./out
+# Copy built application and dependencies from builder
+COPY --from=builder /app/web/.next ./.next
+COPY --from=builder /app/web/public ./public
+COPY --from=builder /app/web/node_modules ./node_modules
+COPY --from=builder /app/data ../data
 
-# Copy Bun server
-COPY web/server.ts ./
+# Copy Next.js config and package files
+COPY web/next.config.mjs web/package.json web/bun.lock ./
 
 # Create non-root user
 RUN addgroup -g 1001 -S nodejs && \
@@ -80,4 +79,5 @@ EXPOSE 8080
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
   CMD wget --no-verbose --tries=1 --spider http://localhost:8080/ || exit 1
 
-CMD ["bun", "run", "server.ts"]
+# Start Next.js with Bun
+CMD ["bun", "run", "next", "start", "-p", "8080"]

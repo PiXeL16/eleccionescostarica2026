@@ -13,6 +13,8 @@ coverage
 # Next.js
 .next/
 out/
+web/.next/
+web/out/
 
 # Production
 build
@@ -31,12 +33,15 @@ yarn-error.log*
 # Local env files
 .env*.local
 .env
+web/.env
+web/.env*.local
 
 # Vercel
 .vercel
 
 # Typescript
 *.tsbuildinfo
+web/*.tsbuildinfo
 
 # Git
 .git

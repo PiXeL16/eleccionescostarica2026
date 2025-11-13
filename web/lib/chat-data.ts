@@ -22,8 +22,13 @@ function getDatabase() {
   if (!db) {
     db = new Database(DB_PATH, { readonly: true, fileMustExist: true });
 
-    // Load sqlite-vec extension
-    sqliteVec.load(db);
+    // Load sqlite-vec extension (may fail during build in Docker)
+    try {
+      sqliteVec.load(db);
+    } catch (error) {
+      // sqlite-vec not available - semantic search will not work but basic queries will
+      console.warn('sqlite-vec extension could not be loaded:', error);
+    }
   }
   return db;
 }
