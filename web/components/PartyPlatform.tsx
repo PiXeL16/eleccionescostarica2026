@@ -71,9 +71,9 @@ export function PartyPlatform({ accordionItems, extractedText, candidate }: Part
     ),
     content: (
       <div className="space-y-6">
-        <div className="flex flex-col md:flex-row gap-6">
+        <div className="flex flex-col md:flex-row gap-4">
           {/* Candidate Photo */}
-          <div className="w-full md:w-32 aspect-square relative rounded-xl overflow-hidden md:shrink-0 bg-gray-100 dark:bg-gray-800">
+          <div className="w-24 md:w-20 aspect-square relative rounded-lg overflow-hidden shrink-0 bg-gray-100 dark:bg-gray-800">
             {candidate.photo_filename ? (
               <Image
                 src={`/party_flags/${candidate.photo_filename}`}
