@@ -6,7 +6,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
-import { getBudgetTypeLabel, parseBudget } from '@/lib/budget-parser';
 import { getCategoryDisplayName } from '@/lib/category-display';
 import type { Category, Party, PartyPosition } from '@/lib/database';
 import { getPartyFlagPath } from '@/lib/party-images';
@@ -166,21 +165,13 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                       <div key={party.id} className="space-y-4">
                         {position ? (
                           <>
-                            {/* Ideology & Budget Info */}
+                            {/* Ideology Info */}
                             <div className="flex flex-wrap gap-2 mb-2">
                               {position.ideology_position && (
                                 <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-primary-900 dark:text-blue-200">
                                   {position.ideology_position}
                                 </span>
                               )}
-                              {position.budget_mentioned &&
-                                position.budget_mentioned !== 'No especificado' && (
-                                  <span className="inline-flex items-center rounded-full bg-green-100 px-2.5 py-0.5 text-xs font-medium text-green-800 dark:bg-green-900 dark:text-green-200">
-                                    {getBudgetTypeLabel(
-                                      parseBudget(position.budget_mentioned).type
-                                    )}
-                                  </span>
-                                )}
                             </div>
 
                             {/* Summary */}
@@ -197,7 +188,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                                   Propuestas Clave
                                 </h4>
                                 <ul className="space-y-1">
-                                  {proposals.slice(0, 3).map((proposal: string) => (
+                                  {proposals.map((proposal: string) => (
                                     <li
                                       key={proposal}
                                       className="flex gap-2 text-sm text-[#5D5D5D] dark:text-gray-400"
@@ -206,11 +197,6 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                                       <span>{proposal}</span>
                                     </li>
                                   ))}
-                                  {proposals.length > 3 && (
-                                    <li className="text-xs text-[#8F8F8F] pl-4 dark:text-gray-500">
-                                      +{proposals.length - 3} más...
-                                    </li>
-                                  )}
                                 </ul>
                               </div>
                             )}

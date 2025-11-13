@@ -30,17 +30,7 @@ export function getCandidatePhotoPath(abbreviation: string): string {
  */
 export function hasCandidatePhoto(abbreviation: string): boolean {
   // Parties with candidate photos available
-  const partiesWithCandidatePhotos = [
-    'CAC',
-    'FA',
-    'PIN',
-    'PLN',
-    'PLP',
-    'PNR',
-    'PPSO',
-    'PSD',
-    'UP',
-  ];
+  const partiesWithCandidatePhotos = ['CAC', 'FA', 'PIN', 'PLN', 'PLP', 'PNR', 'PPSO', 'PSD', 'UP'];
   return partiesWithCandidatePhotos.includes(abbreviation);
 }
 

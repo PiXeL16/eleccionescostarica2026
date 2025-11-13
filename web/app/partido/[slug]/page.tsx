@@ -190,7 +190,11 @@ export default async function PartyDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      <PartyPlatform accordionItems={accordionItems} extractedText={extractedText} candidate={candidate} partyAbbreviation={party.abbreviation} />
+      <PartyPlatform
+        accordionItems={accordionItems}
+        extractedText={extractedText}
+        candidate={candidate}
+      />
 
       {/* Running Mates Section */}
       {candidate?.running_mates && candidate.running_mates.length > 0 && (

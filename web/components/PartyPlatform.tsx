@@ -44,10 +44,9 @@ interface PartyPlatformProps {
   accordionItems: AccordionItem[];
   extractedText?: string | null;
   candidate?: (Person & { running_mates: RunningMate[] }) | null;
-  partyAbbreviation?: string;
 }
 
-export function PartyPlatform({ accordionItems, extractedText, candidate, partyAbbreviation }: PartyPlatformProps) {
+export function PartyPlatform({ accordionItems, extractedText, candidate }: PartyPlatformProps) {
   const [openId, setOpenId] = useState<string | null>(null);
 
   // Create candidate accordion item
