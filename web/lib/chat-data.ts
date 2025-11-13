@@ -24,10 +24,50 @@ function getDatabase() {
 
     // Load sqlite-vec extension (may fail during build in Docker)
     try {
+      // Try using the built-in load function first
       sqliteVec.load(db);
-    } catch (error) {
-      // sqlite-vec not available - semantic search will not work but basic queries will
-      console.warn('sqlite-vec extension could not be loaded:', error);
+    } catch (_error) {
+      // Workaround for sqlite-vec bug with arm64 vs aarch64 naming
+      // If load() fails, try manually constructing the path
+      try {
+        const platform = process.platform;
+        const arch = process.arch;
+
+        let packageName = '';
+        let extensionSuffix = '';
+
+        if (platform === 'darwin' && arch === 'arm64') {
+          packageName = 'sqlite-vec-darwin-arm64';
+          extensionSuffix = 'dylib';
+        } else if (platform === 'linux' && arch === 'arm64') {
+          packageName = 'sqlite-vec-linux-arm64';
+          extensionSuffix = 'so';
+        } else if (platform === 'linux' && arch === 'x64') {
+          packageName = 'sqlite-vec-linux-x64';
+          extensionSuffix = 'so';
+        } else if (platform === 'win32' && arch === 'x64') {
+          packageName = 'sqlite-vec-windows-x64';
+          extensionSuffix = 'dll';
+        } else if (platform === 'darwin' && arch === 'x64') {
+          packageName = 'sqlite-vec-darwin-x64';
+          extensionSuffix = 'dylib';
+        }
+
+        if (packageName) {
+          const extensionPath = join(
+            process.cwd(),
+            'node_modules',
+            packageName,
+            `vec0.${extensionSuffix}`
+          );
+          db.loadExtension(extensionPath);
+        } else {
+          throw new Error(`Unsupported platform: ${platform}-${arch}`);
+        }
+      } catch (fallbackError) {
+        // sqlite-vec not available - semantic search will not work but basic queries will
+        console.warn('sqlite-vec extension could not be loaded:', fallbackError);
+      }
     }
   }
   return db;

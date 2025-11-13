@@ -21,17 +21,17 @@ FROM node:22-alpine AS builder
 RUN apk add --no-cache libc6-compat python3 make g++
 WORKDIR /app
 
-# Copy dependencies from Bun install
-COPY --from=deps /app/web/node_modules ./web/node_modules
-
-# Copy package files for rebuilding native modules
-COPY web/package.json web/bun.lock ./web/
-
 # Copy database (needed for static generation)
 COPY data/database.db ./data/database.db
 
-# Copy application source
+# Copy application source (node_modules excluded by .dockerignore)
 COPY web ./web
+
+# Install dependencies fresh with npm (not from Bun)
+WORKDIR /app/web
+RUN npm install --legacy-peer-deps && \
+    npm rebuild better-sqlite3 && \
+    npm install --no-save --legacy-peer-deps $([ "$(uname -m)" = "x86_64" ] && echo "sqlite-vec-linux-x64" || echo "sqlite-vec-linux-arm64")
 
 # Accept build arguments for Next.js public env vars
 ARG NEXT_PUBLIC_POSTHOG_KEY
@@ -45,12 +45,8 @@ ENV NEXT_PUBLIC_POSTHOG_KEY=$NEXT_PUBLIC_POSTHOG_KEY
 ENV NEXT_PUBLIC_POSTHOG_HOST=$NEXT_PUBLIC_POSTHOG_HOST
 ENV OPENAI_API_KEY=$OPENAI_API_KEY
 
-# Build the static export using Node.js
-WORKDIR /app/web
-# Rebuild native modules for Node.js (were compiled for Bun)
-RUN npm rebuild better-sqlite3 sqlite-vec
-
 # Build Next.js application
+WORKDIR /app/web
 RUN npm run build
 
 # Production stage - serve Next.js with Node.js
