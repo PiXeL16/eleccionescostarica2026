@@ -4,6 +4,7 @@
 import { openai } from '@ai-sdk/openai';
 import { streamText } from 'ai';
 import { semanticSearch } from '@/lib/chat-data';
+import { trackChatQuestion } from '@/lib/posthog-server';
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
@@ -56,6 +57,18 @@ FORMATO DE RESPUESTA:
         partyIds, // Can be undefined (all parties) or array of party IDs
         10 // Get top 10 most relevant chunks
       );
+
+      // Track question in PostHog (non-blocking, fire-and-forget)
+      trackChatQuestion({
+        question: lastUserMessage.content,
+        partyIds: partyIds || [],
+        searchResultsCount: searchResults.length,
+        partiesInResults: [...new Set(searchResults.map((r) => r.party_name))],
+        conversationLength: messages.filter((m: { role: string }) => m.role === 'user').length,
+      }).catch((error) => {
+        // Log but don't fail the request
+        console.error('Failed to track chat question:', error);
+      });
 
       if (searchResults.length > 0) {
         // Group results by party for better organization
