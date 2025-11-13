@@ -22,7 +22,7 @@ export const metadata: Metadata = {
     'TSE',
     'comparación',
   ],
-  authors: [{ name: 'Plataformas CR 2026' }],
+  authors: [{ name: 'Plataformas Politicas de Costa Rica 2026' }],
   openGraph: {
     title: 'Plataformas Políticas Costa Rica 2026',
     description:
@@ -55,7 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         unoptimized
                       />
                       <h1 className="text-lg font-semibold text-[#0D0D0D] dark:text-white">
-                        Plataformas CR 2026
+                        Plataformas Politicas de Costa Rica 2026
                       </h1>
                     </Link>
                     <div className="flex items-center gap-4">
