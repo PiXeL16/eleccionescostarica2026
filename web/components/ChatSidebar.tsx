@@ -189,8 +189,11 @@ export function ChatSidebar({
         {/* Party Selector */}
         <div className="border-b border-gray-200 p-4 dark:border-gray-800">
           <div className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Selecciona partidos o haz preguntas generales:
+            Selecciona partidos (opcional):
           </div>
+          <p className="mb-2 text-xs text-gray-600 dark:text-gray-400">
+            Puedes seleccionar partidos específicos o dejar vacío para consultar sobre todos
+          </p>
           <div className="relative" ref={dropdownRef}>
             {/* Selected Parties Button */}
             <button
