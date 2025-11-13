@@ -42,7 +42,7 @@ const faqs = [
   {
     question: '¿Cuántos partidos políticos están inscritos para las elecciones 2026?',
     answer:
-      'Actualmente hay 20 partidos políticos inscritos ante el TSE para participar en las elecciones 2026. Nuestra plataforma incluye análisis de todos los partidos que han presentado sus planes de gobierno.',
+      'Nuestra plataforma incluye análisis de los 20 partidos políticos que han presentado sus planes de gobierno ante el TSE. Es importante aclarar que pueden existir más partidos inscritos ante el TSE, pero solo mostramos aquellos que han publicado su plan de gobierno oficial.',
   },
   {
     question: '¿Cómo uso la función de comparación de partidos?',
