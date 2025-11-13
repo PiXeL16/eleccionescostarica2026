@@ -186,6 +186,41 @@ export default async function PartyDetailPage({ params }: PageProps) {
       </div>
 
       <PartyPlatform accordionItems={accordionItems} extractedText={extractedText} candidate={candidate} />
+
+      {/* Running Mates Section */}
+      {candidate && candidate.running_mates && candidate.running_mates.length > 0 && (
+        <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-8 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-6 dark:text-white">
+            Fórmula Presidencial
+          </h2>
+          <div className="space-y-4">
+            {candidate.running_mates.map((mate) => (
+              <div
+                key={mate.id}
+                className="rounded-lg border border-gray-100 bg-gray-50 p-4 dark:border-gray-700 dark:bg-gray-800"
+              >
+                <div className="flex flex-col md:flex-row md:items-start gap-3">
+                  <div className="shrink-0">
+                    <span className="inline-flex items-center rounded-full px-3 py-1 text-sm font-medium text-primary-600 bg-primary-100 dark:text-primary-400 dark:bg-primary-900/30">
+                      {mate.position === 'primer_vicepresidente' ? '1er Vicepresidente' : '2do Vicepresidente'}
+                    </span>
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
+                      {mate.full_name}
+                    </h3>
+                    {mate.profile_description && mate.profile_description.trim() && (
+                      <p className="mt-2 text-gray-600 dark:text-gray-300 text-sm leading-relaxed">
+                        {mate.profile_description}
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
     </div>
   );
 }

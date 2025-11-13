@@ -1,0 +1,6 @@
+.claude/
+pipeline/.env
+pipeline/.env.bak
+pipeline/src/__pycache__/
+pipeline/src/storage/__pycache__/
+.DS_Store
