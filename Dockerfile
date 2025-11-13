@@ -49,7 +49,7 @@ ENV OPENAI_API_KEY=$OPENAI_API_KEY
 WORKDIR /app/web
 # Rebuild native modules for Node.js (were compiled for Bun)
 RUN npm rebuild better-sqlite3 && \
-    npm rebuild sqlite-vec
+    npm install --force sqlite-vec
 
 # Build the static export
 RUN npm run build
