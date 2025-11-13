@@ -51,6 +51,7 @@ RUN npm run build
 
 # Production stage - serve Next.js with Node.js
 FROM node:22-slim AS runner
+RUN apt-get update && apt-get install -y wget && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
 # Copy built application and dependencies from builder
