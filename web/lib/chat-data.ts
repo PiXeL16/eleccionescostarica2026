@@ -34,32 +34,23 @@ function getDatabase() {
         const arch = process.arch;
 
         let packageName = '';
-        let extensionSuffix = '';
 
         if (platform === 'darwin' && arch === 'arm64') {
           packageName = 'sqlite-vec-darwin-arm64';
-          extensionSuffix = 'dylib';
         } else if (platform === 'linux' && arch === 'arm64') {
           packageName = 'sqlite-vec-linux-arm64';
-          extensionSuffix = 'so';
         } else if (platform === 'linux' && arch === 'x64') {
           packageName = 'sqlite-vec-linux-x64';
-          extensionSuffix = 'so';
         } else if (platform === 'win32' && arch === 'x64') {
           packageName = 'sqlite-vec-windows-x64';
-          extensionSuffix = 'dll';
         } else if (platform === 'darwin' && arch === 'x64') {
           packageName = 'sqlite-vec-darwin-x64';
-          extensionSuffix = 'dylib';
         }
 
         if (packageName) {
-          const extensionPath = join(
-            process.cwd(),
-            'node_modules',
-            packageName,
-            `vec0.${extensionSuffix}`
-          );
+          // SQLite's loadExtension automatically adds platform-specific extensions
+          // so we pass the path without the extension suffix
+          const extensionPath = join(process.cwd(), 'node_modules', packageName, 'vec0');
           db.loadExtension(extensionPath);
         } else {
           throw new Error(`Unsupported platform: ${platform}-${arch}`);
