@@ -8,7 +8,35 @@ const config: Config = {
   darkMode: 'class',
   theme: {
     extend: {
+      fontFamily: {
+        sans: [
+          'ui-sans-serif',
+          '-apple-system',
+          'system-ui',
+          '"Segoe UI"',
+          'Helvetica',
+          '"Apple Color Emoji"',
+          'Arial',
+          'sans-serif',
+          '"Segoe UI Emoji"',
+          '"Segoe UI Symbol"',
+        ],
+      },
       colors: {
+        // Primary brand colors (inspired by Costa Rican icon)
+        primary: {
+          DEFAULT: '#FF8C42', // Vibrant orange from icon
+          50: '#FFF4ED',
+          100: '#FFE8D6',
+          200: '#FFCEAD',
+          300: '#FFB384',
+          400: '#FF975B',
+          500: '#FF8C42', // Main orange
+          600: '#FF7200',
+          700: '#CC5C00',
+          800: '#994500',
+          900: '#662E00',
+        },
         // Party colors (placeholders for now)
         pln: {
           DEFAULT: '#FF6B35',

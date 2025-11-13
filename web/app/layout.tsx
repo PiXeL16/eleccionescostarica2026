@@ -42,36 +42,26 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <ChatProvider parties={parties}>
             <div className="flex min-h-screen flex-col">
-              <header className="relative border-b border-gray-200 shadow-sm dark:border-gray-800">
-                {/* Background image */}
-                <div className="absolute inset-0 overflow-hidden bg-black">
-                  <Image
-                    src="/header-pattern.jpg"
-                    alt="Patrón decorativo costarricense"
-                    fill
-                    className="object-cover object-center opacity-75 dark:opacity-50"
-                    priority
-                    unoptimized
-                  />
-                  {/* Gradient overlay for better text readability */}
-                  <div className="absolute inset-0 bg-gradient-to-b from-black/40 to-black/60" />
-                </div>
-
-                {/* Content overlay */}
-                <div className="relative container mx-auto px-4 py-12">
+              <header className="sticky top-0 z-30 border-b border-[rgba(0,0,0,0.1)] bg-white/80 backdrop-blur-md dark:border-[rgba(255,255,255,0.1)] dark:bg-[#212121]/80">
+                <div className="container mx-auto px-6 py-3">
                   <div className="flex items-center justify-between">
-                    <div>
-                      <h1 className="text-3xl font-bold text-white drop-shadow-lg">
-                        Plataformas Políticas Costa Rica 2026
+                    <Link href="/" className="flex items-center gap-3">
+                      <Image
+                        src="/header-icon.png"
+                        alt="Costa Rica Icon"
+                        width={40}
+                        height={40}
+                        className="h-10 w-10"
+                        unoptimized
+                      />
+                      <h1 className="text-lg font-semibold text-[#0D0D0D] dark:text-white">
+                        Plataformas CR 2026
                       </h1>
-                      <p className="mt-2 text-sm text-white/90 drop-shadow">
-                        Compara y analiza las propuestas de los partidos políticos
-                      </p>
-                    </div>
+                    </Link>
                     <div className="flex items-center gap-4">
                       <Link
                         href="/acerca-de"
-                        className="text-sm font-medium text-white/90 hover:text-white transition drop-shadow"
+                        className="text-sm font-medium text-[#5D5D5D] hover:text-[#0D0D0D] transition-colors dark:text-gray-400 dark:hover:text-white"
                       >
                         Acerca de
                       </Link>
@@ -81,8 +71,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 </div>
               </header>
 
-              <main className="flex-1 bg-gray-50 dark:bg-gray-950">
-                <div className="container mx-auto px-4 py-8">{children}</div>
+              <main className="flex-1 bg-white dark:bg-[#212121]">
+                <div className="container mx-auto px-6 py-8">{children}</div>
               </main>
 
               <footer className="border-t border-gray-200 bg-white py-6 dark:border-gray-800 dark:bg-gray-900">
@@ -93,7 +83,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                       href="https://www.tse.go.cr/2026/planesgobierno.html"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-600 hover:underline dark:text-blue-400"
+                      className="text-primary-600 hover:underline dark:text-primary-400"
                     >
                       planes de gobierno publicados por el TSE
                     </a>

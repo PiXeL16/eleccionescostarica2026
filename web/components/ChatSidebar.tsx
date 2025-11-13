@@ -6,6 +6,7 @@
 import { ChevronDown, Send, X } from 'lucide-react';
 import Image from 'next/image';
 import { FormEvent, useEffect, useRef, useState } from 'react';
+import ReactMarkdown from 'react-markdown';
 
 interface Message {
   id: string;
@@ -72,7 +73,7 @@ export function ChatSidebar({
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (!input.trim() || selectedPartyIds.length === 0 || isLoading) return;
+    if (!input.trim() || isLoading) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -188,14 +189,14 @@ export function ChatSidebar({
         {/* Party Selector */}
         <div className="border-b border-gray-200 p-4 dark:border-gray-800">
           <div className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Selecciona partidos (uno o más):
+            Selecciona partidos (opcional):
           </div>
           <div className="relative" ref={dropdownRef}>
             {/* Selected Parties Button */}
             <button
               type="button"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex w-full items-center justify-between gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm transition hover:border-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600"
+              className="flex w-full items-center justify-between gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm transition hover:border-gray-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600"
             >
               <div className="flex items-center gap-2 min-w-0">
                 {selectedPartyIds.length > 0 ? (
@@ -225,7 +226,7 @@ export function ChatSidebar({
                     <label
                       key={party.id}
                       className={`flex w-full cursor-pointer items-center gap-3 px-3 py-2.5 text-sm transition hover:bg-gray-100 dark:hover:bg-gray-700 ${
-                        isSelected ? 'bg-blue-50 dark:bg-blue-900/20' : ''
+                        isSelected ? 'bg-primary-50 dark:bg-primary-900/20' : ''
                       }`}
                     >
                       <input
@@ -240,7 +241,7 @@ export function ChatSidebar({
                             onPartyIdsChange([...selectedPartyIds, party.id]);
                           }
                         }}
-                        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
+                        className="h-4 w-4 rounded border-gray-300 text-primary-600 focus:ring-2 focus:ring-primary-500 dark:border-gray-600 dark:bg-gray-700"
                       />
                       <div className="relative h-6 w-8 flex-shrink-0 overflow-hidden rounded">
                         <Image
@@ -260,31 +261,138 @@ export function ChatSidebar({
               </div>
             )}
           </div>
-          {selectedPartyIds.length > 0 && (
-            <p className="mt-2 text-xs text-gray-600 dark:text-gray-400">
-              ℹ️ Las respuestas se basarán en las plataformas oficiales de{' '}
-              {selectedPartyIds.length === 1
-                ? 'este partido'
-                : `los ${selectedPartyIds.length} partidos seleccionados`}
-            </p>
+          {selectedPartyIds.length > 0 ? (
+            <div className="mt-2 rounded-lg bg-blue-50 border border-blue-200 p-2 dark:bg-blue-900/20 dark:border-blue-800">
+              <p className="text-xs text-blue-800 dark:text-blue-200">
+                <span className="font-medium">Consultando:</span> Las respuestas se basarán en{' '}
+                {selectedPartyIds.length === 1
+                  ? 'la plataforma de este partido'
+                  : `las plataformas de los ${selectedPartyIds.length} partidos seleccionados`}
+              </p>
+            </div>
+          ) : (
+            <div className="mt-2 rounded-lg bg-gray-50 border border-gray-200 p-2 dark:bg-gray-800/50 dark:border-gray-700">
+              <p className="text-xs text-gray-700 dark:text-gray-300">
+                <span className="font-medium">Búsqueda amplia:</span> Se buscarán respuestas en todos los partidos
+              </p>
+            </div>
           )}
         </div>
 
         {/* Chat Messages */}
         <div className="flex-1 overflow-y-auto px-4 py-6">
+          {/* Selected Parties Display */}
+          {selectedPartyIds.length > 0 && (
+            <div className="mb-4 flex flex-wrap gap-2 pb-3 border-b border-gray-200 dark:border-gray-700">
+              <span className="text-xs text-gray-600 dark:text-gray-400 self-center">
+                Consultando:
+              </span>
+              {parties
+                .filter((party) => selectedPartyIds.includes(party.id))
+                .map((party) => (
+                  <div
+                    key={party.id}
+                    className="flex items-center gap-1.5 rounded-full bg-gray-100 dark:bg-gray-800 px-2.5 py-1"
+                  >
+                    <div className="relative h-4 w-6 flex-shrink-0 overflow-hidden rounded">
+                      <Image
+                        src={`/party_flags/${party.abbreviation}.jpg`}
+                        alt=""
+                        fill
+                        className="object-cover"
+                        unoptimized
+                      />
+                    </div>
+                    <span className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                      {party.abbreviation}
+                    </span>
+                  </div>
+                ))}
+            </div>
+          )}
+
           {messages.length === 0 ? (
-            /* Empty state */
-            <div className="flex h-full items-center justify-center px-4 text-center">
-              <div>
-                <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {selectedPartyIds.length > 0
-                    ? `Haz una pregunta sobre ${selectedPartyIds.length === 1 ? 'la plataforma del partido seleccionado' : `las plataformas de los ${selectedPartyIds.length} partidos seleccionados`}.`
-                    : 'Selecciona uno o más partidos arriba para comenzar a preguntar sobre sus plataformas.'}
+            /* Empty state with example questions */
+            <div className="flex h-full items-center justify-center px-4">
+              <div className="max-w-md w-full">
+                <p className="text-sm text-center text-gray-600 dark:text-gray-400 mb-4">
+                  {selectedPartyIds.length > 1
+                    ? `Pregunta sobre las plataformas de los ${selectedPartyIds.length} partidos seleccionados.`
+                    : selectedPartyIds.length === 1
+                      ? 'Pregunta sobre la plataforma del partido seleccionado.'
+                      : 'Pregunta sobre todos los partidos o selecciona uno o más para enfocarte en ellos.'}
                 </p>
-                <p className="mt-2 text-xs text-gray-500 dark:text-gray-500">
-                  Ejemplos: "¿Qué proponen en educación?", "¿Cuál es su posición sobre impuestos?"
-                  {selectedPartyIds.length > 1 && ', "Compara sus propuestas en salud"'}
-                </p>
+                <div className="space-y-2">
+                  <p className="text-xs text-gray-500 dark:text-gray-500 text-center mb-3">
+                    Preguntas de ejemplo:
+                  </p>
+                  {selectedPartyIds.length > 1 ? (
+                    // Examples for comparing multiple parties
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => setInput('Compara sus propuestas en educación')}
+                        className="w-full text-left px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition text-sm text-gray-700 dark:text-gray-300"
+                      >
+                        💡 Compara sus propuestas en educación
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setInput(
+                            '¿Cuáles son las principales diferencias en sus planes económicos?'
+                          )
+                        }
+                        className="w-full text-left px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition text-sm text-gray-700 dark:text-gray-300"
+                      >
+                        📊 ¿Cuáles son las principales diferencias en sus planes económicos?
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setInput('Compara sus posiciones sobre el medio ambiente')}
+                        className="w-full text-left px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition text-sm text-gray-700 dark:text-gray-300"
+                      >
+                        🌱 Compara sus posiciones sobre el medio ambiente
+                      </button>
+                    </>
+                  ) : (
+                    // General examples for all parties or single party
+                    <>
+                      <button
+                        type="button"
+                        onClick={() => setInput('¿Qué proponen en educación?')}
+                        className="w-full text-left px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition text-sm text-gray-700 dark:text-gray-300"
+                      >
+                        🎓 ¿Qué proponen en educación?
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setInput('¿Cuál es su posición sobre impuestos y carga tributaria?')
+                        }
+                        className="w-full text-left px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition text-sm text-gray-700 dark:text-gray-300"
+                      >
+                        💰 ¿Cuál es su posición sobre impuestos y carga tributaria?
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setInput('¿Qué propuestas tienen para mejorar el sistema de salud?')
+                        }
+                        className="w-full text-left px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition text-sm text-gray-700 dark:text-gray-300"
+                      >
+                        🏥 ¿Qué propuestas tienen para mejorar el sistema de salud?
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setInput('¿Qué planes tienen para combatir la corrupción?')}
+                        className="w-full text-left px-4 py-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition text-sm text-gray-700 dark:text-gray-300"
+                      >
+                        ⚖️ ¿Qué planes tienen para combatir la corrupción?
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
           ) : (
@@ -298,11 +406,40 @@ export function ChatSidebar({
                   <div
                     className={`max-w-[80%] rounded-lg px-4 py-2 ${
                       message.role === 'user'
-                        ? 'bg-blue-600 text-white dark:bg-blue-500'
+                        ? 'bg-primary-600 text-white dark:bg-primary-500'
                         : 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white'
                     }`}
                   >
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                    <div className="text-sm prose prose-sm max-w-none dark:prose-invert prose-p:leading-relaxed prose-pre:bg-gray-800 prose-pre:text-gray-100">
+                      <ReactMarkdown
+                        components={{
+                          h2: ({ children }) => {
+                            // Check if this heading is a party name
+                            const text = String(children);
+                            const party = parties.find((p) => p.name === text);
+                            if (party) {
+                              return (
+                                <h2 className="flex items-center gap-2">
+                                  <span className="relative h-5 w-8 flex-shrink-0 overflow-hidden rounded">
+                                    <Image
+                                      src={`/party_flags/${party.abbreviation}.jpg`}
+                                      alt=""
+                                      fill
+                                      className="object-cover"
+                                      unoptimized
+                                    />
+                                  </span>
+                                  {children}
+                                </h2>
+                              );
+                            }
+                            return <h2>{children}</h2>;
+                          },
+                        }}
+                      >
+                        {message.content}
+                      </ReactMarkdown>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -335,18 +472,14 @@ export function ChatSidebar({
               type="text"
               value={input}
               onChange={(e) => setInput(e.target.value)}
-              placeholder={
-                selectedPartyIds.length > 0
-                  ? 'Escribe tu pregunta...'
-                  : 'Selecciona partidos para preguntar...'
-              }
-              disabled={selectedPartyIds.length === 0 || isLoading}
-              className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
+              placeholder="Escribe tu pregunta..."
+              disabled={isLoading}
+              className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
             />
             <button
               type="submit"
-              disabled={selectedPartyIds.length === 0 || isLoading || !input.trim()}
-              className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-blue-500 dark:hover:bg-blue-600 flex items-center gap-2"
+              disabled={isLoading || !input.trim()}
+              className="rounded-lg bg-primary-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-primary-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-primary-500 dark:hover:bg-primary-600 flex items-center gap-2"
             >
               <Send className="h-4 w-4" />
               Enviar

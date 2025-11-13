@@ -46,12 +46,12 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
   const displayCategories = allCategories;
 
   return (
-    <div className="space-y-8">
+    <div className="mx-auto max-w-6xl space-y-8">
       {/* Header */}
       <div>
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition mb-4 dark:text-gray-400 dark:hover:text-white"
+          className="inline-flex items-center gap-2 text-[#5D5D5D] hover:text-[#0D0D0D] transition-colors mb-4 dark:text-gray-400 dark:hover:text-white"
         >
           <svg
             className="h-5 w-5"
@@ -70,9 +70,25 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
           Volver a inicio
         </Link>
 
-        <h1 className="text-3xl font-bold text-gray-900 dark:text-white">Comparar Partidos</h1>
-        <p className="mt-2 text-gray-600 dark:text-gray-400">
+        <h1 className="text-3xl font-semibold text-[#0D0D0D] dark:text-white">Comparar Partidos</h1>
+        <p className="mt-2 text-base text-[#5D5D5D] dark:text-gray-400">
           Selecciona hasta 3 partidos para comparar sus plataformas lado a lado
+        </p>
+      </div>
+
+      {/* Information Notice */}
+      <div className="rounded-xl border border-[rgba(0,0,0,0.1)] bg-gray-50/50 p-4 dark:border-[rgba(255,255,255,0.1)] dark:bg-gray-800/30">
+        <p className="text-sm text-[#5D5D5D] dark:text-gray-400">
+          Información extraída de los{' '}
+          <a
+            href="https://www.tse.go.cr/2026/planesgobierno.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#0D0D0D] underline hover:text-[#5D5D5D] dark:text-white dark:hover:text-gray-300"
+          >
+            planes de gobierno publicados por el TSE
+          </a>
+          . Solo se muestran partidos que han publicado su plan de gobierno.
         </p>
       </div>
 
@@ -83,9 +99,9 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
       {comparison && comparison.parties.length > 0 ? (
         <div className="space-y-6">
           {/* Sticky Header with Party Info */}
-          <div className="sticky top-0 z-10 bg-white/95 backdrop-blur-sm border-b border-gray-200 pb-4 dark:bg-gray-950/95 dark:border-gray-800">
+          <div className="sticky top-[57px] z-10 bg-white/80 backdrop-blur-md border-b border-[rgba(0,0,0,0.1)] pb-4 dark:bg-[#212121]/80 dark:border-[rgba(255,255,255,0.1)]">
             <div className="mb-4">
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Comparación</h2>
+              <h2 className="text-2xl font-semibold text-[#0D0D0D] dark:text-white">Comparación</h2>
             </div>
 
             {/* Compact Party Headers */}
@@ -99,7 +115,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                 return (
                   <div
                     key={party.id}
-                    className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white p-3 shadow-sm dark:border-gray-800 dark:bg-gray-900"
+                    className="flex items-center gap-3 rounded-xl border border-[rgba(0,0,0,0.1)] bg-white p-3 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]"
                   >
                     <div className="w-20 aspect-[5/2] shrink-0 relative rounded overflow-hidden bg-gray-100 dark:bg-gray-800">
                       <Image
@@ -111,7 +127,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                       />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-semibold text-gray-900 truncate dark:text-white">
+                      <p className="text-sm font-semibold text-[#0D0D0D] truncate dark:text-white">
                         {party.name}
                       </p>
                     </div>
@@ -126,9 +142,9 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
             {displayCategories.map((category) => (
               <div
                 key={category.id}
-                className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900"
+                className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]"
               >
-                <h3 className="text-xl font-bold text-gray-900 mb-4 dark:text-white">
+                <h3 className="text-xl font-semibold text-[#0D0D0D] mb-4 dark:text-white">
                   {getCategoryDisplayName(category.name)}
                 </h3>
 
@@ -153,7 +169,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                             {/* Ideology & Budget Info */}
                             <div className="flex flex-wrap gap-2 mb-2">
                               {position.ideology_position && (
-                                <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                                <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-primary-900 dark:text-blue-200">
                                   {position.ideology_position}
                                 </span>
                               )}
@@ -169,7 +185,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
 
                             {/* Summary */}
                             <div>
-                              <p className="text-sm text-gray-700 leading-relaxed dark:text-gray-300">
+                              <p className="text-sm text-[#0D0D0D] leading-relaxed dark:text-gray-300">
                                 {position.summary}
                               </p>
                             </div>
@@ -177,21 +193,21 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                             {/* Key Proposals */}
                             {proposals.length > 0 && (
                               <div>
-                                <h4 className="text-xs font-medium text-gray-500 mb-2 uppercase">
+                                <h4 className="text-xs font-medium text-[#8F8F8F] mb-2 uppercase dark:text-gray-500">
                                   Propuestas Clave
                                 </h4>
                                 <ul className="space-y-1">
                                   {proposals.slice(0, 3).map((proposal: string) => (
                                     <li
                                       key={proposal}
-                                      className="flex gap-2 text-sm text-gray-600 dark:text-gray-400"
+                                      className="flex gap-2 text-sm text-[#5D5D5D] dark:text-gray-400"
                                     >
-                                      <span className="text-blue-600 dark:text-blue-400">•</span>
+                                      <span className="text-[#0D0D0D] dark:text-white">•</span>
                                       <span>{proposal}</span>
                                     </li>
                                   ))}
                                   {proposals.length > 3 && (
-                                    <li className="text-xs text-gray-500 pl-4">
+                                    <li className="text-xs text-[#8F8F8F] pl-4 dark:text-gray-500">
                                       +{proposals.length - 3} más...
                                     </li>
                                   )}
@@ -200,7 +216,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                             )}
                           </>
                         ) : (
-                          <p className="text-sm text-gray-500 italic">
+                          <p className="text-sm text-[#8F8F8F] italic dark:text-gray-500">
                             No hay información disponible para esta categoría
                           </p>
                         )}
@@ -213,8 +229,8 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
           </div>
         </div>
       ) : (
-        <div className="rounded-xl border border-gray-200 bg-white p-12 text-center shadow-sm dark:border-gray-800 dark:bg-gray-900">
-          <p className="text-gray-600 dark:text-gray-400">
+        <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-12 text-center dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]">
+          <p className="text-[#5D5D5D] dark:text-gray-400">
             Selecciona al menos un partido para comenzar la comparación
           </p>
         </div>

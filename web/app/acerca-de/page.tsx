@@ -42,7 +42,7 @@ export default function AboutPage() {
       <div className="space-y-4">
         <Link
           href="/"
-          className="inline-flex items-center gap-2 text-gray-600 hover:text-gray-900 transition dark:text-gray-400 dark:hover:text-white"
+          className="inline-flex items-center gap-2 text-[#5D5D5D] hover:text-[#0D0D0D] transition-colors dark:text-gray-400 dark:hover:text-white"
         >
           <svg
             className="h-5 w-5"
@@ -60,74 +60,74 @@ export default function AboutPage() {
           </svg>
           Volver al inicio
         </Link>
-        <h1 className="text-4xl font-bold text-gray-900 dark:text-white">Acerca del Proyecto</h1>
-        <p className="text-xl text-gray-600 dark:text-gray-400">
+        <h1 className="text-4xl font-semibold text-[#0D0D0D] dark:text-white">Acerca del Proyecto</h1>
+        <p className="text-xl text-[#5D5D5D] dark:text-gray-400">
           Haciendo la información política más accesible para los votantes costarricenses
         </p>
       </div>
 
       {/* Mission */}
       <section className="space-y-4">
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Nuestra Misión</h2>
-        <p className="text-gray-700 dark:text-gray-300">
+        <h2 className="text-2xl font-semibold text-[#0D0D0D] dark:text-white">Nuestra Misión</h2>
+        <p className="text-base text-[#0D0D0D] dark:text-gray-300">
           Este proyecto tiene como objetivo hacer la información política más accesible para los
           votantes costarricenses mediante:
         </p>
         <div className="grid gap-4 md:grid-cols-2">
-          <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+          <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]">
             <div className="mb-3 flex items-center gap-2">
-              <Brain className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-              <h3 className="font-semibold text-gray-900 dark:text-white">Análisis Automatizado</h3>
+              <Brain className="h-5 w-5 text-primary-600 dark:text-primary-400" />
+              <h3 className="font-semibold text-[#0D0D0D] dark:text-white">Análisis Automatizado</h3>
             </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Utilizamos inteligencia artificial para extraer y estructurar información de extensos
               PDFs de planes de gobierno (más de 100 páginas cada uno)
             </p>
           </div>
-          <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+          <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]">
             <div className="mb-3 flex items-center gap-2">
-              <Scale className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-              <h3 className="font-semibold text-gray-900 dark:text-white">Comparación Fácil</h3>
+              <Scale className="h-5 w-5 text-primary-600 dark:text-primary-400" />
+              <h3 className="font-semibold text-[#0D0D0D] dark:text-white">Comparación Fácil</h3>
             </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Proporcionamos una comparación clara, lado a lado, de hasta 3 partidos a través de 13
               categorías clave de políticas públicas
             </p>
           </div>
-          <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+          <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]">
             <div className="mb-3 flex items-center gap-2">
-              <Eye className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-              <h3 className="font-semibold text-gray-900 dark:text-white">Transparencia</h3>
+              <Eye className="h-5 w-5 text-primary-600 dark:text-primary-400" />
+              <h3 className="font-semibold text-[#0D0D0D] dark:text-white">Transparencia</h3>
             </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Todos los datos y metodologías son de código abierto, permitiendo que cualquiera pueda
               verificar y construir sobre nuestro trabajo
             </p>
           </div>
-          <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+          <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]">
             <div className="mb-3 flex items-center gap-2">
-              <Smartphone className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-              <h3 className="font-semibold text-gray-900 dark:text-white">Accesibilidad</h3>
+              <Smartphone className="h-5 w-5 text-primary-600 dark:text-primary-400" />
+              <h3 className="font-semibold text-[#0D0D0D] dark:text-white">Accesibilidad</h3>
             </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Sitio web rápido, optimizado para dispositivos móviles, con soporte para modo oscuro y
               diseño responsivo
             </p>
           </div>
-          <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+          <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]">
             <div className="mb-3 flex items-center gap-2">
-              <Shield className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-              <h3 className="font-semibold text-gray-900 dark:text-white">Apartidista</h3>
+              <Shield className="h-5 w-5 text-primary-600 dark:text-primary-400" />
+              <h3 className="font-semibold text-[#0D0D0D] dark:text-white">Apartidista</h3>
             </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Presentamos información objetiva sin sesgo editorial, permitiendo que los votantes
               formen sus propias opiniones
             </p>
           </div>
-          <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
+          <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]">
             <div className="mb-3 flex items-center gap-2">
-              <Database className="h-5 w-5 text-blue-600 dark:text-blue-400" />
-              <h3 className="font-semibold text-gray-900 dark:text-white">Datos Estructurados</h3>
+              <Database className="h-5 w-5 text-primary-600 dark:text-primary-400" />
+              <h3 className="font-semibold text-[#0D0D0D] dark:text-white">Datos Estructurados</h3>
             </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Convertimos documentos extensos en resúmenes estructurados, facilitando la comprensión
@@ -141,53 +141,53 @@ export default function AboutPage() {
       <section className="space-y-4">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">¿Cómo Funciona?</h2>
         <div className="space-y-6">
-          <div className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900">
+          <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-gray-50/50 p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-gray-800/30">
             <div className="mb-3 flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-600 text-white">
                 <Download className="h-5 w-5" />
               </span>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Recolección de Documentos
               </h3>
             </div>
-            <p className="text-gray-700 dark:text-gray-300">
+            <p className="text-[#0D0D0D] dark:text-gray-300">
               Descargamos los planes de gobierno oficiales directamente del sitio web del Tribunal
               Supremo de Elecciones (TSE) de Costa Rica. Estos documentos son presentados por cada
               partido político inscrito para las elecciones 2026.
             </p>
           </div>
 
-          <div className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900">
+          <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-gray-50/50 p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-gray-800/30">
             <div className="mb-3 flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-600 text-white">
                 <FileText className="h-5 w-5" />
               </span>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Extracción de Texto
               </h3>
             </div>
-            <p className="text-gray-700 dark:text-gray-300">
+            <p className="text-[#0D0D0D] dark:text-gray-300">
               Procesamos cada PDF para extraer el texto completo, conservando la estructura y el
               contexto de cada documento. Este proceso nos permite trabajar con el contenido sin
               perder información importante.
             </p>
           </div>
 
-          <div className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900">
+          <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-gray-50/50 p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-gray-800/30">
             <div className="mb-3 flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-600 text-white">
                 <Sparkles className="h-5 w-5" />
               </span>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Análisis con IA
               </h3>
             </div>
-            <p className="text-gray-700 dark:text-gray-300 mb-3">
+            <p className="text-[#0D0D0D] dark:text-gray-300 mb-3">
               Utilizamos modelos de lenguaje avanzados (LLM) para analizar cada documento a través
               de 13 categorías predefinidas de políticas públicas. Para cada categoría, el sistema
               extrae:
             </p>
-            <ul className="list-disc list-inside space-y-1 text-gray-700 dark:text-gray-300 ml-4">
+            <ul className="list-disc list-inside space-y-1 text-[#0D0D0D] dark:text-gray-300 ml-4">
               <li>Un resumen conciso de la posición del partido</li>
               <li>Propuestas clave específicas y accionables</li>
               <li>Posición ideológica en el espectro político</li>
@@ -195,16 +195,16 @@ export default function AboutPage() {
             </ul>
           </div>
 
-          <div className="rounded-lg border border-gray-200 bg-gray-50 p-6 dark:border-gray-800 dark:bg-gray-900">
+          <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-gray-50/50 p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-gray-800/30">
             <div className="mb-3 flex items-center gap-3">
-              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-blue-600 text-white">
+              <span className="flex h-10 w-10 items-center justify-center rounded-full bg-primary-600 text-white">
                 <Database className="h-5 w-5" />
               </span>
               <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
                 Estructuración de Datos
               </h3>
             </div>
-            <p className="text-gray-700 dark:text-gray-300">
+            <p className="text-[#0D0D0D] dark:text-gray-300">
               Almacenamos toda la información analizada en una base de datos estructurada,
               permitiendo búsquedas rápidas, comparaciones eficientes y acceso instantáneo a la
               información.
@@ -216,7 +216,7 @@ export default function AboutPage() {
       {/* Categories */}
       <section className="space-y-4">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Categorías Analizadas</h2>
-        <p className="text-gray-700 dark:text-gray-300">
+        <p className="text-[#0D0D0D] dark:text-gray-300">
           Analizamos cada plan de gobierno a través de 13 categorías fundamentales:
         </p>
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
@@ -265,7 +265,7 @@ export default function AboutPage() {
           ].map((category) => (
             <div
               key={category.key}
-              className="rounded-lg border border-gray-200 bg-white p-3 text-sm font-medium text-gray-900 dark:border-gray-800 dark:bg-gray-900 dark:text-white flex items-center gap-2"
+              className="rounded-xl border border-[rgba(0,0,0,0.1)] bg-white p-3 text-sm font-medium text-[#0D0D0D] dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A] dark:text-white flex items-center gap-2"
             >
               {category.icon}
               {category.name}
@@ -277,8 +277,8 @@ export default function AboutPage() {
       {/* Data Source */}
       <section className="space-y-4">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Fuente de Datos</h2>
-        <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-          <p className="text-gray-700 dark:text-gray-300 mb-4">
+        <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]">
+          <p className="text-[#0D0D0D] dark:text-gray-300 mb-4">
             Todos los datos provienen del{' '}
             <strong>Tribunal Supremo de Elecciones (TSE) de Costa Rica</strong>, la autoridad
             electoral oficial del país.
@@ -290,7 +290,7 @@ export default function AboutPage() {
                 href="https://www.tse.go.cr/2026/planesgobierno.html"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="text-blue-600 hover:underline dark:text-blue-400"
+                className="text-primary-600 hover:underline dark:text-primary-400"
               >
                 https://www.tse.go.cr/2026/planesgobierno.html
               </a>
@@ -357,8 +357,8 @@ export default function AboutPage() {
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">
           Código Abierto y Transparencia
         </h2>
-        <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-          <p className="text-gray-700 dark:text-gray-300 mb-4">
+        <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]">
+          <p className="text-[#0D0D0D] dark:text-gray-300 mb-4">
             Este proyecto es completamente de código abierto. Puede revisar nuestro código,
             metodología y datos en GitHub:
           </p>
@@ -389,8 +389,8 @@ export default function AboutPage() {
       {/* Contact */}
       <section className="space-y-4">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Contacto y Feedback</h2>
-        <div className="rounded-lg border border-gray-200 bg-white p-6 dark:border-gray-800 dark:bg-gray-900">
-          <p className="text-gray-700 dark:text-gray-300 mb-4">
+        <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]">
+          <p className="text-[#0D0D0D] dark:text-gray-300 mb-4">
             ¿Encontraste información incorrecta? ¿Tienes sugerencias para mejorar? Nos encantaría
             escucharte:
           </p>
@@ -416,7 +416,7 @@ export default function AboutPage() {
               className="block rounded-lg border border-gray-200 p-4 transition hover:border-gray-300 hover:bg-gray-50 dark:border-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-850"
             >
               <div className="flex items-center gap-2 font-medium text-gray-900 dark:text-white">
-                <MessageSquare className="h-5 w-5 text-blue-600 dark:text-blue-400" />
+                <MessageSquare className="h-5 w-5 text-primary-600 dark:text-primary-400" />
                 Sugerir mejoras
               </div>
               <div className="text-sm text-gray-600 dark:text-gray-400 ml-7">

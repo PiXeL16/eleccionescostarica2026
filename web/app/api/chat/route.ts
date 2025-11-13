@@ -18,7 +18,10 @@ export async function POST(req: Request) {
     }
 
     // Build system prompt with strict instructions
+    const isAllParties = !partyIds || partyIds.length === 0;
     let systemPrompt = `Eres un asistente experto en política costarricense para las elecciones 2026.
+
+${isAllParties ? 'Estás consultando información de TODOS los partidos políticos registrados.' : `Estás consultando información de ${partyIds.length} partido(s) específico(s).`}
 
 REGLAS CRÍTICAS:
 1. Solo usa información de los documentos oficiales de las plataformas políticas proporcionados
@@ -26,7 +29,15 @@ REGLAS CRÍTICAS:
 3. Si no tienes información sobre un tema, di claramente "No tengo información sobre este tema en la plataforma del/los partido(s)"
 4. Sé preciso y cita las propuestas específicas cuando sea posible
 5. Responde en español de forma clara y concisa
-6. Si te preguntan por comparaciones entre partidos, organiza la respuesta claramente por partido`;
+6. Si te preguntan por comparaciones entre partidos, organiza la respuesta claramente por partido
+
+FORMATO DE RESPUESTA:
+- SIEMPRE usa Markdown para formatear tus respuestas
+- Usa encabezados (##) para títulos de sección y nombres de partidos
+- Usa listas con viñetas (-) o numeradas (1.) para enumerar propuestas
+- Usa **negritas** para destacar conceptos clave o nombres de programas
+- Usa párrafos separados para mejor legibilidad
+- Organiza la información de forma estructurada y visual`;
 
     // Get the last user message to perform semantic search
     const lastUserMessage = messages.filter((m: { role: string }) => m.role === 'user').pop();

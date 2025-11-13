@@ -10,44 +10,52 @@ export default function HomePage() {
   const parties = getAllParties();
 
   return (
-    <div className="space-y-8">
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Partidos Políticos</h2>
-          <p className="mt-1 text-gray-600 dark:text-gray-400">
-            Selecciona un partido para ver su plataforma completa o compara hasta 3 partidos
-          </p>
-          <p className="mt-2 text-sm text-gray-500">
-            Información extraída de los{' '}
-            <a
-              href="https://www.tse.go.cr/2026/planesgobierno.html"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="text-blue-600 hover:underline dark:text-blue-400"
-            >
-              planes de gobierno publicados por el TSE
-            </a>
-            . Solo se muestran partidos que han publicado su plan de gobierno.
-          </p>
+    <div className="mx-auto max-w-6xl space-y-10">
+      {/* Hero Section */}
+      <div className="text-center">
+        <h2 className="text-4xl font-semibold text-[#0D0D0D] dark:text-white">
+          Partidos Políticos 2026
+        </h2>
+        <p className="mt-3 text-base text-[#5D5D5D] dark:text-gray-400">
+          Explora y compara las propuestas de los partidos políticos
+        </p>
+        <div className="mt-6 flex items-center justify-center gap-4">
+          <Link
+            href="/comparar"
+            className="rounded-full bg-[#0D0D0D] px-6 py-2.5 text-sm font-medium text-white transition-all hover:bg-[#0D0D0DCC] dark:bg-[#F9F9F9] dark:text-[#0D0D0D] dark:hover:bg-[#E5E5E5]"
+          >
+            Comparar Partidos
+          </Link>
         </div>
-        <Link
-          href="/comparar"
-          className="rounded-lg bg-blue-600 px-6 py-3 font-medium text-white transition hover:bg-blue-700"
-        >
-          Comparar Partidos
-        </Link>
       </div>
 
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+      {/* Information Notice */}
+      <div className="mx-auto max-w-2xl rounded-xl border border-[rgba(0,0,0,0.1)] bg-gray-50/50 p-4 dark:border-[rgba(255,255,255,0.1)] dark:bg-gray-800/30">
+        <p className="text-sm text-[#5D5D5D] dark:text-gray-400">
+          Información extraída de los{' '}
+          <a
+            href="https://www.tse.go.cr/2026/planesgobierno.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-[#0D0D0D] underline hover:text-[#5D5D5D] dark:text-white dark:hover:text-gray-300"
+          >
+            planes de gobierno publicados por el TSE
+          </a>
+          . Solo se muestran partidos que han publicado su plan de gobierno.
+        </p>
+      </div>
+
+      {/* Party Cards Grid */}
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {parties.map((party) => (
           <Link
             key={party.id}
             href={`/partido/${party.abbreviation.toLowerCase()}`}
             className="group"
           >
-            <div className="rounded-xl border border-gray-200 bg-white p-6 transition hover:border-gray-300 hover:shadow-xl dark:border-gray-800 dark:bg-gray-900 dark:hover:border-gray-700">
+            <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-5 transition-all hover:border-[rgba(0,0,0,0.2)] hover:shadow-lg dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A] dark:hover:border-[rgba(255,255,255,0.2)]">
               {/* Party Flag */}
-              <div className="mx-auto w-full aspect-[5/2] relative rounded-lg overflow-hidden max-w-[240px] bg-gray-100 dark:bg-gray-800">
+              <div className="mx-auto w-full aspect-[5/2] relative rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
                 <Image
                   src={getPartyFlagPath(party.abbreviation)}
                   alt={`Bandera de ${party.name}`}
@@ -59,15 +67,15 @@ export default function HomePage() {
 
               {/* Party Info */}
               <div className="mt-4 text-center">
-                <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
+                <h3 className="text-base font-semibold text-[#0D0D0D] group-hover:text-[#5D5D5D] dark:text-white dark:group-hover:text-gray-300">
                   {party.name}
                 </h3>
-                <p className="mt-1 text-sm text-gray-500">{party.abbreviation}</p>
+                <p className="mt-1 text-sm text-[#8F8F8F] dark:text-gray-500">{party.abbreviation}</p>
               </div>
 
               {/* View Button */}
               <div className="mt-4">
-                <div className="w-full rounded-lg bg-gray-100 py-2 text-center text-sm font-medium text-gray-900 transition group-hover:bg-gray-200 dark:bg-gray-800 dark:text-white dark:group-hover:bg-gray-700">
+                <div className="w-full rounded-full bg-gray-100 py-2 text-center text-sm font-medium text-[#0D0D0D] transition-all group-hover:bg-gray-200 dark:bg-gray-800 dark:text-white dark:group-hover:bg-gray-700">
                   Ver Plataforma
                 </div>
               </div>
