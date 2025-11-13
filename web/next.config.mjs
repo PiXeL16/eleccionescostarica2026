@@ -1,10 +1,9 @@
 // ABOUTME: Next.js configuration for the Plataformas Políticas CR 2026 website
-// ABOUTME: Configures static export, image optimization, and SQLite integration
+// ABOUTME: Configures hybrid rendering (static pages + API routes), image optimization, and SQLite integration
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  output: 'export',
-  // Disable image optimization for static export
+  // Disable image optimization for static pages
   images: {
     unoptimized: true,
   },
