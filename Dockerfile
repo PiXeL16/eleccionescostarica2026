@@ -17,8 +17,9 @@ COPY web/package.json web/bun.lock ./
 RUN bun install
 
 # Builder stage - builds the static export using Node.js
-FROM node:22-alpine AS builder
-RUN apk add --no-cache libc6-compat python3 make g++
+# Using Debian-based image for glibc compatibility with sqlite-vec binaries
+FROM node:22-slim AS builder
+RUN apt-get update && apt-get install -y python3 make g++ && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 
 # Copy database (needed for static generation)
@@ -50,8 +51,8 @@ WORKDIR /app/web
 RUN npm run build
 
 # Production stage - serve Next.js with Node.js
-FROM node:22-alpine AS runner
-RUN apk add --no-cache libc6-compat
+# Using Debian-based image for glibc compatibility with sqlite-vec binaries
+FROM node:22-slim AS runner
 WORKDIR /app
 
 # Copy built application and dependencies from builder
@@ -63,9 +64,9 @@ COPY --from=builder /app/data ../data
 # Copy Next.js config and package files
 COPY web/next.config.mjs web/package.json web/bun.lock ./
 
-# Create non-root user
-RUN addgroup -g 1001 -S nodejs && \
-    adduser -S nextjs -u 1001 && \
+# Create non-root user (Debian syntax)
+RUN groupadd -g 1001 nodejs && \
+    useradd -r -u 1001 -g nodejs nextjs && \
     chown -R nextjs:nodejs /app
 
 USER nextjs
