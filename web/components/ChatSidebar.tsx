@@ -1,5 +1,5 @@
 // ABOUTME: Chat sidebar component with party selector and AI conversation interface
-// ABOUTME: Uses Vercel AI SDK's useChat for streaming chat and allows party-scoped questions
+// ABOUTME: Handles streaming responses from the chat API with semantic search
 
 'use client';
 
@@ -42,14 +42,16 @@ export function ChatSidebar({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // Auto-scroll to bottom when new messages arrive
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Need to scroll when messages change
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, []);
+  }, [messages]);
 
   // Reset messages when party changes
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Need to reset when selected parties change
   useEffect(() => {
     setMessages([]);
-  }, []);
+  }, [selectedPartyIds]);
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -99,12 +101,11 @@ export function ChatSidebar({
       }
 
       const reader = response.body?.getReader();
-      const decoder = new TextDecoder();
-
       if (!reader) {
         throw new Error('No response body');
       }
 
+      const decoder = new TextDecoder();
       let assistantMessage = '';
       const assistantMessageId = (Date.now() + 1).toString();
 
@@ -118,31 +119,20 @@ export function ChatSidebar({
         },
       ]);
 
+      // Read the stream - toTextStreamResponse sends plain text chunks
       while (true) {
         const { done, value } = await reader.read();
         if (done) break;
 
-        const chunk = decoder.decode(value);
-        const lines = chunk.split('\n');
+        const text = decoder.decode(value, { stream: true });
+        assistantMessage += text;
 
-        for (const line of lines) {
-          if (line.startsWith('0:')) {
-            try {
-              const data = JSON.parse(line.slice(2));
-              if (typeof data === 'string') {
-                assistantMessage += data;
-                // Update the assistant message
-                setMessages((prev) =>
-                  prev.map((msg) =>
-                    msg.id === assistantMessageId ? { ...msg, content: assistantMessage } : msg
-                  )
-                );
-              }
-            } catch (_e) {
-              // Ignore parse errors
-            }
-          }
-        }
+        // Update the assistant message
+        setMessages((prev) =>
+          prev.map((msg) =>
+            msg.id === assistantMessageId ? { ...msg, content: assistantMessage } : msg
+          )
+        );
       }
     } catch (error) {
       console.error('Chat error:', error);
@@ -254,7 +244,7 @@ export function ChatSidebar({
                       />
                       <div className="relative h-6 w-8 flex-shrink-0 overflow-hidden rounded">
                         <Image
-                          src={`/party_flags/${party.abbreviation.toLowerCase()}.png`}
+                          src={`/party_flags/${party.abbreviation}.jpg`}
                           alt=""
                           fill
                           className="object-cover"

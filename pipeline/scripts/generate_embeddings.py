@@ -8,11 +8,16 @@ import tiktoken
 from pathlib import Path
 from typing import List, Tuple
 from openai import OpenAI
+from dotenv import load_dotenv
 
 # Add parent directory to path
 sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from src.storage.database import Database
+
+# Load environment variables from .env file
+env_path = Path(__file__).parent.parent / ".env"
+load_dotenv(env_path)
 
 
 class EmbeddingGenerator:

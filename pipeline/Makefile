@@ -1,7 +1,7 @@
 # ABOUTME: Makefile for pipeline operations - database init, analysis, embeddings
 # ABOUTME: Run 'make help' to see all available commands
 
-.PHONY: help setup init-db analyze embeddings stats clean
+.PHONY: help setup init-db analyze embeddings stats clean add-party
 
 # Default target
 help:
@@ -10,9 +10,11 @@ help:
 	@echo "  make setup          - Install Python dependencies"
 	@echo "  make init-db        - Initialize database with categories and parties"
 	@echo "  make analyze        - Run full analysis pipeline (extract + analyze)"
-	@echo "  make embeddings     - Generate vector embeddings for semantic search"
-	@echo "  make stats          - Show database statistics"
-	@echo "  make clean          - Clean cache and temporary files"
+	@echo "  make embeddings         - Generate vector embeddings for semantic search"
+	@echo "  make regenerate-summaries - Regenerate all summaries using semantic search"
+	@echo "  make add-party          - Discover and add new parties (auto-extract metadata from PDF)"
+	@echo "  make stats              - Show database statistics"
+	@echo "  make clean              - Clean cache and temporary files"
 	@echo ""
 	@echo "Database Operations:"
 	@echo "  make db-backup      - Backup database to timestamped file"
@@ -53,6 +55,21 @@ embeddings:
 	@read -p "Continue? [y/N] " confirm && [ "$$confirm" = "y" ] || exit 1
 	./venv/bin/python3 scripts/generate_embeddings.py
 	@echo "✓ Embeddings generated"
+
+# Regenerate all summaries using semantic search
+regenerate-summaries:
+	@echo "Regenerating all party position summaries..."
+	@echo "This will use semantic search for better accuracy"
+	@echo ""
+	./venv/bin/python3 scripts/regenerate_all_summaries.py
+
+# Add new parties by discovering PDFs in data/partidos/
+# Automatically extracts metadata from PDF and runs full analysis
+add-party:
+	@echo "Discovering new parties in data/partidos/..."
+	@echo "Will extract metadata from PDF and run full analysis pipeline"
+	@echo ""
+	./venv/bin/python3 scripts/add_party.py
 
 # Show database statistics
 stats:
