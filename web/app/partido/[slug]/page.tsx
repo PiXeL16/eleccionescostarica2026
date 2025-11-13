@@ -82,7 +82,9 @@ export default async function PartyDetailPage({ params }: PageProps) {
                 <ul className="space-y-2">
                   {proposals.map((proposal: string) => (
                     <li key={proposal} className="flex gap-3 text-gray-700 dark:text-gray-300">
-                      <span className="text-blue-600 font-bold dark:text-blue-400 shrink-0">•</span>
+                      <span className="text-primary-600 font-bold dark:text-primary-400 shrink-0">
+                        •
+                      </span>
                       <span className="flex-1 min-w-0 break-words">{proposal}</span>
                     </li>
                   ))}
@@ -162,7 +164,7 @@ export default async function PartyDetailPage({ params }: PageProps) {
             <div className="mt-4 flex flex-col sm:flex-row flex-wrap gap-3">
               <Link
                 href={`/comparar?parties=${party.abbreviation.toLowerCase()}`}
-                className="rounded-lg bg-blue-600 px-6 py-2 font-medium text-white transition hover:bg-blue-700 text-center"
+                className="rounded-lg bg-primary-600 px-6 py-2 font-medium text-white transition hover:bg-primary-700 text-center"
               >
                 Comparar con otros
               </Link>

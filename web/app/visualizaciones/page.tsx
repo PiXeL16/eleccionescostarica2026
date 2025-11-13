@@ -156,7 +156,7 @@ export default async function VisualizacionesPage() {
             <AnimatedList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {parties.slice(0, 6).map((party) => (
                 <AnimatedListItem key={party.id}>
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-blue-500">
+                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-primary-500">
                     <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
                       {party.name}
                     </h3>
@@ -170,7 +170,7 @@ export default async function VisualizacionesPage() {
 
         {/* Usage Instructions */}
         <AnimatedSection delay={0.7}>
-          <section className="mb-12 bg-blue-50 dark:bg-blue-900/20 rounded-lg p-6">
+          <section className="mb-12 bg-primary-50 dark:bg-primary-900/20 rounded-lg p-6">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
               Cómo Usar Estas Visualizaciones
             </h2>

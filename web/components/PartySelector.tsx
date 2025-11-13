@@ -77,7 +77,7 @@ export function PartySelector({ parties }: PartySelectorProps) {
               disabled={!isSelected && selectedSlugs.length >= 3}
               className={`rounded-lg border p-4 text-left transition ${
                 isSelected
-                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-950/50'
+                  ? 'border-primary-500 bg-primary-50 dark:bg-blue-950/50'
                   : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm dark:border-gray-800 dark:bg-gray-900 dark:hover:border-gray-700'
               } ${!isSelected && selectedSlugs.length >= 3 ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
@@ -97,7 +97,7 @@ export function PartySelector({ parties }: PartySelectorProps) {
                 </div>
                 {isSelected && (
                   <svg
-                    className="h-5 w-5 shrink-0 text-blue-600 dark:text-blue-400"
+                    className="h-5 w-5 shrink-0 text-primary-600 dark:text-primary-400"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     aria-hidden="true"

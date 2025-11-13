@@ -165,9 +165,9 @@ export function ComparisonStats({ parties, categories, positions }: ComparisonSt
       <div className="space-y-8">
         {/* Summary Cards */}
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-lg bg-blue-50 p-4 dark:bg-blue-900/20">
-            <p className="text-sm text-blue-600 dark:text-blue-400">Total de Posiciones</p>
-            <p className="mt-1 text-2xl font-bold text-blue-900 dark:text-blue-100">
+          <div className="rounded-lg bg-primary-50 p-4 dark:bg-primary-900/20">
+            <p className="text-sm text-primary-600 dark:text-primary-400">Total de Posiciones</p>
+            <p className="mt-1 text-2xl font-bold text-primary-900 dark:text-blue-100">
               {stats.totalPositions}
             </p>
           </div>

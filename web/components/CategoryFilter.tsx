@@ -41,7 +41,7 @@ export function CategoryFilter({ categories }: CategoryFilterProps) {
         id="category-filter"
         value={selectedCategory}
         onChange={(e) => handleChange(e.target.value)}
-        className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-gray-900 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-800 dark:bg-gray-900 dark:text-white"
+        className="rounded-lg border border-gray-200 bg-white px-4 py-2 text-gray-900 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500/20 dark:border-gray-800 dark:bg-gray-900 dark:text-white"
       >
         <option value="all">Todas las categorías</option>
         {categories.map((cat) => (

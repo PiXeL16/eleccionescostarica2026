@@ -273,7 +273,8 @@ export function ChatSidebar({
           ) : (
             <div className="mt-2 rounded-lg bg-gray-50 border border-gray-200 p-2 dark:bg-gray-800/50 dark:border-gray-700">
               <p className="text-xs text-gray-700 dark:text-gray-300">
-                <span className="font-medium">Búsqueda amplia:</span> Se buscarán respuestas en todos los partidos
+                <span className="font-medium">Búsqueda amplia:</span> Se buscarán respuestas en
+                todos los partidos
               </p>
             </div>
           )}

@@ -93,7 +93,7 @@ export function HomeFilteredView({ parties, positions }: HomeFilteredViewProps) 
 
               {/* Party Info */}
               <div className="mt-4 text-center">
-                <h3 className="font-semibold text-gray-900 group-hover:text-blue-600 dark:text-white dark:group-hover:text-blue-400">
+                <h3 className="font-semibold text-gray-900 group-hover:text-primary-600 dark:text-white dark:group-hover:text-primary-400">
                   {party.name}
                 </h3>
                 <p className="mt-1 text-sm text-gray-500">{party.abbreviation}</p>

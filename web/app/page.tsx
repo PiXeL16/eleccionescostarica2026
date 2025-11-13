@@ -70,7 +70,9 @@ export default function HomePage() {
                 <h3 className="text-base font-semibold text-[#0D0D0D] group-hover:text-[#5D5D5D] dark:text-white dark:group-hover:text-gray-300">
                   {party.name}
                 </h3>
-                <p className="mt-1 text-sm text-[#8F8F8F] dark:text-gray-500">{party.abbreviation}</p>
+                <p className="mt-1 text-sm text-[#8F8F8F] dark:text-gray-500">
+                  {party.abbreviation}
+                </p>
               </div>
 
               {/* View Button */}

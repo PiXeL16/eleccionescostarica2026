@@ -2,14 +2,49 @@
 
 This document tracks potential features and enhancements for the political platform comparison website.
 
+## Recently Completed (November 2025)
+
+### ✅ AI-Powered Chat with Semantic Search
+**Status**: Deployed and live!
+
+**Features:**
+- Natural language question answering about party platforms
+- Multi-party support - query one party or compare many
+- Semantic search using OpenAI embeddings (text-embedding-3-small)
+- Vector similarity search with sqlite-vec
+- RAG (Retrieval-Augmented Generation) for accurate, source-based answers
+- Streaming responses from GPT-4
+- Source attribution with PDF page numbers
+- Responsive sidebar UI with party selector
+- Example questions to get started
+- PostHog feature flag control
+
+**Technical Architecture:**
+- Vector embeddings stored in SQLite with sqlite-vec extension
+- Adaptive text chunking (1500-3500 chars)
+- Cosine similarity for relevance ranking
+- Server-side API routes with Vercel AI SDK
+- Client-side streaming with React hooks
+- ~2,000 document pages embedded
+- 1536-dimensional vectors
+
+**User Experience:**
+- Floating chat button with pulse animation
+- Sliding sidebar from right
+- Multi-party checkbox selector
+- Context-aware example questions
+- Markdown formatting in responses
+- Mobile-responsive design
+
 ## Currently in Development
 
-### Advanced Filtering
+### Advanced Filtering (On Hold - Pending Data Quality)
 - Filter parties by ideology (left/center/right)
 - Filter by budget priority level
 - Filter by specific proposal types
+- **Note**: Removed from home page until we have better data coverage
 
-### Visual Comparisons
+### Visual Comparisons (Future)
 - Charts showing budget priority differences
 - Ideology spectrum visualization
 - Side-by-side proposal highlighting
@@ -17,10 +52,11 @@ This document tracks potential features and enhancements for the political platf
 
 ## Search & Discovery Features
 
-### Smart Search
-- Full-text search across all party positions
-- Search by keyword to find which parties mention specific topics
-- "Find my party" quiz - answer questions about your priorities and get matched parties
+### ✅ Smart Search (Completed via AI Chat)
+- ✅ Semantic search across all party positions
+- ✅ Search by natural language to find which parties mention specific topics
+- ✅ Multi-party comparison in conversational format
+- 🚧 "Find my party" quiz - answer questions about your priorities and get matched parties (Future)
 
 ### Advanced Filtering (Extended)
 - Tag-based browsing

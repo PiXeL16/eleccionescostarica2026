@@ -42,7 +42,7 @@ export function IdeologyFilter() {
         id="ideology-filter"
         value={currentIdeology}
         onChange={(e) => handleChange(e.target.value)}
-        className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-900 transition hover:border-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600"
+        className="rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm text-gray-900 transition hover:border-gray-400 focus:border-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600"
       >
         {IDEOLOGY_OPTIONS.map((option) => (
           <option key={option.value} value={option.value}>

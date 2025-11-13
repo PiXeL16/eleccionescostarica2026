@@ -60,7 +60,9 @@ export default function AboutPage() {
           </svg>
           Volver al inicio
         </Link>
-        <h1 className="text-4xl font-semibold text-[#0D0D0D] dark:text-white">Acerca del Proyecto</h1>
+        <h1 className="text-4xl font-semibold text-[#0D0D0D] dark:text-white">
+          Acerca del Proyecto
+        </h1>
         <p className="text-xl text-[#5D5D5D] dark:text-gray-400">
           Haciendo la información política más accesible para los votantes costarricenses
         </p>
@@ -77,7 +79,9 @@ export default function AboutPage() {
           <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]">
             <div className="mb-3 flex items-center gap-2">
               <Brain className="h-5 w-5 text-primary-600 dark:text-primary-400" />
-              <h3 className="font-semibold text-[#0D0D0D] dark:text-white">Análisis Automatizado</h3>
+              <h3 className="font-semibold text-[#0D0D0D] dark:text-white">
+                Análisis Automatizado
+              </h3>
             </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Utilizamos inteligencia artificial para extraer y estructurar información de extensos
