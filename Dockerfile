@@ -36,12 +36,14 @@ COPY web ./web
 # Accept build arguments for Next.js public env vars
 ARG NEXT_PUBLIC_POSTHOG_KEY
 ARG NEXT_PUBLIC_POSTHOG_HOST
+ARG OPENAI_API_KEY
 
 # Set environment variables for build
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
 ENV NEXT_PUBLIC_POSTHOG_KEY=$NEXT_PUBLIC_POSTHOG_KEY
 ENV NEXT_PUBLIC_POSTHOG_HOST=$NEXT_PUBLIC_POSTHOG_HOST
+ENV OPENAI_API_KEY=$OPENAI_API_KEY
 
 # Build the static export using Node.js
 WORKDIR /app/web
