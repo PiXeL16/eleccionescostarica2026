@@ -136,6 +136,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                       >
                         Acerca de
                       </Link>
+                      <Link
+                        href="/preguntas-frecuentes"
+                        className="text-sm font-medium text-[#5D5D5D] hover:text-[#0D0D0D] transition-colors dark:text-gray-400 dark:hover:text-white"
+                      >
+                        Preguntas Frecuentes
+                      </Link>
                       <ThemeToggle />
                     </div>
                   </div>
