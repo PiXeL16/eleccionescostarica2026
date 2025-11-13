@@ -5,6 +5,7 @@
 
 import { usePathname } from 'next/navigation';
 import { useCallback, useEffect, useState } from 'react';
+import { FeatureFlags, useFeatureFlag } from '@/lib/posthog';
 import { ChatButton } from './ChatButton';
 import { ChatSidebar } from './ChatSidebar';
 
@@ -24,6 +25,9 @@ export function ChatProvider({ children, parties, initialPartyId }: ChatProvider
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [selectedPartyId, setSelectedPartyId] = useState<number | undefined>(initialPartyId);
+
+  // Check if chat feature is enabled via PostHog feature flag
+  const isChatEnabled = useFeatureFlag(FeatureFlags.CHAT_ENABLED, false);
 
   // Auto-select party based on current page URL
   useEffect(() => {
@@ -50,22 +54,31 @@ export function ChatProvider({ children, parties, initialPartyId }: ChatProvider
 
   return (
     <>
-      {/* Main content with responsive margin for sidebar */}
-      <div className={`transition-all duration-300 ${isOpen ? 'mr-0 sm:mr-[500px]' : 'mr-0'}`}>
+      {/* Main content with responsive margin for sidebar (only if chat is enabled and open) */}
+      <div
+        className={`transition-all duration-300 ${
+          isChatEnabled && isOpen ? 'mr-0 sm:mr-[500px]' : 'mr-0'
+        }`}
+      >
         {children}
       </div>
 
-      {/* Chat button */}
-      <ChatButton onClick={handleToggle} isOpen={isOpen} />
+      {/* Chat UI (button and sidebar) - only render if feature flag is enabled */}
+      {isChatEnabled && (
+        <>
+          {/* Chat button */}
+          <ChatButton onClick={handleToggle} isOpen={isOpen} />
 
-      {/* Sidebar */}
-      <ChatSidebar
-        isOpen={isOpen}
-        onClose={handleClose}
-        parties={parties}
-        selectedPartyId={selectedPartyId}
-        onPartyChange={setSelectedPartyId}
-      />
+          {/* Sidebar */}
+          <ChatSidebar
+            isOpen={isOpen}
+            onClose={handleClose}
+            parties={parties}
+            selectedPartyId={selectedPartyId}
+            onPartyChange={setSelectedPartyId}
+          />
+        </>
+      )}
     </>
   );
 }
