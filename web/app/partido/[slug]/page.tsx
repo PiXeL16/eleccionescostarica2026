@@ -66,28 +66,28 @@ export default async function PartyDetailPage({ params }: PageProps) {
         title: getCategoryDisplayName(pos.category.name),
         icon: getCategoryIcon(pos.category.name),
         content: (
-          <div className="space-y-4">
+          <div className="space-y-4 min-w-0">
             {/* Summary */}
-            <div>
+            <div className="min-w-0">
               <h4 className="text-sm font-medium text-gray-600 mb-2 dark:text-gray-400">Resumen</h4>
-              <p className="text-gray-700 leading-relaxed dark:text-gray-300 break-words">
+              <p className="text-gray-700 leading-relaxed dark:text-gray-300 break-words overflow-wrap-anywhere">
                 {pos.summary}
               </p>
             </div>
 
             {/* Key Proposals */}
             {proposals.length > 0 && (
-              <div>
+              <div className="min-w-0">
                 <h4 className="text-sm font-medium text-gray-600 mb-2 dark:text-gray-400">
                   Propuestas Clave
                 </h4>
                 <ul className="space-y-2">
                   {proposals.map((proposal: string) => (
-                    <li key={proposal} className="flex gap-3 text-gray-700 dark:text-gray-300">
+                    <li key={proposal} className="flex gap-3 text-gray-700 dark:text-gray-300 min-w-0">
                       <span className="text-primary-600 font-bold dark:text-primary-400 shrink-0">
                         •
                       </span>
-                      <span className="flex-1 min-w-0 break-words">{proposal}</span>
+                      <span className="flex-1 min-w-0 break-words overflow-wrap-anywhere">{proposal}</span>
                     </li>
                   ))}
                 </ul>
@@ -96,11 +96,11 @@ export default async function PartyDetailPage({ params }: PageProps) {
 
             {/* Ideology Position */}
             {pos.ideology_position && (
-              <div>
+              <div className="min-w-0">
                 <h4 className="text-sm font-medium text-gray-600 mb-2 dark:text-gray-400">
                   Posición Ideológica
                 </h4>
-                <p className="text-gray-700 dark:text-gray-300 break-words">
+                <p className="text-gray-700 dark:text-gray-300 break-words overflow-wrap-anywhere">
                   {pos.ideology_position}
                 </p>
               </div>
@@ -108,11 +108,11 @@ export default async function PartyDetailPage({ params }: PageProps) {
 
             {/* Budget Mentioned */}
             {pos.budget_mentioned && (
-              <div>
+              <div className="min-w-0">
                 <h4 className="text-sm font-medium text-gray-600 mb-2 dark:text-gray-400">
                   Presupuesto Mencionado
                 </h4>
-                <p className="text-gray-700 dark:text-gray-300 break-words">
+                <p className="text-gray-700 dark:text-gray-300 break-words overflow-wrap-anywhere">
                   {pos.budget_mentioned}
                 </p>
               </div>

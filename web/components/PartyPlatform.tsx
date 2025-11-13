@@ -211,7 +211,7 @@ export function PartyPlatform({ accordionItems, extractedText, candidate }: Part
   };
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[250px_1fr]">
+    <div className="grid gap-8 lg:grid-cols-[250px_1fr] w-full min-w-0">
       {/* Table of Contents - Sticky (hidden on mobile) */}
       <div className="hidden lg:block lg:sticky lg:top-8 lg:self-start">
         <div className="rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900">
@@ -250,7 +250,7 @@ export function PartyPlatform({ accordionItems, extractedText, candidate }: Part
       </div>
 
       {/* Main Content */}
-      <div className="space-y-8">
+      <div className="space-y-8 min-w-0 w-full">
         {/* Candidates Section */}
         {candidateAccordionItem && (
           <div id="candidatos" className="scroll-mt-8">
