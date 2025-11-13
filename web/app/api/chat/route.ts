@@ -32,7 +32,7 @@ REGLAS CRÍTICAS:
     const lastUserMessage = messages.filter((m: { role: string }) => m.role === 'user').pop();
 
     // Use semantic search to find relevant content
-    if (lastUserMessage && lastUserMessage.content) {
+    if (lastUserMessage?.content) {
       // Perform semantic search
       // If partyIds is provided, search only those parties
       // If not provided (undefined), search across all parties

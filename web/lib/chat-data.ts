@@ -2,9 +2,9 @@
 // ABOUTME: Provides semantic search and context retrieval for RAG-based chat
 
 import Database from 'better-sqlite3';
+import { OpenAI } from 'openai';
 import { join } from 'path';
 import * as sqliteVec from 'sqlite-vec';
-import { OpenAI } from 'openai';
 import type { Category, Party } from './database';
 
 // Database path (shared with pipeline)
@@ -267,7 +267,7 @@ export async function semanticSearch(
     JOIN parties p ON d.party_id = p.id
   `;
 
-  const params: any[] = [embeddingBuffer];
+  const params: (Buffer | number)[] = [embeddingBuffer];
 
   // Add party filter if provided
   if (partyIds && partyIds.length > 0) {
