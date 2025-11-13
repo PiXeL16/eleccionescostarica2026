@@ -50,8 +50,15 @@ export function ChatProvider({ children, parties, initialPartyId }: ChatProvider
 
   return (
     <>
-      {children}
+      {/* Main content with responsive margin for sidebar */}
+      <div className={`transition-all duration-300 ${isOpen ? 'mr-0 sm:mr-[500px]' : 'mr-0'}`}>
+        {children}
+      </div>
+
+      {/* Chat button */}
       <ChatButton onClick={handleToggle} isOpen={isOpen} />
+
+      {/* Sidebar */}
       <ChatSidebar
         isOpen={isOpen}
         onClose={handleClose}
