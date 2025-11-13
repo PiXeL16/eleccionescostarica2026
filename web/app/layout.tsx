@@ -10,26 +10,89 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { getAllPartiesForChat } from '@/lib/chat-data';
 
+const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://eleccionescostarica.org';
+
 export const metadata: Metadata = {
-  title: 'Plataformas Políticas Costa Rica 2026',
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: 'Plataformas Políticas de Costa Rica 2026',
+    template: '%s | Plataformas Políticas CR 2026',
+  },
   description:
-    'Compara y analiza las propuestas de los partidos políticos de Costa Rica para las elecciones de 2026',
+    'Compara y analiza las propuestas de los 20 partidos políticos de Costa Rica para las elecciones presidenciales de 2026. Información oficial del TSE con análisis de IA.',
   keywords: [
     'costa rica',
     'elecciones 2026',
+    'elecciones presidenciales',
     'partidos políticos',
     'plataformas políticas',
+    'planes de gobierno',
     'TSE',
-    'comparación',
+    'comparación partidos',
+    'candidatos 2026',
+    'votación costa rica',
   ],
-  authors: [{ name: 'Plataformas Políticas de Costa Rica 2026' }],
+  authors: [{ name: 'Plataformas Políticas de Costa Rica 2026', url: SITE_URL }],
+  creator: 'Plataformas Políticas CR 2026',
+  publisher: 'Plataformas Políticas CR 2026',
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
   openGraph: {
-    title: 'Plataformas Políticas Costa Rica 2026',
-    description:
-      'Compara y analiza las propuestas de los partidos políticos para las elecciones 2026',
     type: 'website',
     locale: 'es_CR',
+    url: SITE_URL,
+    siteName: 'Plataformas Políticas Costa Rica 2026',
+    title: 'Plataformas Políticas de Costa Rica 2026',
+    description:
+      'Compara y analiza las propuestas de los 20 partidos políticos para las elecciones presidenciales 2026. Datos oficiales del TSE.',
+    images: [
+      {
+        url: '/og-image.png',
+        width: 1200,
+        height: 630,
+        alt: 'Plataformas Políticas Costa Rica 2026',
+      },
+    ],
   },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Plataformas Políticas de Costa Rica 2026',
+    description:
+      'Compara las propuestas de los 20 partidos políticos para las elecciones 2026. Datos del TSE.',
+    images: ['/og-image.png'],
+    creator: '@eleccionesCR', // Update with actual Twitter handle if exists
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
+  alternates: {
+    canonical: SITE_URL,
+  },
+  verification: {
+    // Add Google Search Console verification code when available
+    // google: 'your-verification-code',
+  },
+};
+
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 5,
+  themeColor: [
+    { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+    { media: '(prefers-color-scheme: dark)', color: '#212121' },
+  ],
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -52,11 +115,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         width={40}
                         height={40}
                         className="h-10 w-10"
-                        unoptimized
                       />
-                      <h1 className="text-lg font-semibold text-[#0D0D0D] dark:text-white">
+                      <div className="text-lg font-semibold text-[#0D0D0D] dark:text-white">
                         Plataformas Políticas de Costa Rica 2026
-                      </h1>
+                      </div>
                     </Link>
                     <div className="flex items-center gap-4">
                       <Link
