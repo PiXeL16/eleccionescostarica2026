@@ -23,16 +23,16 @@ interface ChatSidebarProps {
   isOpen: boolean;
   onClose: () => void;
   parties: Party[];
-  selectedPartyId?: number;
-  onPartyChange: (partyId: number | undefined) => void;
+  selectedPartyIds: number[];
+  onPartyIdsChange: (partyIds: number[]) => void;
 }
 
 export function ChatSidebar({
   isOpen,
   onClose,
   parties,
-  selectedPartyId,
-  onPartyChange,
+  selectedPartyIds,
+  onPartyIdsChange,
 }: ChatSidebarProps) {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -70,7 +70,7 @@ export function ChatSidebar({
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
 
-    if (!input.trim() || !selectedPartyId || isLoading) return;
+    if (!input.trim() || selectedPartyIds.length === 0 || isLoading) return;
 
     const userMessage: Message = {
       id: Date.now().toString(),
@@ -90,7 +90,7 @@ export function ChatSidebar({
         },
         body: JSON.stringify({
           messages: [...messages, userMessage],
-          partyId: selectedPartyId,
+          partyIds: selectedPartyIds,
         }),
       });
 
@@ -198,34 +198,24 @@ export function ChatSidebar({
         {/* Party Selector */}
         <div className="border-b border-gray-200 p-4 dark:border-gray-800">
           <div className="mb-2 block text-sm font-medium text-gray-700 dark:text-gray-300">
-            Selecciona un partido:
+            Selecciona partidos (uno o más):
           </div>
           <div className="relative" ref={dropdownRef}>
-            {/* Selected Party Button */}
+            {/* Selected Parties Button */}
             <button
               type="button"
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
               className="flex w-full items-center justify-between gap-2 rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm transition hover:border-gray-400 focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 dark:border-gray-700 dark:bg-gray-800 dark:text-white dark:hover:border-gray-600"
             >
               <div className="flex items-center gap-2 min-w-0">
-                {selectedPartyId ? (
-                  <>
-                    <div className="relative h-6 w-8 flex-shrink-0 overflow-hidden rounded">
-                      <Image
-                        src={`/party_flags/${parties.find((p) => p.id === selectedPartyId)?.abbreviation.toLowerCase()}.png`}
-                        alt=""
-                        fill
-                        className="object-cover"
-                        unoptimized
-                      />
-                    </div>
-                    <span className="truncate">
-                      {parties.find((p) => p.id === selectedPartyId)?.name} (
-                      {parties.find((p) => p.id === selectedPartyId)?.abbreviation})
-                    </span>
-                  </>
+                {selectedPartyIds.length > 0 ? (
+                  <span className="truncate">
+                    {selectedPartyIds.length === 1
+                      ? `${parties.find((p) => p.id === selectedPartyIds[0])?.abbreviation}`
+                      : `${selectedPartyIds.length} partidos seleccionados`}
+                  </span>
                 ) : (
-                  <span className="text-gray-500 dark:text-gray-400">Pregunta general</span>
+                  <span className="text-gray-500 dark:text-gray-400">Selecciona partidos...</span>
                 )}
               </div>
               <ChevronDown
@@ -235,55 +225,55 @@ export function ChatSidebar({
               />
             </button>
 
-            {/* Dropdown Menu */}
+            {/* Dropdown Menu with Checkboxes */}
             {isDropdownOpen && (
               <div className="absolute z-10 mt-1 max-h-64 w-full overflow-auto rounded-lg border border-gray-300 bg-white shadow-lg dark:border-gray-700 dark:bg-gray-800">
-                {/* General Option */}
-                <button
-                  type="button"
-                  onClick={() => {
-                    onPartyChange(undefined);
-                    setIsDropdownOpen(false);
-                  }}
-                  className="flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm transition hover:bg-gray-100 dark:hover:bg-gray-700"
-                >
-                  <div className="h-6 w-8 flex-shrink-0" />
-                  <span className="text-gray-500 dark:text-gray-400">Pregunta general</span>
-                </button>
-
-                {/* Party Options */}
-                {parties.map((party) => (
-                  <button
-                    key={party.id}
-                    type="button"
-                    onClick={() => {
-                      onPartyChange(party.id);
-                      setIsDropdownOpen(false);
-                    }}
-                    className={`flex w-full items-center gap-2 px-3 py-2.5 text-left text-sm transition hover:bg-gray-100 dark:hover:bg-gray-700 ${
-                      selectedPartyId === party.id ? 'bg-blue-50 dark:bg-blue-900/20' : ''
-                    }`}
-                  >
-                    <div className="relative h-6 w-8 flex-shrink-0 overflow-hidden rounded">
-                      <Image
-                        src={`/party_flags/${party.abbreviation.toLowerCase()}.png`}
-                        alt=""
-                        fill
-                        className="object-cover"
-                        unoptimized
+                {/* Party Options with Checkboxes */}
+                {parties.map((party) => {
+                  const isSelected = selectedPartyIds.includes(party.id);
+                  return (
+                    <label
+                      key={party.id}
+                      className={`flex w-full cursor-pointer items-center gap-3 px-3 py-2.5 text-sm transition hover:bg-gray-100 dark:hover:bg-gray-700 ${
+                        isSelected ? 'bg-blue-50 dark:bg-blue-900/20' : ''
+                      }`}
+                    >
+                      <input
+                        type="checkbox"
+                        checked={isSelected}
+                        onChange={() => {
+                          if (isSelected) {
+                            // Remove party from selection
+                            onPartyIdsChange(selectedPartyIds.filter((id) => id !== party.id));
+                          } else {
+                            // Add party to selection
+                            onPartyIdsChange([...selectedPartyIds, party.id]);
+                          }
+                        }}
+                        className="h-4 w-4 rounded border-gray-300 text-blue-600 focus:ring-2 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700"
                       />
-                    </div>
-                    <span className="truncate text-gray-900 dark:text-white">
-                      {party.name} ({party.abbreviation})
-                    </span>
-                  </button>
-                ))}
+                      <div className="relative h-6 w-8 flex-shrink-0 overflow-hidden rounded">
+                        <Image
+                          src={`/party_flags/${party.abbreviation.toLowerCase()}.png`}
+                          alt=""
+                          fill
+                          className="object-cover"
+                          unoptimized
+                        />
+                      </div>
+                      <span className="truncate text-gray-900 dark:text-white">
+                        {party.name} ({party.abbreviation})
+                      </span>
+                    </label>
+                  );
+                })}
               </div>
             )}
           </div>
-          {selectedPartyId && (
+          {selectedPartyIds.length > 0 && (
             <p className="mt-2 text-xs text-gray-600 dark:text-gray-400">
-              ℹ️ Las respuestas se basarán solo en la plataforma oficial de este partido
+              ℹ️ Las respuestas se basarán en las plataformas oficiales de{' '}
+              {selectedPartyIds.length === 1 ? 'este partido' : `los ${selectedPartyIds.length} partidos seleccionados`}
             </p>
           )}
         </div>
@@ -295,12 +285,13 @@ export function ChatSidebar({
             <div className="flex h-full items-center justify-center px-4 text-center">
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                  {selectedPartyId
-                    ? 'Haz una pregunta sobre la plataforma política del partido seleccionado.'
-                    : 'Selecciona un partido arriba para comenzar a preguntar sobre su plataforma.'}
+                  {selectedPartyIds.length > 0
+                    ? `Haz una pregunta sobre ${selectedPartyIds.length === 1 ? 'la plataforma del partido seleccionado' : `las plataformas de los ${selectedPartyIds.length} partidos seleccionados`}.`
+                    : 'Selecciona uno o más partidos arriba para comenzar a preguntar sobre sus plataformas.'}
                 </p>
                 <p className="mt-2 text-xs text-gray-500 dark:text-gray-500">
                   Ejemplos: "¿Qué proponen en educación?", "¿Cuál es su posición sobre impuestos?"
+                  {selectedPartyIds.length > 1 && ', "Compara sus propuestas en salud"'}
                 </p>
               </div>
             </div>
@@ -353,16 +344,16 @@ export function ChatSidebar({
               value={input}
               onChange={(e) => setInput(e.target.value)}
               placeholder={
-                selectedPartyId
+                selectedPartyIds.length > 0
                   ? 'Escribe tu pregunta...'
-                  : 'Selecciona un partido para preguntar...'
+                  : 'Selecciona partidos para preguntar...'
               }
-              disabled={!selectedPartyId || isLoading}
+              disabled={selectedPartyIds.length === 0 || isLoading}
               className="flex-1 rounded-lg border border-gray-300 px-4 py-2 text-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-700 dark:bg-gray-800 dark:text-white"
             />
             <button
               type="submit"
-              disabled={!selectedPartyId || isLoading || !input.trim()}
+              disabled={selectedPartyIds.length === 0 || isLoading || !input.trim()}
               className="rounded-lg bg-blue-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-blue-700 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-blue-500 dark:hover:bg-blue-600 flex items-center gap-2"
             >
               <Send className="h-4 w-4" />

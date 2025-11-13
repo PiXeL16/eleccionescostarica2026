@@ -24,7 +24,9 @@ interface ChatProviderProps {
 export function ChatProvider({ children, parties, initialPartyId }: ChatProviderProps) {
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedPartyId, setSelectedPartyId] = useState<number | undefined>(initialPartyId);
+  const [selectedPartyIds, setSelectedPartyIds] = useState<number[]>(
+    initialPartyId ? [initialPartyId] : []
+  );
 
   // Check if chat feature is enabled via PostHog feature flag
   // Enable by default in development, disabled in production (requires flag)
@@ -41,7 +43,7 @@ export function ChatProvider({ children, parties, initialPartyId }: ChatProvider
       const party = parties.find((p) => p.abbreviation.toUpperCase() === slug);
 
       if (party) {
-        setSelectedPartyId(party.id);
+        setSelectedPartyIds([party.id]);
       }
     }
   }, [pathname, parties]);
@@ -76,8 +78,8 @@ export function ChatProvider({ children, parties, initialPartyId }: ChatProvider
             isOpen={isOpen}
             onClose={handleClose}
             parties={parties}
-            selectedPartyId={selectedPartyId}
-            onPartyChange={setSelectedPartyId}
+            selectedPartyIds={selectedPartyIds}
+            onPartyIdsChange={setSelectedPartyIds}
           />
         </>
       )}

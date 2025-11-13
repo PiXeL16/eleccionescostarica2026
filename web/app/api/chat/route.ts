@@ -1,20 +1,16 @@
 // ABOUTME: Streaming chat API endpoint for party-specific Q&A
-// ABOUTME: Uses OpenAI with RAG pattern to answer questions based only on party documents
+// ABOUTME: Uses semantic search with RAG pattern to answer questions based on party documents
 
 import { openai } from '@ai-sdk/openai';
 import { streamText } from 'ai';
-import {
-  formatPartyContextForPrompt,
-  getPartyContext,
-  searchPartyPositions,
-} from '@/lib/chat-data';
+import { semanticSearch } from '@/lib/chat-data';
 
 // Allow streaming responses up to 30 seconds
 export const maxDuration = 30;
 
 export async function POST(req: Request) {
   try {
-    const { messages, partyId } = await req.json();
+    const { messages, partyIds } = await req.json();
 
     // Validate request
     if (!messages || !Array.isArray(messages)) {
@@ -27,46 +23,52 @@ export async function POST(req: Request) {
 REGLAS CRÍTICAS:
 1. Solo usa información de los documentos oficiales de las plataformas políticas proporcionados
 2. NUNCA inventes, supongas o extrapoles información que no esté explícitamente en los documentos
-3. Si no tienes información sobre un tema, di claramente "No tengo información sobre este tema en la plataforma de este partido"
+3. Si no tienes información sobre un tema, di claramente "No tengo información sobre este tema en la plataforma del/los partido(s)"
 4. Sé preciso y cita las propuestas específicas cuando sea posible
 5. Responde en español de forma clara y concisa
-6. No hagas comparaciones entre partidos a menos que se te pida explícitamente`;
+6. Si te preguntan por comparaciones entre partidos, organiza la respuesta claramente por partido`;
 
-    // If a party is selected, inject its context
-    if (partyId) {
-      const context = getPartyContext(partyId, false); // Don't include full text by default
-
-      if (!context) {
-        return new Response('Party not found', { status: 404 });
-      }
-
-      const partyInfo = formatPartyContextForPrompt(context);
-
-      systemPrompt += `\n\n---\n\n${partyInfo}`;
-      systemPrompt += `\n\nEstás respondiendo preguntas específicamente sobre ${context.party.name} (${context.party.abbreviation}).`;
-    } else {
-      systemPrompt += `\n\nNota: El usuario no ha seleccionado un partido específico. Si te preguntan sobre un partido, pide que seleccionen uno primero.`;
-    }
-
-    // Optional: Use FTS search to find relevant content based on last user message
+    // Get the last user message to perform semantic search
     const lastUserMessage = messages.filter((m: { role: string }) => m.role === 'user').pop();
-    if (lastUserMessage && partyId) {
-      const searchResults = searchPartyPositions(lastUserMessage.content, partyId, 3);
+
+    // Use semantic search to find relevant content
+    if (lastUserMessage && lastUserMessage.content) {
+      // Perform semantic search
+      // If partyIds is provided, search only those parties
+      // If not provided (undefined), search across all parties
+      const searchResults = await semanticSearch(
+        lastUserMessage.content,
+        partyIds, // Can be undefined (all parties) or array of party IDs
+        10 // Get top 10 most relevant chunks
+      );
 
       if (searchResults.length > 0) {
-        systemPrompt += `\n\n### Información relevante encontrada:\n`;
-
-        for (const result of searchResults) {
-          systemPrompt += `\n**Resumen:** ${result.summary}\n`;
-
-          const proposals = JSON.parse(result.key_proposals) as string[];
-          if (proposals.length > 0) {
-            systemPrompt += `**Propuestas:**\n`;
-            for (const proposal of proposals) {
-              systemPrompt += `- ${proposal}\n`;
+        // Group results by party for better organization
+        const resultsByParty = searchResults.reduce(
+          (acc, result) => {
+            if (!acc[result.party_name]) {
+              acc[result.party_name] = [];
             }
+            acc[result.party_name].push(result);
+            return acc;
+          },
+          {} as Record<string, typeof searchResults>
+        );
+
+        systemPrompt += `\n\n---\n\n### Información relevante de plataformas electorales:\n`;
+
+        for (const [partyName, partyResults] of Object.entries(resultsByParty)) {
+          systemPrompt += `\n#### ${partyName}\n`;
+
+          for (const result of partyResults) {
+            // Include page number for traceability
+            systemPrompt += `\n**Página ${result.page_number}:**\n${result.chunk_text}\n`;
           }
         }
+
+        systemPrompt += `\n\n---\n`;
+      } else {
+        systemPrompt += `\n\nNota: No se encontró información relevante en las plataformas electorales para esta consulta.`;
       }
     }
 

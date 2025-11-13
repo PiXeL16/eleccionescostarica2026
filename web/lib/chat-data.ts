@@ -1,12 +1,19 @@
 // ABOUTME: Data access layer for chat AI to query party information
-// ABOUTME: Provides full-text search and context retrieval for RAG-based chat
+// ABOUTME: Provides semantic search and context retrieval for RAG-based chat
 
 import Database from 'better-sqlite3';
 import { join } from 'path';
+import * as sqliteVec from 'sqlite-vec';
+import { OpenAI } from 'openai';
 import type { Category, Party } from './database';
 
 // Database path (shared with pipeline)
 const DB_PATH = join(process.cwd(), '..', 'data', 'database.db');
+
+// OpenAI client for embedding generation
+const openai = new OpenAI({
+  apiKey: process.env.OPENAI_API_KEY,
+});
 
 // Database singleton
 let db: Database.Database | null = null;
@@ -14,6 +21,9 @@ let db: Database.Database | null = null;
 function getDatabase() {
   if (!db) {
     db = new Database(DB_PATH, { readonly: true, fileMustExist: true });
+
+    // Load sqlite-vec extension
+    sqliteVec.load(db);
   }
   return db;
 }
@@ -43,6 +53,19 @@ export interface PartyContext {
     budget_mentioned: string | null;
   })[];
   fullText: string | null;
+}
+
+/**
+ * Semantic search result from vector similarity
+ */
+export interface SemanticSearchResult {
+  party_id: number;
+  party_name: string;
+  party_abbreviation: string;
+  document_id: number;
+  page_number: number;
+  chunk_text: string;
+  similarity: number;
 }
 
 /**
@@ -190,6 +213,96 @@ export function getAllPartiesForChat(): Pick<Party, 'id' | 'name' | 'abbreviatio
   const db = getDatabase();
   const stmt = db.prepare('SELECT id, name, abbreviation FROM parties ORDER BY name');
   return stmt.all() as Pick<Party, 'id' | 'name' | 'abbreviation'>[];
+}
+
+/**
+ * Generate embedding for a query using OpenAI API
+ * @param query - The query text to embed
+ * @returns Float32Array of embedding values
+ */
+async function generateQueryEmbedding(query: string): Promise<Float32Array> {
+  const response = await openai.embeddings.create({
+    model: 'text-embedding-3-small',
+    input: query,
+  });
+
+  return new Float32Array(response.data[0].embedding);
+}
+
+/**
+ * Semantic search across party documents using vector similarity
+ * Searches through embedded PDF text chunks for relevant content
+ *
+ * @param query - Natural language query
+ * @param partyIds - Optional array of party IDs to restrict search (undefined = all parties)
+ * @param limit - Maximum number of results (default: 10)
+ * @returns Array of search results ranked by similarity
+ */
+export async function semanticSearch(
+  query: string,
+  partyIds?: number[],
+  limit: number = 10
+): Promise<SemanticSearchResult[]> {
+  const db = getDatabase();
+
+  // Generate embedding for the query
+  const queryEmbedding = await generateQueryEmbedding(query);
+
+  // Convert Float32Array to Buffer for SQLite
+  const embeddingBuffer = Buffer.from(queryEmbedding.buffer);
+
+  // Build SQL query with optional party filter
+  let sql = `
+    SELECT
+      p.id as party_id,
+      p.name as party_name,
+      p.abbreviation as party_abbreviation,
+      dt.document_id,
+      dt.page_number,
+      de.chunk_text,
+      vec_distance_cosine(de.embedding, ?) as distance
+    FROM document_embeddings de
+    JOIN document_text dt ON de.document_text_id = dt.id
+    JOIN documents d ON dt.document_id = d.id
+    JOIN parties p ON d.party_id = p.id
+  `;
+
+  const params: any[] = [embeddingBuffer];
+
+  // Add party filter if provided
+  if (partyIds && partyIds.length > 0) {
+    const placeholders = partyIds.map(() => '?').join(',');
+    sql += ` WHERE p.id IN (${placeholders})`;
+    params.push(...partyIds);
+  }
+
+  sql += `
+    ORDER BY distance ASC
+    LIMIT ?
+  `;
+  params.push(limit);
+
+  const stmt = db.prepare(sql);
+  const results = stmt.all(...params) as Array<{
+    party_id: number;
+    party_name: string;
+    party_abbreviation: string;
+    document_id: number;
+    page_number: number;
+    chunk_text: string;
+    distance: number;
+  }>;
+
+  // Convert distance to similarity (1 - distance for cosine)
+  return results.map((row) => ({
+    party_id: row.party_id,
+    party_name: row.party_name,
+    party_abbreviation: row.party_abbreviation,
+    document_id: row.document_id,
+    page_number: row.page_number,
+    chunk_text: row.chunk_text,
+    similarity: 1 - row.distance,
+  }));
 }
 
 /**

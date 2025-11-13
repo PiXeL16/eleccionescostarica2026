@@ -169,6 +169,24 @@ class Database:
                 )
             """)
 
+            # Document embeddings for semantic search
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS document_embeddings (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    document_text_id INTEGER NOT NULL,
+                    chunk_index INTEGER DEFAULT 0,
+                    chunk_text TEXT NOT NULL,
+                    embedding BLOB NOT NULL,
+                    embedding_model TEXT DEFAULT 'text-embedding-3-small',
+                    token_count INTEGER,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+                    FOREIGN KEY (document_text_id) REFERENCES document_text(id) ON DELETE CASCADE
+                )
+            """)
+
+            # Index for embeddings
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_embeddings_doc_text ON document_embeddings(document_text_id)")
+
     def add_party(self, name: str, abbreviation: str, folder_name: str, **kwargs) -> int:
         """Add a new political party."""
         with self.get_connection() as conn:
@@ -318,3 +336,59 @@ class Database:
             cursor.execute("SELECT * FROM categories WHERE category_key = ?", (category_key,))
             row = cursor.fetchone()
             return dict(row) if row else None
+
+    def save_embedding(self, document_text_id: int, chunk_index: int,
+                      chunk_text: str, embedding: bytes, token_count: int,
+                      embedding_model: str = 'text-embedding-3-small'):
+        """Save document embedding for semantic search."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO document_embeddings
+                (document_text_id, chunk_index, chunk_text, embedding, embedding_model, token_count)
+                VALUES (?, ?, ?, ?, ?, ?)
+            """, (document_text_id, chunk_index, chunk_text, embedding, embedding_model, token_count))
+
+    def get_all_document_text_ids(self) -> List[int]:
+        """Get all document_text IDs for embedding generation."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("SELECT id FROM document_text ORDER BY id")
+            return [row['id'] for row in cursor.fetchall()]
+
+    def get_document_text_by_id(self, document_text_id: int) -> Optional[Dict]:
+        """Get document text by ID."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT dt.*, d.party_id, d.title, p.name as party_name
+                FROM document_text dt
+                JOIN documents d ON dt.document_id = d.id
+                JOIN parties p ON d.party_id = p.id
+                WHERE dt.id = ?
+            """, (document_text_id,))
+            row = cursor.fetchone()
+            return dict(row) if row else None
+
+    def has_embeddings(self, document_text_id: int) -> bool:
+        """Check if embeddings exist for a document_text row."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT COUNT(*) as count FROM document_embeddings WHERE document_text_id = ?
+            """, (document_text_id,))
+            return cursor.fetchone()['count'] > 0
+
+    def get_embedding_stats(self) -> Dict:
+        """Get statistics about embeddings."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT
+                    COUNT(*) as total_embeddings,
+                    COUNT(DISTINCT document_text_id) as documents_with_embeddings,
+                    SUM(token_count) as total_tokens,
+                    AVG(token_count) as avg_tokens_per_chunk
+                FROM document_embeddings
+            """)
+            return dict(cursor.fetchone())
