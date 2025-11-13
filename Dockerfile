@@ -47,8 +47,9 @@ ENV OPENAI_API_KEY=$OPENAI_API_KEY
 
 # Build the static export using Node.js
 WORKDIR /app/web
-# Rebuild better-sqlite3 for Node.js (was compiled for Bun)
-RUN npm rebuild better-sqlite3
+# Rebuild native modules for Node.js (were compiled for Bun)
+RUN npm rebuild better-sqlite3 && \
+    npm rebuild sqlite-vec
 
 # Build the static export
 RUN npm run build
