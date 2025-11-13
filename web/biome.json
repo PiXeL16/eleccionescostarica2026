@@ -15,6 +15,9 @@
       "suspicious": {
         "noExplicitAny": "warn",
         "noUnknownAtRules": "off"
+      },
+      "security": {
+        "noDangerouslySetInnerHtml": "off"
       }
     }
   },

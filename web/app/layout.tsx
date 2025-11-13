@@ -9,6 +9,7 @@ import { ChatProvider } from '@/components/ChatProvider';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { getAllPartiesForChat } from '@/lib/chat-data';
+import { generateWebSiteSchema } from '@/lib/structured-data';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://eleccionescostarica.org';
 
@@ -98,9 +99,17 @@ export const viewport = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   // Fetch parties for chat dropdown (runs at build time for static pages)
   const parties = getAllPartiesForChat();
+  const websiteSchema = generateWebSiteSchema();
 
   return (
     <html lang="es" suppressHydrationWarning>
+      <head>
+        {/* Structured Data for SEO */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(websiteSchema) }}
+        />
+      </head>
       <body className="min-h-screen bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100">
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
           <ChatProvider parties={parties}>

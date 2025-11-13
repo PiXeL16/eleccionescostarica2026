@@ -11,21 +11,55 @@ export default function HomePage() {
 
   return (
     <div className="mx-auto max-w-6xl space-y-10">
-      {/* Hero Section */}
-      <div className="text-center">
-        <h2 className="text-4xl font-semibold text-[#0D0D0D] dark:text-white">
-          Partidos Políticos 2026
-        </h2>
-        <p className="mt-3 text-base text-[#5D5D5D] dark:text-gray-400">
-          Explora y compara las propuestas de los partidos políticos
+      {/* Hero Section with SEO Content */}
+      <div className="text-center space-y-6">
+        <h1 className="text-4xl md:text-5xl font-bold text-[#0D0D0D] dark:text-white">
+          Elecciones Costa Rica 2026
+        </h1>
+        <p className="text-lg md:text-xl text-[#5D5D5D] dark:text-gray-300 max-w-3xl mx-auto">
+          Compara las plataformas políticas de los <strong>20 partidos políticos</strong> inscritos
+          para las{' '}
+          <strong>elecciones presidenciales y legislativas del 1 de febrero de 2026</strong>.
+          Información oficial del TSE analizada con inteligencia artificial.
         </p>
-        <div className="mt-6 flex items-center justify-center gap-4">
+        <div className="flex flex-wrap items-center justify-center gap-4">
           <Link
             href="/comparar"
-            className="rounded-full bg-[#0D0D0D] px-6 py-2.5 text-sm font-medium text-white transition-all hover:bg-[#0D0D0DCC] dark:bg-[#F9F9F9] dark:text-[#0D0D0D] dark:hover:bg-[#E5E5E5]"
+            className="rounded-full bg-primary-600 px-8 py-3 text-base font-semibold text-white transition-all hover:bg-primary-700 shadow-lg hover:shadow-xl"
           >
             Comparar Partidos
           </Link>
+          <Link
+            href="/preguntas-frecuentes"
+            className="rounded-full border-2 border-gray-300 px-8 py-3 text-base font-semibold text-gray-700 transition-all hover:border-gray-400 hover:bg-gray-50 dark:border-gray-700 dark:text-gray-300 dark:hover:border-gray-600 dark:hover:bg-gray-800"
+          >
+            Preguntas Frecuentes
+          </Link>
+        </div>
+
+        {/* Key Features */}
+        <div className="grid sm:grid-cols-3 gap-6 mt-12 text-left">
+          <div className="space-y-2">
+            <div className="text-3xl font-bold text-primary-600 dark:text-primary-400">20</div>
+            <div className="font-semibold text-gray-900 dark:text-white">Partidos Políticos</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              Todos los partidos inscritos con plan de gobierno
+            </div>
+          </div>
+          <div className="space-y-2">
+            <div className="text-3xl font-bold text-primary-600 dark:text-primary-400">13</div>
+            <div className="font-semibold text-gray-900 dark:text-white">Categorías</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              Economía, salud, educación, seguridad y más
+            </div>
+          </div>
+          <div className="space-y-2">
+            <div className="text-3xl font-bold text-primary-600 dark:text-primary-400">100%</div>
+            <div className="font-semibold text-gray-900 dark:text-white">Datos del TSE</div>
+            <div className="text-sm text-gray-600 dark:text-gray-400">
+              Información oficial y verificable
+            </div>
+          </div>
         </div>
       </div>
 
