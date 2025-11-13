@@ -52,7 +52,7 @@ const faqs = [
   {
     question: '¿La información está actualizada?',
     answer:
-      'Sí, la información se basa en los planes de gobierno más recientes presentados por los partidos ante el TSE. Si un partido actualiza su plan de gobierno, actualizamos nuestro análisis para reflejar los cambios.',
+      'La información se basa en los planes de gobierno presentados por los partidos ante el TSE. Los datos se actualizan periódicamente de forma manual, por lo que puede haber un desfase entre la publicación de un plan actualizado y su disponibilidad en nuestra plataforma. Recomendamos verificar directamente en el sitio del TSE para la información más reciente.',
   },
   {
     question: '¿Esta plataforma está afiliada a algún partido político?',
