@@ -12,6 +12,7 @@ import {
   getDocumentText,
   getPartyDocument,
   getPartyWithPositions,
+  getCandidateWithRunningMates,
 } from '@/lib/database';
 import { getPartyColors } from '@/lib/party-colors';
 import { getPartyFlagPath } from '@/lib/party-images';
@@ -52,6 +53,7 @@ export default async function PartyDetailPage({ params }: PageProps) {
   const _colors = getPartyColors(party.abbreviation);
   const document = getPartyDocument(party.id);
   const extractedText = document ? getDocumentText(document.id) : null;
+  const candidate = getCandidateWithRunningMates(party.abbreviation);
 
   // Prepare accordion items (filter out Ambiente y Liderazgo Verde as it duplicates Medio Ambiente)
   const accordionItems = party.positions
@@ -183,7 +185,7 @@ export default async function PartyDetailPage({ params }: PageProps) {
         </div>
       </div>
 
-      <PartyPlatform accordionItems={accordionItems} extractedText={extractedText} />
+      <PartyPlatform accordionItems={accordionItems} extractedText={extractedText} candidate={candidate} />
     </div>
   );
 }

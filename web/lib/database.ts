@@ -59,6 +59,32 @@ export interface Document {
   source_url: string | null;
 }
 
+export interface Person {
+  id: number;
+  full_name: string;
+  party_id: number;
+  role: string;
+  profession: string | null;
+  age: number | null;
+  date_of_birth: string | null;
+  profile_description: string | null;
+  photo_filename: string | null;
+  education: string | null; // JSON string
+  family_notes: string | null;
+  ideology: string | null;
+  nickname: string | null;
+  created_at: string;
+}
+
+export interface RunningMate {
+  id: number;
+  candidate_id: number;
+  full_name: string;
+  position: string;
+  profile_description: string | null;
+  created_at: string;
+}
+
 // Database singleton
 let db: Database.Database | null = null;
 
@@ -251,4 +277,50 @@ export function compareParties(slugs: string[]): {
   }
 
   return { parties, categories, positions };
+}
+
+/**
+ * Get all presidential candidates
+ */
+export function getAllCandidates(): Person[] {
+  const db = getDatabase();
+  const stmt = db.prepare('SELECT * FROM people WHERE role = ? ORDER BY full_name');
+  return stmt.all('candidato presidencial') as Person[];
+}
+
+/**
+ * Get candidate by party abbreviation
+ */
+export function getCandidateByParty(partyAbbreviation: string): Person | null {
+  const db = getDatabase();
+  const stmt = db.prepare(`
+    SELECT p.* FROM people p
+    JOIN parties pt ON p.party_id = pt.id
+    WHERE pt.abbreviation = ? AND p.role = ?
+  `);
+  return (stmt.get(partyAbbreviation.toUpperCase(), 'candidato presidencial') as Person) || null;
+}
+
+/**
+ * Get running mates for a candidate
+ */
+export function getRunningMates(candidateId: number): RunningMate[] {
+  const db = getDatabase();
+  const stmt = db.prepare('SELECT * FROM running_mates WHERE candidate_id = ? ORDER BY position');
+  return stmt.all(candidateId) as RunningMate[];
+}
+
+/**
+ * Get candidate with running mates by party abbreviation
+ */
+export function getCandidateWithRunningMates(partyAbbreviation: string): (Person & { running_mates: RunningMate[] }) | null {
+  const candidate = getCandidateByParty(partyAbbreviation);
+  if (!candidate) return null;
+
+  const runningMates = getRunningMates(candidate.id);
+
+  return {
+    ...candidate,
+    running_mates: runningMates,
+  };
 }

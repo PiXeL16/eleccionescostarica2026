@@ -1,0 +1,448 @@
+{
+  "ACRM": {
+    "candidate": {
+      "full_name": "Ronny Castillo González",
+      "profile": "Business administrator specialized in regenerative financial models",
+      "age": null,
+      "profession": "Business Administrator",
+      "photo_local": null,
+      "photo_downloaded": false,
+      "photo_source": null
+    },
+    "running_mates": {
+      "first_vp": "Dr. Hazel Arias Mata",
+      "second_vp": "William Anderson Lewis"
+    },
+    "ballot_position": 14,
+    "polling_support": null,
+    "links": {
+      "news": [
+        "https://delfino.cr/2025/09/partido-aqui-costa-rica-manda-designo-a-ronny-castillo-como-candidato-presidencial",
+        "https://crhoy.com/ronny-castillo-es-electo-candidato-presidencial-de-aqui-costa-rica-manda/"
+      ]
+    }
+  },
+  "CAC": {
+    "candidate": {
+      "full_name": "Claudia Vanessa Dobles Camargo",
+      "profile": "Architect, urbanist, former First Lady (2018-2022), MIT researcher, Harvard Loeb Fellow '23",
+      "age": 44,
+      "date_of_birth": "1980-11-19",
+      "profession": "Architect and Urbanist",
+      "photo_local": "data/candidate-photos/CAC-candidate.jpg",
+      "photo_downloaded": true,
+      "photo_source": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Claudia_Dobles_Camargo_%282025%29.jpg"
+    },
+    "running_mates": {
+      "first_vp": null,
+      "second_vp": null
+    },
+    "ballot_position": 12,
+    "polling_support": "~3%",
+    "links": {
+      "instagram": "https://www.instagram.com/claudobles/",
+      "facebook": "https://www.facebook.com/ClaudiaDoblesC/",
+      "wikipedia": "https://en.wikipedia.org/wiki/Claudia_Dobles_Camargo",
+      "news": [
+        "https://observador.cr/claudia-dobles-candidata-pac-entrevista/"
+      ]
+    }
+  },
+  "CDS": {
+    "candidate": {
+      "full_name": "Ana Virginia Calzada Miranda",
+      "profile": "Former magistrate and first woman to preside over the Constitutional Court",
+      "age": null,
+      "profession": "Lawyer/Magistrate",
+      "photo_local": null,
+      "photo_downloaded": false,
+      "photo_source": null
+    },
+    "running_mates": {
+      "first_vp": "Dr. Oldemar Rodríguez Rojas",
+      "second_vp": null
+    },
+    "ballot_position": 11,
+    "polling_support": null,
+    "links": {
+      "news": [
+        "https://observador.cr/ana-virginia-calzada-candidata-centro-democratico-y-social/"
+      ]
+    }
+  },
+  "CR1": {
+    "candidate": {
+      "full_name": "Douglas Caamaño",
+      "profile": "Former PUSC member, deputy candidate 2002-2006",
+      "age": null,
+      "profession": "Politician",
+      "photo_local": null,
+      "photo_downloaded": false,
+      "photo_source": null
+    },
+    "running_mates": {
+      "first_vp": null,
+      "second_vp": null
+    },
+    "ballot_position": 22,
+    "polling_support": null,
+    "links": {}
+  },
+  "FA": {
+    "candidate": {
+      "full_name": "Ariel Robles",
+      "profile": "Teacher, current deputy",
+      "age": 34,
+      "profession": "Teacher/Deputy",
+      "photo_local": "data/candidate-photos/FA-candidate.jpg",
+      "photo_downloaded": true,
+      "photo_source": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Ariel_Robles_Barrantes_copia.png"
+    },
+    "running_mates": {
+      "first_vp": null,
+      "second_vp": null
+    },
+    "ballot_position": 24,
+    "polling_support": "~3%",
+    "links": {}
+  },
+  "PA": {
+    "candidate": {
+      "full_name": "José Aguilar Berrocal",
+      "profile": "Psychologist, social entrepreneur with 25+ years experience, former Feinzaig running mate. Master's degrees from ICAP and London School of Economics, Oxford University training",
+      "age": null,
+      "profession": "Psychologist/Social Entrepreneur",
+      "education": [
+        "Master's in Project Formulation and Management (ICAP)",
+        "Master's in Development Management (London School of Economics)",
+        "Technical training from Oxford University in Multidimensional Poverty Index"
+      ],
+      "family_note": "Married to Johana Bukele (cousin of El Salvador's president Nayib Bukele)",
+      "photo_local": null,
+      "photo_downloaded": false,
+      "photo_source": null
+    },
+    "running_mates": {
+      "first_vp": null,
+      "second_vp": null
+    },
+    "ballot_position": null,
+    "polling_support": null,
+    "links": {
+      "facebook": "https://www.facebook.com/jose.a.berrocal/",
+      "news": [
+        "https://observador.cr/quien-es-jose-aguilar-el-candidato-por-el-nuevo-partido-avanza/",
+        "https://observador.cr/partido-avanza-ratifica-a-jose-aguilar-como-su-candidato-presidencial-para-las-elecciones-2026/"
+      ]
+    }
+  },
+  "PDLCT": {
+    "candidate": {
+      "full_name": "David Hernández",
+      "profile": "Teacher, 20+ years party militant",
+      "age": null,
+      "profession": "Teacher",
+      "photo_local": null,
+      "photo_downloaded": false,
+      "photo_source": null
+    },
+    "running_mates": {
+      "first_vp": "Yeimy Castro (industrial worker)",
+      "second_vp": "Obeth Morales (plantation sector defender)"
+    },
+    "ballot_position": 10,
+    "polling_support": null,
+    "links": {
+      "news": [
+        "https://elmundo.cr/costa-rica/david-hernandez-es-electo-candidato-presidencial-del-pt-para-elecciones-2026/"
+      ]
+    }
+  },
+  "PEL": {
+    "candidate": {
+      "full_name": "Marco David Rodríguez Badilla",
+      "profile": "Financial and public administrator, former Head of Strategic Development Unit, National Council for the Elderly (2018-2025)",
+      "age": 39,
+      "profession": "Financial and Public Administrator",
+      "photo_local": null,
+      "photo_downloaded": false,
+      "photo_source": null
+    },
+    "running_mates": {
+      "first_vp": "Carlos Francisco Palacios Franco",
+      "second_vp": "Karla Fabiola Romero Cruz"
+    },
+    "ballot_position": 7,
+    "polling_support": null,
+    "links": {}
+  },
+  "PEN": {
+    "candidate": {
+      "full_name": "Claudio Alpízar",
+      "profile": "Politologist, party founder, former PLN member. Ratified August 30, 2025",
+      "age": null,
+      "profession": "Politologist",
+      "ideology": "Center to center-left, social democratic",
+      "photo_local": null,
+      "photo_downloaded": false,
+      "photo_source": null
+    },
+    "running_mates": {
+      "first_vp": null,
+      "second_vp": null
+    },
+    "ballot_position": null,
+    "polling_support": null,
+    "links": {
+      "news": [
+        "https://elmundo.cr/costa-rica/claudio-alpizar-es-ratificado-por-esperanza-nacional-como-candidato-presidencial-para-2026/"
+      ]
+    }
+  },
+  "PIN": {
+    "candidate": {
+      "full_name": "Luis Amador",
+      "profile": "Civil engineer and business administrator, former Minister of Public Works and Transportation",
+      "age": 49,
+      "profession": "Civil Engineer and Business Administrator",
+      "photo_local": "data/candidate-photos/PIN-candidate.jpg",
+      "photo_downloaded": true,
+      "photo_source": "https://upload.wikimedia.org/wikipedia/commons/7/77/Retrato_Oficial%2C_Luis_Amador_Jim%C3%A9nez_%28cropped%29.jpg"
+    },
+    "running_mates": {
+      "first_vp": "Jorge Borbón (businessperson)",
+      "second_vp": "Kathya Verdugo (businessperson)"
+    },
+    "ballot_position": 23,
+    "polling_support": null,
+    "links": {
+      "news": [
+        "https://elmundo.cr/costa-rica/luis-amador-se-inscribe-como-precandidato-presidencial-del-pin/"
+      ]
+    }
+  },
+  "PJSC": {
+    "candidate": {
+      "full_name": "Walter Rubén Hernández Juárez",
+      "profile": "Lawyer with 35+ years of public, diplomatic, and academic experience. Former Ambassador to Venezuela (2003-2008), Vice Minister, interim Minister of Justice and Grace, President of SELA Latin American Council",
+      "age": 66,
+      "profession": "Lawyer/Diplomat",
+      "photo_local": null,
+      "photo_downloaded": false,
+      "photo_source": null
+    },
+    "running_mates": {
+      "first_vp": "Shirley González Mora",
+      "second_vp": "Eduardo Rojas Murillo"
+    },
+    "ballot_position": 2,
+    "polling_support": null,
+    "links": {
+      "news": [
+        "https://columbia.co.cr/walter-ruben-hernandez-sera-el-candidato-presidencial-del-partido-justicia-social-costarricense/"
+      ]
+    }
+  },
+  "PLN": {
+    "candidate": {
+      "full_name": "Álvaro Ramos",
+      "profile": "Economist, former CCSS president, former Superintendent of Pensions, former Vice Minister of Finance, ILO specialist. Won PLN primary with 81.42% on April 6, 2025",
+      "age": null,
+      "profession": "Economist",
+      "photo_local": "data/candidate-photos/PLN-candidate.jpg",
+      "photo_downloaded": true,
+      "photo_source": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Alvaro_Ramos_Chaves_ALCR_14_marzo_2023_%284%29.jpg"
+    },
+    "running_mates": {
+      "first_vp": null,
+      "second_vp": null
+    },
+    "ballot_position": 20,
+    "polling_support": null,
+    "links": {
+      "news": [
+        "https://semanariouniversidad.com/pais/alvaro-ramos-se-impone-como-candidato-presidencial-del-pln-para-2026/"
+      ]
+    }
+  },
+  "PLP": {
+    "candidate": {
+      "full_name": "Eliécer Feinzaig",
+      "nickname": "Eli Feinzaig",
+      "profile": "Economist, current deputy, 2022 candidate (200,000+ votes, 6 deputies won). Campaign focuses on middle class, housing, entrepreneurship, cost of living, and fighting insecurity",
+      "age": null,
+      "profession": "Economist/Deputy",
+      "photo_local": "data/candidate-photos/PLP-candidate.jpg",
+      "photo_downloaded": true,
+      "photo_source": "https://upload.wikimedia.org/wikipedia/commons/8/8f/Eli_Feinzaig_Mintz.png"
+    },
+    "running_mates": {
+      "first_vp": "Tania Molina Rojas (criminologist, writer, international consultant)",
+      "second_vp": null
+    },
+    "ballot_position": null,
+    "polling_support": null,
+    "links": {
+      "news": [
+        "https://elmundo.cr/costa-rica/eli-feinzaig-es-ratificado-por-el-plp-como-candidato-presidencial-para-elecciones-2026/"
+      ]
+    }
+  },
+  "PNG": {
+    "candidate": {
+      "full_name": "Fernando Zamora",
+      "profile": "Former secretary general of Liberación Nacional (2015-2019). Ratified July 20, 2025",
+      "age": null,
+      "profession": "Politician",
+      "note": "Sergio Mena (party founder) will run for deputy in San José",
+      "photo_local": null,
+      "photo_downloaded": false,
+      "photo_source": null
+    },
+    "running_mates": {
+      "first_vp": null,
+      "second_vp": null
+    },
+    "ballot_position": null,
+    "polling_support": null,
+    "links": {}
+  },
+  "PNR": {
+    "candidate": {
+      "full_name": "Fabricio Alvarado Muñoz",
+      "profile": "Current deputy, 3rd consecutive presidential candidacy. 2018: 2nd place (second round), 2022: 3rd place. Ratified August 9, 2025",
+      "age": null,
+      "profession": "Deputy/Politician",
+      "photo_local": "data/candidate-photos/PNR-candidate.jpg",
+      "photo_downloaded": true,
+      "photo_source": "https://upload.wikimedia.org/wikipedia/commons/9/91/Fabricio_Alvarado_Mu%C3%B1oz_2.png"
+    },
+    "running_mates": {
+      "first_vp": "David Segura (current deputy)",
+      "second_vp": "Rosalía Brown (current deputy)"
+    },
+    "ballot_position": 13,
+    "polling_support": null,
+    "links": {
+      "linkedin": "https://www.linkedin.com/in/fabricioalvaradocr/",
+      "news": [
+        "https://observador.cr/video-fabricio-alvarado-confirma-aspiracion-presidencial-con-nueva-republica-para-el-2026/"
+      ]
+    }
+  },
+  "PPSO": {
+    "candidate": {
+      "full_name": "Laura Fernández",
+      "profile": "Public policy specialist, former Minister of Planning and Minister of the Presidency. Aligned with President Rodrigo Chaves. Ratified August 10, 2025",
+      "age": null,
+      "profession": "Public Policy Specialist",
+      "photo_local": "data/candidate-photos/PPSO-candidate.jpg",
+      "photo_downloaded": true,
+      "photo_source": "https://upload.wikimedia.org/wikipedia/commons/f/ff/Retrato_Oficial%2C_Laura_Fern%C3%A1ndez_Delgado_%28cropped%29.jpg"
+    },
+    "running_mates": {
+      "first_vp": "Francisco Gamboa (former minister)",
+      "second_vp": "Douglas Soto (lawyer)"
+    },
+    "ballot_position": null,
+    "polling_support": null,
+    "links": {
+      "news": [
+        "https://observador.cr/pueblo-soberano-ratifica-a-laura-fernandez-como-candidata-presidencial/"
+      ]
+    }
+  },
+  "PSD": {
+    "candidate": {
+      "full_name": "Luz Mary Alpízar Loaiza",
+      "profile": "Chemical engineer, current deputy for San José, party founder (2018). Her party was the vehicle for Rodrigo Chaves in 2022; they split after his election",
+      "age": null,
+      "profession": "Chemical Engineer/Deputy",
+      "photo_local": "data/candidate-photos/PSD-candidate.jpg",
+      "photo_downloaded": true,
+      "photo_source": "https://upload.wikimedia.org/wikipedia/commons/7/75/Luz_Mary_Alp%C3%ADzar_Loaiza.png"
+    },
+    "running_mates": {
+      "first_vp": null,
+      "second_vp": null
+    },
+    "ballot_position": 3,
+    "polling_support": null,
+    "links": {}
+  },
+  "PUCD": {
+    "candidate": {
+      "full_name": "Boris Molina Acevedo",
+      "profile": "Lawyer specializing in litigation. Campaign team includes Edgardo Morales (former Junta de Pensiones president) and Ricardo Villegas (campaign manager)",
+      "age": null,
+      "profession": "Lawyer",
+      "photo_local": null,
+      "photo_downloaded": false,
+      "photo_source": null
+    },
+    "running_mates": {
+      "first_vp": null,
+      "second_vp": null
+    },
+    "ballot_position": 4,
+    "polling_support": "0.21%",
+    "links": {
+      "news": [
+        "https://elmundo.cr/costa-rica/boris-molina-yo-voy-a-ser-el-presidente-de-la-republica-digan-lo-que-digan-las-encuestas/"
+      ]
+    }
+  },
+  "PUSC": {
+    "candidate": {
+      "full_name": "Juan Carlos Hidalgo",
+      "profile": "Born January 17, 1980, in Ciudad Quesada, San Carlos. Ratified unanimously with 66 votes on July 27, 2025",
+      "age": 45,
+      "date_of_birth": "1980-01-17",
+      "profession": "Politician",
+      "photo_local": null,
+      "photo_downloaded": false,
+      "photo_source": null
+    },
+    "running_mates": {
+      "first_vp": "Yolanda Fernández Ochoa (former business leader)",
+      "second_vp": "Steven Alberto Barrantes Núñez (industrial engineer, former mayor of Coto Brus 2020-2024, 37 years old)"
+    },
+    "ballot_position": null,
+    "polling_support": null,
+    "links": {
+      "news": [
+        "https://observador.cr/pusc-ratifica-a-juan-carlos-hidalgo-como-su-candidato-presidencial-para-las-elecciones-de-2026/"
+      ]
+    }
+  },
+  "UP": {
+    "candidate": {
+      "full_name": "Natalia Díaz",
+      "profile": "Publicist and marketer, party founder (2018), former Minister of the Presidency under Chaves. Started political career in 2014 as Movimiento Libertario deputy, 2022 presidential candidate. First woman in Costa Rica to create a national political party",
+      "age": null,
+      "profession": "Publicist and Marketer",
+      "photo_local": "data/candidate-photos/UP-candidate.jpg",
+      "photo_downloaded": true,
+      "photo_source": "https://upload.wikimedia.org/wikipedia/commons/f/f6/Retrato_Oficial%2C_Natalia_D%C3%ADaz_Quintana_%28cropped%29.jpg"
+    },
+    "running_mates": {
+      "first_vp": null,
+      "second_vp": null
+    },
+    "ballot_position": 5,
+    "polling_support": null,
+    "party_ideology": "Liberal, promotes public-private partnerships, opposes new taxes",
+    "links": {}
+  },
+  "metadata": {
+    "election_date": "2026-02-01",
+    "total_candidates": 20,
+    "positions_elected": {
+      "president": 1,
+      "vice_presidents": 2,
+      "deputies": 57
+    },
+    "second_round_info": "If needed, up to 2 months after first round",
+    "last_updated": "2025-11-13"
+  }
+}

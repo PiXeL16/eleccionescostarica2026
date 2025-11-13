@@ -139,6 +139,10 @@ function getHeaders(path: string): Record<string, string> {
   else if (path.startsWith('/party_flags/')) {
     headers['Cache-Control'] = 'public, max-age=86400';
   }
+  // Party candidates - 1 day cache
+  else if (path.startsWith('/party_candidates/')) {
+    headers['Cache-Control'] = 'public, max-age=86400';
+  }
   // HTML files - no cache
   else if (path.endsWith('.html')) {
     headers['Cache-Control'] = 'no-cache, no-store, must-revalidate';
