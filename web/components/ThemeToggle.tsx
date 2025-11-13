@@ -19,7 +19,7 @@ export function ThemeToggle() {
     return (
       <button
         type="button"
-        className="rounded-lg border border-white/30 bg-white/10 p-2 text-white backdrop-blur-sm transition hover:bg-white/20"
+        className="rounded-lg border border-gray-300 bg-gray-100 p-2 text-gray-700 transition hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
         aria-label="Toggle theme"
       >
         <svg
@@ -44,7 +44,7 @@ export function ThemeToggle() {
     <button
       type="button"
       onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-      className="rounded-lg border border-white/30 bg-white/10 p-2 text-white backdrop-blur-sm transition hover:bg-white/20"
+      className="rounded-lg border border-gray-300 bg-gray-100 p-2 text-gray-700 transition hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
       aria-label="Toggle theme"
     >
       {theme === 'dark' ? (

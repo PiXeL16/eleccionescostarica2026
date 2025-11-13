@@ -310,8 +310,15 @@ export async function semanticSearch(
   }));
 
   // Check if query is about candidates and add candidate information
-  const candidateKeywords = ['candidato', 'presidente', 'presidencial', 'candidatos', 'postula', 'aspira'];
-  const isAboutCandidates = candidateKeywords.some(keyword =>
+  const candidateKeywords = [
+    'candidato',
+    'presidente',
+    'presidencial',
+    'candidatos',
+    'postula',
+    'aspira',
+  ];
+  const isAboutCandidates = candidateKeywords.some((keyword) =>
     query.toLowerCase().includes(keyword)
   );
 
@@ -320,7 +327,7 @@ export async function semanticSearch(
     const candidateResults = getCandidateContext(partyIds);
 
     // Add candidate results as high-relevance search results
-    candidateResults.forEach(candidateResult => {
+    candidateResults.forEach((candidateResult) => {
       documentResults.unshift({
         party_id: candidateResult.party_id,
         party_name: candidateResult.party_name,
@@ -394,7 +401,7 @@ export function getCandidateContext(partyIds?: number[]): CandidateContextResult
   }>;
 
   // Format candidate information for each party
-  return candidates.map(candidate => {
+  return candidates.map((candidate) => {
     let candidateInfo = `**Candidato presidencial:** ${candidate.full_name}`;
 
     if (candidate.nickname) {

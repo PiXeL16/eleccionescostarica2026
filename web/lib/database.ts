@@ -313,7 +313,9 @@ export function getRunningMates(candidateId: number): RunningMate[] {
 /**
  * Get candidate with running mates by party abbreviation
  */
-export function getCandidateWithRunningMates(partyAbbreviation: string): (Person & { running_mates: RunningMate[] }) | null {
+export function getCandidateWithRunningMates(
+  partyAbbreviation: string
+): (Person & { running_mates: RunningMate[] }) | null {
   const candidate = getCandidateByParty(partyAbbreviation);
   if (!candidate) return null;
 
