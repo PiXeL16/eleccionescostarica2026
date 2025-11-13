@@ -273,7 +273,9 @@ export function ChatSidebar({
           {selectedPartyIds.length > 0 && (
             <p className="mt-2 text-xs text-gray-600 dark:text-gray-400">
               ℹ️ Las respuestas se basarán en las plataformas oficiales de{' '}
-              {selectedPartyIds.length === 1 ? 'este partido' : `los ${selectedPartyIds.length} partidos seleccionados`}
+              {selectedPartyIds.length === 1
+                ? 'este partido'
+                : `los ${selectedPartyIds.length} partidos seleccionados`}
             </p>
           )}
         </div>
