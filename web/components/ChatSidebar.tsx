@@ -74,7 +74,7 @@ export function ChatSidebar({
             },
             a: ({ href, children }) => {
               // Check if this is a PDF citation link
-              if (href && href.startsWith('/pdf/')) {
+              if (href?.startsWith('/pdf/')) {
                 return (
                   <a
                     href={href}
