@@ -57,7 +57,7 @@ const faqs = [
   {
     question: '¿Esta plataforma está afiliada a algún partido político?',
     answer:
-      'No. Esta es una plataforma independiente y sin fines de lucro creada para ayudar a los ciudadanos costarricenses a tomar decisiones informadas. No estamos afiliados a ningún partido político ni organización política. Para máxima transparencia: (1) El código fuente es de acceso público en GitHub, (2) Publicamos el prompt completo del sistema de IA usado en el chat, (3) Mostramos el modelo de IA utilizado (GPT-4o) y sus parámetros directamente en la interfaz del chat. Puedes verificar todo en: https://github.com/PiXeL16/eleccionescostarica2026',
+      'No. Esta es una plataforma independiente y sin fines de lucro creada para ayudar a los ciudadanos costarricenses a tomar decisiones informadas. No estamos afiliados a ningún partido político ni organización política. Para máxima transparencia: (1) El código fuente es público en https://github.com/PiXeL16/eleccionescostarica2026, (2) Publicamos el prompt completo del sistema de IA en https://github.com/PiXeL16/eleccionescostarica2026/blob/main/SYSTEM_PROMPT.md, (3) Mostramos el modelo de IA utilizado (GPT-4o) y sus parámetros directamente en la interfaz del chat.',
   },
   {
     question: '¿Puedo confiar en el análisis de IA?',

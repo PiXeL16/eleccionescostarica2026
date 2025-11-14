@@ -10,6 +10,7 @@ import { ThemeProvider } from '@/components/ThemeProvider';
 import { ThemeToggle } from '@/components/ThemeToggle';
 import { getAllPartiesForChat } from '@/lib/chat-data';
 import { generateWebSiteSchema } from '@/lib/structured-data';
+import packageJson from '../package.json';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://eleccionescostarica.org';
 
@@ -192,7 +193,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     </a>
                   </div>
                   <p className="mt-4 text-xs text-gray-500 dark:text-gray-500">
-                    Made with ❤️ by Chris, Esteban & Leo • v1.1.1
+                    Made with ❤️ by Chris, Esteban & Leo • v{packageJson.version}
                   </p>
                 </div>
               </footer>
