@@ -28,6 +28,12 @@ interface ChatSidebarProps {
   onPartyIdsChange: (partyIds: number[]) => void;
 }
 
+// Helper function to extract page number from citation
+function extractPageNumber(citation: string): number | null {
+  const match = citation.match(/\[Página (\d+)\]/);
+  return match ? parseInt(match[1], 10) : null;
+}
+
 export function ChatSidebar({
   isOpen,
   onClose,
@@ -42,6 +48,43 @@ export function ChatSidebar({
   const [isLoading, setIsLoading] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showModelInfo, setShowModelInfo] = useState(false);
+
+  // Get default party abbreviation for citation links
+  // If only one party is selected, use that; otherwise, citations won't be clickable
+  const getDefaultPartyAbbr = (): string | null => {
+    if (selectedPartyIds.length === 1) {
+      const party = parties.find((p) => p.id === selectedPartyIds[0]);
+      return party?.abbreviation || null;
+    }
+    return null;
+  };
+
+  // Function to render clickable citations
+  const renderCitationLink = (citation: string) => {
+    const pageNum = extractPageNumber(citation);
+    const partyAbbr = getDefaultPartyAbbr();
+
+    if (!pageNum || !partyAbbr) {
+      // Fallback: just style it without making it clickable
+      return (
+        <span className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose">
+          {citation}
+        </span>
+      );
+    }
+
+    return (
+      <a
+        href={`/pdf/${partyAbbr.toLowerCase()}?page=${pageNum}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose hover:underline cursor-pointer"
+        title={`Ver página ${pageNum} del PDF de ${partyAbbr}`}
+      >
+        {citation}
+      </a>
+    );
+  };
 
   // Auto-scroll to bottom when new messages arrive
   // biome-ignore lint/correctness/useExhaustiveDependencies: Need to scroll when messages change
@@ -471,18 +514,16 @@ export function ChatSidebar({
                               const parts = children.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
                               return (
                                 <p>
-                                  {parts.map((part) => {
+                                  {parts.map((part, idx) => {
+                                    // biome-ignore lint/suspicious/noArrayIndexKey: Stable split order
                                     if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
                                       return (
-                                        <span
-                                          key={`citation-${part}`}
-                                          className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose"
-                                        >
-                                          {part}
+                                        <span key={`citation-${idx}`}>
+                                          {renderCitationLink(part)}
                                         </span>
                                       );
                                     }
-                                    return <span key={`text-${part}`}>{part}</span>;
+                                    return <span key={`text-${idx}`}>{part}</span>;
                                   })}
                                 </p>
                               );
@@ -496,18 +537,16 @@ export function ChatSidebar({
                               const parts = children.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
                               return (
                                 <li>
-                                  {parts.map((part) => {
+                                  {parts.map((part, idx) => {
+                                    // biome-ignore lint/suspicious/noArrayIndexKey: Stable split order
                                     if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
                                       return (
-                                        <span
-                                          key={`citation-${part}`}
-                                          className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose"
-                                        >
-                                          {part}
+                                        <span key={`citation-${idx}`}>
+                                          {renderCitationLink(part)}
                                         </span>
                                       );
                                     }
-                                    return <span key={`text-${part}`}>{part}</span>;
+                                    return <span key={`text-${idx}`}>{part}</span>;
                                   })}
                                 </li>
                               );

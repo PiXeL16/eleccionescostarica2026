@@ -11,24 +11,48 @@ import type { Category, Party, PartyPosition } from '@/lib/database';
 import { getPartyFlagPath } from '@/lib/party-images';
 import { PartySelector } from './PartySelector';
 
-// Helper function to render text with styled page citations
-function formatTextWithCitations(text: string) {
+// Helper function to extract page number from citation
+function extractPageNumber(citation: string): number | null {
+  const match = citation.match(/\[Página (\d+)\]/);
+  return match ? parseInt(match[1], 10) : null;
+}
+
+// Helper function to render text with clickable page citations
+function formatTextWithCitations(text: string, partyAbbr: string) {
   // Split by [Página X] or [Páginas X-Y] pattern
   const parts = text.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
 
-  return parts.map((part) => {
+  return parts.map((part, idx) => {
+    // biome-ignore lint/suspicious/noArrayIndexKey: Stable split order
     // Check if this part is a citation
     if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
+      const pageNum = extractPageNumber(part);
+
+      if (pageNum) {
+        return (
+          <a
+            key={`citation-${idx}`}
+            href={`/pdf/${partyAbbr.toLowerCase()}?page=${pageNum}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 hover:underline cursor-pointer"
+            title={`Ver página ${pageNum} del PDF de ${partyAbbr}`}
+          >
+            {part}
+          </a>
+        );
+      }
+
       return (
         <span
-          key={`citation-${part}`}
+          key={`citation-${idx}`}
           className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5"
         >
           {part}
         </span>
       );
     }
-    return <span key={`text-${part}`}>{part}</span>;
+    return <span key={`text-${idx}`}>{part}</span>;
   });
 }
 
@@ -198,7 +222,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                             {/* Summary */}
                             <div>
                               <p className="text-sm text-[#0D0D0D] leading-relaxed dark:text-gray-300">
-                                {formatTextWithCitations(position.summary)}
+                                {formatTextWithCitations(position.summary, party.abbreviation)}
                               </p>
                             </div>
 
@@ -215,7 +239,9 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                                       className="flex gap-2 text-sm text-[#5D5D5D] dark:text-gray-400"
                                     >
                                       <span className="text-[#0D0D0D] dark:text-white">•</span>
-                                      <span>{formatTextWithCitations(proposal)}</span>
+                                      <span>
+                                        {formatTextWithCitations(proposal, party.abbreviation)}
+                                      </span>
                                     </li>
                                   ))}
                                 </ul>

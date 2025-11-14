@@ -23,24 +23,48 @@ import {
   generatePartyOrganizationSchema,
 } from '@/lib/structured-data';
 
-// Helper function to render text with styled page citations
-function formatTextWithCitations(text: string) {
+// Helper function to extract page number from citation
+function extractPageNumber(citation: string): number | null {
+  const match = citation.match(/\[Página (\d+)\]/);
+  return match ? parseInt(match[1], 10) : null;
+}
+
+// Helper function to render text with clickable page citations
+function formatTextWithCitations(text: string, partyAbbr: string) {
   // Split by [Página X] or [Páginas X-Y] pattern
   const parts = text.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
 
-  return parts.map((part) => {
+  return parts.map((part, idx) => {
+    // biome-ignore lint/suspicious/noArrayIndexKey: Stable split order
     // Check if this part is a citation
     if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
+      const pageNum = extractPageNumber(part);
+
+      if (pageNum) {
+        return (
+          <a
+            key={`citation-${idx}`}
+            href={`/pdf/${partyAbbr.toLowerCase()}?page=${pageNum}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 hover:underline cursor-pointer"
+            title={`Ver página ${pageNum} del PDF de ${partyAbbr}`}
+          >
+            {part}
+          </a>
+        );
+      }
+
       return (
         <span
-          key={`citation-${part}`}
+          key={`citation-${idx}`}
           className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5"
         >
           {part}
         </span>
       );
     }
-    return <span key={`text-${part}`}>{part}</span>;
+    return <span key={`text-${idx}`}>{part}</span>;
   });
 }
 
@@ -98,7 +122,7 @@ export default async function PartyDetailPage({ params }: PageProps) {
             <div className="min-w-0">
               <h4 className="text-sm font-medium text-gray-600 mb-2 dark:text-gray-400">Resumen</h4>
               <p className="text-gray-700 leading-relaxed dark:text-gray-300 break-words overflow-wrap-anywhere">
-                {formatTextWithCitations(pos.summary)}
+                {formatTextWithCitations(pos.summary, party.abbreviation)}
               </p>
             </div>
 
@@ -118,7 +142,7 @@ export default async function PartyDetailPage({ params }: PageProps) {
                         •
                       </span>
                       <span className="flex-1 min-w-0 break-words overflow-wrap-anywhere">
-                        {formatTextWithCitations(proposal)}
+                        {formatTextWithCitations(proposal, party.abbreviation)}
                       </span>
                     </li>
                   ))}
