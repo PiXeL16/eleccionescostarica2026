@@ -3,6 +3,7 @@
 
 'use client';
 
+import { AnimatedMarkdown } from 'flowtoken';
 import { ChevronDown, Info, Send, X } from 'lucide-react';
 import Image from 'next/image';
 import { FormEvent, useEffect, useRef, useState } from 'react';
@@ -42,63 +43,121 @@ export function ChatSidebar({
   const [isLoading, setIsLoading] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showModelInfo, setShowModelInfo] = useState(false);
+  const [streamingMessageId, setStreamingMessageId] = useState<string | null>(null);
 
   // Simple function to render message with party flag headers
-  const renderMessage = (content: string) => {
-    return (
-      <div className="prose prose-sm max-w-none dark:prose-invert">
-        <ReactMarkdown
-          components={{
-            h2: ({ children }) => {
-              const text = String(children);
-              // Check if this heading is a party name (might have abbreviation in parens)
-              const partyName = text.replace(/\s*\(.*\)$/, '').trim();
-              const party = parties.find((p) => p.name === partyName);
-              if (party) {
-                return (
-                  <h2 className="flex items-center gap-2">
-                    <span className="relative h-5 w-8 flex-shrink-0 overflow-hidden rounded">
-                      <Image
-                        src={`/party_flags/${party.abbreviation}.jpg`}
-                        alt=""
-                        fill
-                        className="object-cover"
-                        unoptimized
-                      />
-                    </span>
-                    {partyName}
-                  </h2>
-                );
-              }
-              return <h2>{children}</h2>;
-            },
-            a: ({ href, children }) => {
-              // Check if this is a PDF citation link
-              if (href?.startsWith('/pdf/')) {
-                return (
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose hover:underline cursor-pointer"
-                  >
-                    {children}
-                  </a>
-                );
-              }
-              // Regular link
+  const renderMessage = (content: string, isStreaming: boolean = false) => {
+    const markdown = (
+      <ReactMarkdown
+        components={{
+          h2: ({ children }) => {
+            const text = String(children);
+            // Check if this heading is a party name (might have abbreviation in parens)
+            const partyName = text.replace(/\s*\(.*\)$/, '').trim();
+            const party = parties.find((p) => p.name === partyName);
+            if (party) {
               return (
-                <a href={href} className="text-primary-600 dark:text-primary-400 hover:underline">
+                <h2 className="flex items-center gap-2">
+                  <span className="relative h-5 w-8 flex-shrink-0 overflow-hidden rounded">
+                    <Image
+                      src={`/party_flags/${party.abbreviation}.jpg`}
+                      alt=""
+                      fill
+                      className="object-cover"
+                      unoptimized
+                    />
+                  </span>
+                  {partyName}
+                </h2>
+              );
+            }
+            return <h2>{children}</h2>;
+          },
+          a: ({ href, children }) => {
+            // Check if this is a PDF citation link
+            if (href?.startsWith('/pdf/')) {
+              return (
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose hover:underline cursor-pointer"
+                >
                   {children}
                 </a>
               );
-            },
-          }}
-        >
-          {content}
-        </ReactMarkdown>
-      </div>
+            }
+            // Regular link
+            return (
+              <a href={href} className="text-primary-600 dark:text-primary-400 hover:underline">
+                {children}
+              </a>
+            );
+          },
+        }}
+      >
+        {content}
+      </ReactMarkdown>
     );
+
+    if (isStreaming) {
+      // Use AnimatedMarkdown for streaming messages
+      return (
+        <div className="prose prose-sm max-w-none dark:prose-invert">
+          <AnimatedMarkdown
+            content={content}
+            animation="fade-in"
+            animationDuration="0.3s"
+            customComponents={{
+              h2: ({ children }: { children: React.ReactNode }) => {
+                const text = String(children);
+                const partyName = text.replace(/\s*\(.*\)$/, '').trim();
+                const party = parties.find((p) => p.name === partyName);
+                if (party) {
+                  return (
+                    <h2 className="flex items-center gap-2">
+                      <span className="relative h-5 w-8 flex-shrink-0 overflow-hidden rounded">
+                        <Image
+                          src={`/party_flags/${party.abbreviation}.jpg`}
+                          alt=""
+                          fill
+                          className="object-cover"
+                          unoptimized
+                        />
+                      </span>
+                      {partyName}
+                    </h2>
+                  );
+                }
+                return <h2>{children}</h2>;
+              },
+              a: ({ href, children }: { href?: string; children: React.ReactNode }) => {
+                if (href?.startsWith('/pdf/')) {
+                  return (
+                    <a
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose hover:underline cursor-pointer"
+                    >
+                      {children}
+                    </a>
+                  );
+                }
+                return (
+                  <a href={href} className="text-primary-600 dark:text-primary-400 hover:underline">
+                    {children}
+                  </a>
+                );
+              },
+            }}
+          />
+        </div>
+      );
+    }
+
+    // Use regular ReactMarkdown for static messages
+    return <div className="prose prose-sm max-w-none dark:prose-invert">{markdown}</div>;
   };
 
   // Auto-scroll to bottom when new messages arrive
@@ -179,6 +238,9 @@ export function ChatSidebar({
         },
       ]);
 
+      // Mark this message as streaming
+      setStreamingMessageId(assistantMessageId);
+
       // Read the stream - toTextStreamResponse sends plain text chunks
       while (true) {
         const { done, value } = await reader.read();
@@ -194,6 +256,9 @@ export function ChatSidebar({
           )
         );
       }
+
+      // Done streaming
+      setStreamingMessageId(null);
     } catch (error) {
       console.error('Chat error:', error);
       setMessages((prev) => [
@@ -499,7 +564,7 @@ export function ChatSidebar({
                   >
                     <div className="text-sm prose prose-sm max-w-none dark:prose-invert prose-p:leading-relaxed prose-pre:bg-gray-800 prose-pre:text-gray-100 font-sans">
                       {message.role === 'assistant'
-                        ? renderMessage(message.content)
+                        ? renderMessage(message.content, message.id === streamingMessageId)
                         : message.content}
                     </div>
                   </div>
