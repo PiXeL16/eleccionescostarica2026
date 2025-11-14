@@ -35,7 +35,6 @@ function formatTextWithCitations(text: string, partyAbbr: string) {
   const parts = text.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
 
   return parts.map((part, idx) => {
-    // biome-ignore lint/suspicious/noArrayIndexKey: Stable split order
     // Check if this part is a citation
     if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
       const pageNum = extractPageNumber(part);

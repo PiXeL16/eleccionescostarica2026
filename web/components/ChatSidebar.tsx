@@ -515,7 +515,6 @@ export function ChatSidebar({
                               return (
                                 <p>
                                   {parts.map((part, idx) => {
-                                    // biome-ignore lint/suspicious/noArrayIndexKey: Stable split order
                                     if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
                                       return (
                                         <span key={`citation-${idx}`}>
@@ -538,7 +537,6 @@ export function ChatSidebar({
                               return (
                                 <li>
                                   {parts.map((part, idx) => {
-                                    // biome-ignore lint/suspicious/noArrayIndexKey: Stable split order
                                     if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
                                       return (
                                         <span key={`citation-${idx}`}>
