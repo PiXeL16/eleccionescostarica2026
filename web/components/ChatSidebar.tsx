@@ -439,7 +439,7 @@ export function ChatSidebar({
                         : 'bg-gray-100 text-gray-900 dark:bg-gray-800 dark:text-white'
                     }`}
                   >
-                    <div className="text-sm prose prose-sm max-w-none dark:prose-invert prose-p:leading-relaxed prose-pre:bg-gray-800 prose-pre:text-gray-100">
+                    <div className="text-sm prose prose-sm max-w-none dark:prose-invert prose-p:leading-relaxed prose-pre:bg-gray-800 prose-pre:text-gray-100 font-sans">
                       <ReactMarkdown
                         components={{
                           h2: ({ children }) => {
