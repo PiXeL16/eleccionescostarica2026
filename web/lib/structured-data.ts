@@ -17,7 +17,7 @@ export function generateWebSiteSchema() {
     alternateName: 'Plataformas Políticas CR 2026',
     url: SITE_URL,
     description:
-      'Compara y analiza las propuestas de los 20 partidos políticos de Costa Rica para las elecciones presidenciales de 2026.',
+      'Compara y analiza las propuestas de los partidos políticos de Costa Rica para las elecciones presidenciales de 2026.',
     inLanguage: 'es-CR',
     publisher: {
       '@type': 'Organization',

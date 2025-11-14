@@ -67,7 +67,7 @@ export default async function Image() {
             textShadow: '0 2px 8px rgba(0,0,0,0.2)',
           }}
         >
-          Compara las propuestas de los 20 partidos políticos
+          Compara las propuestas de los partidos políticos
         </div>
         <div
           style={{

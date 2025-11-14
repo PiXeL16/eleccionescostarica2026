@@ -303,7 +303,7 @@ export default function AboutPage() {
               <strong>Última actualización:</strong> Noviembre 2025
             </p>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              <strong>Partidos analizados:</strong> 20 partidos políticos inscritos
+              <strong>Partidos analizados:</strong> Partidos que han presentado planes de gobierno
             </p>
           </div>
         </div>

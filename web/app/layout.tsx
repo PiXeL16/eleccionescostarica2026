@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     template: '%s | Plataformas Políticas CR 2026',
   },
   description:
-    'Compara y analiza las propuestas de los 20 partidos políticos de Costa Rica para las elecciones presidenciales de 2026. Información oficial del TSE con análisis de IA.',
+    'Compara y analiza las propuestas de los partidos políticos de Costa Rica para las elecciones presidenciales de 2026. Información oficial del TSE con análisis de IA.',
   keywords: [
     'costa rica',
     'elecciones 2026',
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
     siteName: 'Plataformas Políticas Costa Rica 2026',
     title: 'Plataformas Políticas de Costa Rica 2026',
     description:
-      'Compara y analiza las propuestas de los 20 partidos políticos para las elecciones presidenciales 2026. Datos oficiales del TSE.',
+      'Compara y analiza las propuestas de los partidos políticos para las elecciones presidenciales 2026. Datos oficiales del TSE.',
     images: [
       {
         url: '/og-image.png',
@@ -63,7 +63,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Plataformas Políticas de Costa Rica 2026',
     description:
-      'Compara las propuestas de los 20 partidos políticos para las elecciones 2026. Datos del TSE.',
+      'Compara las propuestas de los partidos políticos para las elecciones 2026. Datos del TSE.',
     images: ['/og-image.png'],
     creator: '@eleccionesCR', // Update with actual Twitter handle if exists
   },

@@ -8,7 +8,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'Plataformas Políticas Costa Rica 2026',
     short_name: 'Elecciones CR 2026',
     description:
-      'Compara y analiza las propuestas de los 20 partidos políticos de Costa Rica para las elecciones presidenciales 2026',
+      'Compara y analiza las propuestas de los partidos políticos de Costa Rica para las elecciones presidenciales 2026',
     start_url: '/',
     display: 'standalone',
     background_color: '#ffffff',
