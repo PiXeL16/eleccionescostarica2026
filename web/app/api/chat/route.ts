@@ -46,10 +46,13 @@ FORMATO DE RESPUESTA:
 - Organiza la información de forma estructurada y visual
 
 FORMATO DE CITAS (MUY IMPORTANTE):
-- Después de cada propuesta, dato o afirmación, incluye [Página X] donde X es el número de página
-- Ejemplo: "El partido propone aumentar la inversión en educación [Página 15]"
-- Si una propuesta abarca múltiples páginas, usa [Páginas 15-17]
-- Las citas deben ser parte natural del texto, no en una sección separada`;
+- Después de cada propuesta, dato o afirmación, incluye un enlace clickeable al PDF
+- Usa este formato EXACTO: [Página X](/pdf/ABBR?page=X) donde ABBR es la abreviatura del partido en minúsculas
+- Ejemplo para PUSC: "El partido propone aumentar la inversión en educación [Página 15](/pdf/pusc?page=15)"
+- Ejemplo para PNG: "Se compromete a reducir impuestos [Página 8](/pdf/png?page=8)"
+- Si una propuesta abarca múltiples páginas, enlaza a la primera: [Páginas 15-17](/pdf/pusc?page=15)
+- Las citas deben ser parte natural del texto, no en una sección separada
+- CRÍTICO: Usa la abreviatura correcta del partido en minúsculas en cada enlace`;
 
     // Get the last user message to perform semantic search
     const lastUserMessage = messages.filter((m: { role: string }) => m.role === 'user').pop();
@@ -93,7 +96,9 @@ FORMATO DE CITAS (MUY IMPORTANTE):
         systemPrompt += `\n\n---\n\n### Información relevante de plataformas electorales:\n`;
 
         for (const [partyName, partyResults] of Object.entries(resultsByParty)) {
-          systemPrompt += `\n#### ${partyName}\n`;
+          // Get party abbreviation for this party
+          const partyAbbr = partyResults[0]?.party_abbreviation || '';
+          systemPrompt += `\n#### ${partyName} (Abreviatura: ${partyAbbr.toLowerCase()})\n`;
 
           for (const result of partyResults) {
             // Include page number for traceability

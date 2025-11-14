@@ -49,84 +49,17 @@ export function ChatSidebar({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showModelInfo, setShowModelInfo] = useState(false);
 
-  // Build a map of citation text to party abbreviation by analyzing markdown structure
-  const buildCitationToPartyMap = (content: string): Map<string, string> => {
-    const citationMap = new Map<string, string>();
-
-    // For single party selection, all citations map to that party
-    if (selectedPartyIds.length === 1) {
-      const party = parties.find((p) => p.id === selectedPartyIds[0]);
-      if (party) {
-        const citations = content.match(/\[Páginas? \d+(?:-\d+)?\]/g) || [];
-        for (const citation of citations) {
-          citationMap.set(citation, party.abbreviation);
-        }
-      }
-      return citationMap;
-    }
-
-    // Find all party headers and their positions
-    const headerRegex = /^#{2,4} (.+)$/gm;
-    const headers: Array<{ position: number; partyName: string; partyAbbr: string | null }> = [];
-
-    let headerMatch = headerRegex.exec(content);
-    while (headerMatch !== null) {
-      const headerText = headerMatch[1].trim();
-      const party = parties.find((p) => p.name === headerText);
-      if (party) {
-        headers.push({
-          position: headerMatch.index,
-          partyName: headerText,
-          partyAbbr: party.abbreviation,
-        });
-      }
-      headerMatch = headerRegex.exec(content);
-    }
-
-    // Find all citations and map them to the most recent party header
-    const citationRegex = /\[Páginas? \d+(?:-\d+)?\]/g;
-    let citationMatch = citationRegex.exec(content);
-    while (citationMatch !== null) {
-      const citation = citationMatch[0];
-      const citationPos = citationMatch.index;
-
-      // Find the most recent party header before this citation
-      let currentParty: string | null = null;
-      for (const header of headers) {
-        if (header.position < citationPos && header.partyAbbr) {
-          currentParty = header.partyAbbr;
-        } else {
-          break; // Headers are in order, so stop when we pass the citation
-        }
-      }
-
-      if (currentParty) {
-        // Use citation text + position as key to handle duplicates
-        const key = `${citation}_${citationPos}`;
-        citationMap.set(key, currentParty);
-        // Also store without position for fallback
-        if (!citationMap.has(citation)) {
-          citationMap.set(citation, currentParty);
-        }
-      }
-      citationMatch = citationRegex.exec(content);
-    }
-
-    return citationMap;
-  };
-
-  // Function to render message with clickable citations
-  const renderMessageWithCitations = (content: string) => {
-    // Build the citation-to-party map once for this content
-    const citationMap = buildCitationToPartyMap(content);
-
+  // Simple function to render message with party flag headers
+  const renderMessage = (content: string) => {
     return (
       <div className="prose prose-sm max-w-none dark:prose-invert">
         <ReactMarkdown
           components={{
             h2: ({ children }) => {
               const text = String(children);
-              const party = parties.find((p) => p.name === text);
+              // Check if this heading is a party name (might have abbreviation in parens)
+              const partyName = text.replace(/\s*\(.*\)$/, '').trim();
+              const party = parties.find((p) => p.name === partyName);
               if (party) {
                 return (
                   <h2 className="flex items-center gap-2">
@@ -139,93 +72,11 @@ export function ChatSidebar({
                         unoptimized
                       />
                     </span>
-                    {children}
+                    {partyName}
                   </h2>
                 );
               }
               return <h2>{children}</h2>;
-            },
-            p: ({ children }) => {
-              if (typeof children === 'string' && children.includes('[Página')) {
-                const parts = children.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
-                return (
-                  <p>
-                    {parts.map((part, idx) => {
-                      if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
-                        const pageNum = extractPageNumber(part);
-                        // Get party from the pre-built map
-                        const partyAbbr = citationMap.get(part);
-
-                        if (pageNum && partyAbbr) {
-                          return (
-                            <a
-                              key={`citation-${idx}`}
-                              href={`/pdf/${partyAbbr.toLowerCase()}?page=${pageNum}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose hover:underline cursor-pointer"
-                              title={`Ver página ${pageNum} del PDF de ${partyAbbr}`}
-                            >
-                              {part}
-                            </a>
-                          );
-                        }
-                        return (
-                          <span
-                            key={`citation-${idx}`}
-                            className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose"
-                          >
-                            {part}
-                          </span>
-                        );
-                      }
-                      return <span key={`text-${idx}`}>{part}</span>;
-                    })}
-                  </p>
-                );
-              }
-              return <p>{children}</p>;
-            },
-            li: ({ children }) => {
-              if (typeof children === 'string' && children.includes('[Página')) {
-                const parts = children.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
-                return (
-                  <li>
-                    {parts.map((part, idx) => {
-                      if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
-                        const pageNum = extractPageNumber(part);
-                        // Get party from the pre-built map
-                        const partyAbbr = citationMap.get(part);
-
-                        if (pageNum && partyAbbr) {
-                          return (
-                            <a
-                              key={`citation-${idx}`}
-                              href={`/pdf/${partyAbbr.toLowerCase()}?page=${pageNum}`}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose hover:underline cursor-pointer"
-                              title={`Ver página ${pageNum} del PDF de ${partyAbbr}`}
-                            >
-                              {part}
-                            </a>
-                          );
-                        }
-                        return (
-                          <span
-                            key={`citation-${idx}`}
-                            className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose"
-                          >
-                            {part}
-                          </span>
-                        );
-                      }
-                      return <span key={`text-${idx}`}>{part}</span>;
-                    })}
-                  </li>
-                );
-              }
-              return <li>{children}</li>;
             },
           }}
         >
@@ -633,7 +484,7 @@ export function ChatSidebar({
                   >
                     <div className="text-sm prose prose-sm max-w-none dark:prose-invert prose-p:leading-relaxed prose-pre:bg-gray-800 prose-pre:text-gray-100 font-sans">
                       {message.role === 'assistant'
-                        ? renderMessageWithCitations(message.content)
+                        ? renderMessage(message.content)
                         : message.content}
                     </div>
                   </div>
