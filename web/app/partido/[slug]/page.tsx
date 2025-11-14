@@ -23,6 +23,29 @@ import {
   generatePartyOrganizationSchema,
 } from '@/lib/structured-data';
 
+// Helper function to render text with styled page citations
+function formatTextWithCitations(text: string) {
+  // Split by [Página X] or [Páginas X-Y] pattern
+  const parts = text.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
+
+  return parts.map((part, index) => {
+    // Check if this part is a citation
+    if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
+      return (
+        // biome-ignore lint/suspicious/noArrayIndexKey: Text parts are static and won't reorder
+        <span
+          key={`${part}-${index}`}
+          className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5"
+        >
+          {part}
+        </span>
+      );
+    }
+    // biome-ignore lint/suspicious/noArrayIndexKey: Text parts are static and won't reorder
+    return <span key={`text-${index}`}>{part}</span>;
+  });
+}
+
 interface PageProps {
   params: Promise<{ slug: string }>;
 }
@@ -77,7 +100,7 @@ export default async function PartyDetailPage({ params }: PageProps) {
             <div className="min-w-0">
               <h4 className="text-sm font-medium text-gray-600 mb-2 dark:text-gray-400">Resumen</h4>
               <p className="text-gray-700 leading-relaxed dark:text-gray-300 break-words overflow-wrap-anywhere">
-                {pos.summary}
+                {formatTextWithCitations(pos.summary)}
               </p>
             </div>
 
@@ -97,7 +120,7 @@ export default async function PartyDetailPage({ params }: PageProps) {
                         •
                       </span>
                       <span className="flex-1 min-w-0 break-words overflow-wrap-anywhere">
-                        {proposal}
+                        {formatTextWithCitations(proposal)}
                       </span>
                     </li>
                   ))}

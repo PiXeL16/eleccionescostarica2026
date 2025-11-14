@@ -464,6 +464,61 @@ export function ChatSidebar({
                             }
                             return <h2>{children}</h2>;
                           },
+                          // Style page citations in text
+                          p: ({ children }) => {
+                            // Convert children to string and check for citations
+                            const text = String(children);
+                            if (text.includes('[Página')) {
+                              const parts = text.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
+                              return (
+                                <p>
+                                  {parts.map((part, index) => {
+                                    if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
+                                      return (
+                                        // biome-ignore lint/suspicious/noArrayIndexKey: Text parts are static and won't reorder
+                                        <span
+                                          key={`${part}-${index}`}
+                                          className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose"
+                                        >
+                                          {part}
+                                        </span>
+                                      );
+                                    }
+                                    // biome-ignore lint/suspicious/noArrayIndexKey: Text parts are static and won't reorder
+                                    return <span key={`text-${index}`}>{part}</span>;
+                                  })}
+                                </p>
+                              );
+                            }
+                            return <p>{children}</p>;
+                          },
+                          // Also handle citations in list items
+                          li: ({ children }) => {
+                            const text = String(children);
+                            if (text.includes('[Página')) {
+                              const parts = text.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
+                              return (
+                                <li>
+                                  {parts.map((part, index) => {
+                                    if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
+                                      return (
+                                        // biome-ignore lint/suspicious/noArrayIndexKey: Text parts are static and won't reorder
+                                        <span
+                                          key={`${part}-${index}`}
+                                          className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose"
+                                        >
+                                          {part}
+                                        </span>
+                                      );
+                                    }
+                                    // biome-ignore lint/suspicious/noArrayIndexKey: Text parts are static and won't reorder
+                                    return <span key={`text-${index}`}>{part}</span>;
+                                  })}
+                                </li>
+                              );
+                            }
+                            return <li>{children}</li>;
+                          },
                         }}
                       >
                         {message.content}

@@ -11,6 +11,29 @@ import type { Category, Party, PartyPosition } from '@/lib/database';
 import { getPartyFlagPath } from '@/lib/party-images';
 import { PartySelector } from './PartySelector';
 
+// Helper function to render text with styled page citations
+function formatTextWithCitations(text: string) {
+  // Split by [Página X] or [Páginas X-Y] pattern
+  const parts = text.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
+
+  return parts.map((part, index) => {
+    // Check if this part is a citation
+    if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
+      return (
+        // biome-ignore lint/suspicious/noArrayIndexKey: Text parts are static and won't reorder
+        <span
+          key={`${part}-${index}`}
+          className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5"
+        >
+          {part}
+        </span>
+      );
+    }
+    // biome-ignore lint/suspicious/noArrayIndexKey: Text parts are static and won't reorder
+    return <span key={`text-${index}`}>{part}</span>;
+  });
+}
+
 interface ComparisonViewProps {
   allParties: Party[];
   allCategories: Category[];
@@ -177,7 +200,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                             {/* Summary */}
                             <div>
                               <p className="text-sm text-[#0D0D0D] leading-relaxed dark:text-gray-300">
-                                {position.summary}
+                                {formatTextWithCitations(position.summary)}
                               </p>
                             </div>
 
@@ -194,7 +217,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                                       className="flex gap-2 text-sm text-[#5D5D5D] dark:text-gray-400"
                                     >
                                       <span className="text-[#0D0D0D] dark:text-white">•</span>
-                                      <span>{proposal}</span>
+                                      <span>{formatTextWithCitations(proposal)}</span>
                                     </li>
                                   ))}
                                 </ul>
