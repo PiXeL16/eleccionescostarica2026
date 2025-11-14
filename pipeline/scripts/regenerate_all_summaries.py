@@ -116,16 +116,17 @@ def generate_summary(chunks: List[Dict], category_name: str, party_name: str) ->
 
 Genera un análisis estructurado en formato JSON con los siguientes campos:
 
-1. "summary": Un resumen general (2-3 párrafos) de la posición del partido en este tema
-2. "key_proposals": Un array de 3-5 propuestas clave específicas (strings)
+1. "summary": Un resumen general (2-3 párrafos) de la posición del partido en este tema. IMPORTANTE: Incluye citas a las páginas específicas usando el formato [Página X] después de cada afirmación o propuesta. Ejemplo: "El partido propone aumentar la inversión en educación [Página 15]". Las citas deben ser parte natural del texto.
+2. "key_proposals": Un array de 3-5 propuestas clave específicas (strings). Cada propuesta debe incluir su cita de página al final, ejemplo: "Aumentar presupuesto educativo a 8% del PIB [Página 12]"
 3. "ideology_position": La posición ideológica general (progresista/conservadora/centrista/etc.) si es evidente, o null si no está claro
 4. "budget_mentioned": Cualquier mención de presupuesto o recursos financieros, o null si no se menciona
 
 IMPORTANTE:
-- Sé preciso y cita propuestas específicas
+- Sé preciso y cita propuestas específicas con números de página en formato [Página X]
 - No inventes información que no esté en el contexto
 - Si no hay información suficiente sobre un campo, usa null
 - key_proposals debe ser un array de strings, no objetos
+- SIEMPRE incluye citas de página en el summary y key_proposals
 - Responde SOLO con el JSON, sin markdown ni texto adicional"""
 
     response = openai_client.chat.completions.create(

@@ -35,6 +35,7 @@ REGLAS CRÍTICAS:
 4. Sé preciso y cita las propuestas específicas cuando sea posible
 5. Responde en español de forma clara y concisa
 6. Si te preguntan por comparaciones entre partidos, organiza la respuesta claramente por partido
+7. SIEMPRE incluye citas a las páginas específicas usando el formato [Página X] después de cada afirmación o propuesta
 
 FORMATO DE RESPUESTA:
 - SIEMPRE usa Markdown para formatear tus respuestas
@@ -42,7 +43,13 @@ FORMATO DE RESPUESTA:
 - Usa listas con viñetas (-) o numeradas (1.) para enumerar propuestas
 - Usa **negritas** para destacar conceptos clave o nombres de programas
 - Usa párrafos separados para mejor legibilidad
-- Organiza la información de forma estructurada y visual`;
+- Organiza la información de forma estructurada y visual
+
+FORMATO DE CITAS (MUY IMPORTANTE):
+- Después de cada propuesta, dato o afirmación, incluye [Página X] donde X es el número de página
+- Ejemplo: "El partido propone aumentar la inversión en educación [Página 15]"
+- Si una propuesta abarca múltiples páginas, usa [Páginas 15-17]
+- Las citas deben ser parte natural del texto, no en una sección separada`;
 
     // Get the last user message to perform semantic search
     const lastUserMessage = messages.filter((m: { role: string }) => m.role === 'user').pop();

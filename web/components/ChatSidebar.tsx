@@ -3,7 +3,7 @@
 
 'use client';
 
-import { ChevronDown, Send, X } from 'lucide-react';
+import { ChevronDown, Info, Send, X } from 'lucide-react';
 import Image from 'next/image';
 import { FormEvent, useEffect, useRef, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
@@ -41,6 +41,7 @@ export function ChatSidebar({
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [showModelInfo, setShowModelInfo] = useState(false);
 
   // Auto-scroll to bottom when new messages arrive
   // biome-ignore lint/correctness/useExhaustiveDependencies: Need to scroll when messages change
@@ -161,9 +162,36 @@ export function ChatSidebar({
         {/* Header */}
         <div className="flex items-center justify-between border-b border-gray-200 p-4 dark:border-gray-800">
           <div className="flex-1">
-            <h2 className="text-lg font-bold text-gray-900 dark:text-white">
-              Consulta sobre Partidos
-            </h2>
+            <div className="flex items-center gap-2">
+              <h2 className="text-lg font-bold text-gray-900 dark:text-white">
+                Consulta sobre Partidos
+              </h2>
+              <div className="relative">
+                <button
+                  type="button"
+                  onMouseEnter={() => setShowModelInfo(true)}
+                  onMouseLeave={() => setShowModelInfo(false)}
+                  className="flex items-center gap-1 rounded-full bg-primary-100 px-2 py-0.5 text-xs font-medium text-primary-700 dark:bg-primary-900/30 dark:text-primary-300"
+                  aria-label="Información del modelo de IA"
+                >
+                  GPT-4o
+                  <Info className="h-3 w-3" />
+                </button>
+                {showModelInfo && (
+                  <div className="absolute left-0 top-full mt-1 z-50 w-64 rounded-lg border border-gray-200 bg-white p-3 shadow-lg dark:border-gray-700 dark:bg-gray-800">
+                    <div className="space-y-1 text-xs">
+                      <p className="font-semibold text-gray-900 dark:text-white">
+                        Modelo: GPT-4o (OpenAI)
+                      </p>
+                      <p className="text-gray-600 dark:text-gray-400">
+                        Temperature: 0.3 (respuestas más precisas)
+                      </p>
+                      <p className="text-gray-600 dark:text-gray-400">Búsqueda semántica con RAG</p>
+                    </div>
+                  </div>
+                )}
+              </div>
+            </div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Pregunta sobre las plataformas políticas
             </p>
