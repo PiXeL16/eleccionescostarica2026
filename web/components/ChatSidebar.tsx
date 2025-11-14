@@ -466,10 +466,9 @@ export function ChatSidebar({
                           },
                           // Style page citations in text
                           p: ({ children }) => {
-                            // Convert children to string and check for citations
-                            const text = String(children);
-                            if (text.includes('[Página')) {
-                              const parts = text.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
+                            // Only process if children is actually a string
+                            if (typeof children === 'string' && children.includes('[Página')) {
+                              const parts = children.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
                               return (
                                 <p>
                                   {parts.map((part, index) => {
@@ -494,9 +493,9 @@ export function ChatSidebar({
                           },
                           // Also handle citations in list items
                           li: ({ children }) => {
-                            const text = String(children);
-                            if (text.includes('[Página')) {
-                              const parts = text.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
+                            // Only process if children is actually a string
+                            if (typeof children === 'string' && children.includes('[Página')) {
+                              const parts = children.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
                               return (
                                 <li>
                                   {parts.map((part, index) => {
