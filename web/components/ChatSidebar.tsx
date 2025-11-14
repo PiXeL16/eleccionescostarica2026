@@ -28,12 +28,6 @@ interface ChatSidebarProps {
   onPartyIdsChange: (partyIds: number[]) => void;
 }
 
-// Helper function to extract page number from citation
-function extractPageNumber(citation: string): number | null {
-  const match = citation.match(/\[Página (\d+)\]/);
-  return match ? parseInt(match[1], 10) : null;
-}
-
 export function ChatSidebar({
   isOpen,
   onClose,
