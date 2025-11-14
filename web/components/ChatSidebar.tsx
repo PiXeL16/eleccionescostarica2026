@@ -72,6 +72,27 @@ export function ChatSidebar({
               }
               return <h2>{children}</h2>;
             },
+            a: ({ href, children }) => {
+              // Check if this is a PDF citation link
+              if (href && href.startsWith('/pdf/')) {
+                return (
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose hover:underline cursor-pointer"
+                  >
+                    {children}
+                  </a>
+                );
+              }
+              // Regular link
+              return (
+                <a href={href} className="text-primary-600 dark:text-primary-400 hover:underline">
+                  {children}
+                </a>
+              );
+            },
           }}
         >
           {content}
