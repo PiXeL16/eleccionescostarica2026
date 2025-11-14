@@ -126,7 +126,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         height={40}
                         className="h-10 w-10"
                       />
-                      <div className="text-lg font-semibold text-[#0D0D0D] dark:text-white">
+                      <div className="text-sm sm:text-base md:text-lg font-semibold text-[#0D0D0D] dark:text-white">
                         Plataformas Políticas de Costa Rica 2026
                       </div>
                     </Link>

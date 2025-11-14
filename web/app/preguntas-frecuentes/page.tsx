@@ -23,7 +23,13 @@ export const metadata: Metadata = {
   },
 };
 
-const faqs = [
+interface FAQ {
+  question: string;
+  answer: string | React.ReactNode;
+  answerText?: string; // Plain text version for structured data
+}
+
+const faqs: FAQ[] = [
   {
     question: '¿Cuándo son las elecciones presidenciales de Costa Rica 2026?',
     answer:
@@ -56,7 +62,34 @@ const faqs = [
   },
   {
     question: '¿Esta plataforma está afiliada a algún partido político?',
-    answer:
+    answer: (
+      <>
+        No. Esta es una plataforma independiente y sin fines de lucro creada para ayudar a los
+        ciudadanos costarricenses a tomar decisiones informadas. No estamos afiliados a ningún
+        partido político ni organización política. Para máxima transparencia: (1) El código fuente
+        es público en{' '}
+        <Link
+          href="https://github.com/PiXeL16/eleccionescostarica2026"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary-600 hover:text-primary-700 underline dark:text-primary-400 dark:hover:text-primary-300"
+        >
+          GitHub
+        </Link>
+        , (2) Publicamos el prompt completo del sistema de IA en{' '}
+        <Link
+          href="https://github.com/PiXeL16/eleccionescostarica2026/blob/main/SYSTEM_PROMPT.md"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-primary-600 hover:text-primary-700 underline dark:text-primary-400 dark:hover:text-primary-300"
+        >
+          nuestro repositorio
+        </Link>
+        , (3) Mostramos el modelo de IA utilizado (GPT-4o) y sus parámetros directamente en la
+        interfaz del chat.
+      </>
+    ),
+    answerText:
       'No. Esta es una plataforma independiente y sin fines de lucro creada para ayudar a los ciudadanos costarricenses a tomar decisiones informadas. No estamos afiliados a ningún partido político ni organización política. Para máxima transparencia: (1) El código fuente es público en https://github.com/PiXeL16/eleccionescostarica2026, (2) Publicamos el prompt completo del sistema de IA en https://github.com/PiXeL16/eleccionescostarica2026/blob/main/SYSTEM_PROMPT.md, (3) Mostramos el modelo de IA utilizado (GPT-4o) y sus parámetros directamente en la interfaz del chat.',
   },
   {
@@ -85,7 +118,12 @@ export default function FAQPage() {
   const breadcrumbSchema = generateBreadcrumbSchema(
     breadcrumbItems.map((item) => ({ name: item.name, url: `${SITE_URL}${item.url}` }))
   );
-  const faqSchema = generateFAQSchema(faqs);
+  const faqSchema = generateFAQSchema(
+    faqs.map((faq) => ({
+      question: faq.question,
+      answer: faq.answerText || (typeof faq.answer === 'string' ? faq.answer : ''),
+    }))
+  );
 
   return (
     <>

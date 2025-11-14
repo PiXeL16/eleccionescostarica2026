@@ -28,21 +28,19 @@ function formatTextWithCitations(text: string) {
   // Split by [Página X] or [Páginas X-Y] pattern
   const parts = text.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
 
-  return parts.map((part, index) => {
+  return parts.map((part) => {
     // Check if this part is a citation
     if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
       return (
-        // biome-ignore lint/suspicious/noArrayIndexKey: Text parts are static and won't reorder
         <span
-          key={`${part}-${index}`}
+          key={`citation-${part}`}
           className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5"
         >
           {part}
         </span>
       );
     }
-    // biome-ignore lint/suspicious/noArrayIndexKey: Text parts are static and won't reorder
-    return <span key={`text-${index}`}>{part}</span>;
+    return <span key={`text-${part}`}>{part}</span>;
   });
 }
 

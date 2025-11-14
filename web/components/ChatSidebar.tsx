@@ -471,20 +471,18 @@ export function ChatSidebar({
                               const parts = children.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
                               return (
                                 <p>
-                                  {parts.map((part, index) => {
+                                  {parts.map((part) => {
                                     if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
                                       return (
-                                        // biome-ignore lint/suspicious/noArrayIndexKey: Text parts are static and won't reorder
                                         <span
-                                          key={`${part}-${index}`}
+                                          key={`citation-${part}`}
                                           className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose"
                                         >
                                           {part}
                                         </span>
                                       );
                                     }
-                                    // biome-ignore lint/suspicious/noArrayIndexKey: Text parts are static and won't reorder
-                                    return <span key={`text-${index}`}>{part}</span>;
+                                    return <span key={`text-${part}`}>{part}</span>;
                                   })}
                                 </p>
                               );
@@ -498,20 +496,18 @@ export function ChatSidebar({
                               const parts = children.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
                               return (
                                 <li>
-                                  {parts.map((part, index) => {
+                                  {parts.map((part) => {
                                     if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
                                       return (
-                                        // biome-ignore lint/suspicious/noArrayIndexKey: Text parts are static and won't reorder
                                         <span
-                                          key={`${part}-${index}`}
+                                          key={`citation-${part}`}
                                           className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose"
                                         >
                                           {part}
                                         </span>
                                       );
                                     }
-                                    // biome-ignore lint/suspicious/noArrayIndexKey: Text parts are static and won't reorder
-                                    return <span key={`text-${index}`}>{part}</span>;
+                                    return <span key={`text-${part}`}>{part}</span>;
                                   })}
                                 </li>
                               );
