@@ -49,41 +49,143 @@ export function ChatSidebar({
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [showModelInfo, setShowModelInfo] = useState(false);
 
-  // Get default party abbreviation for citation links
-  // If only one party is selected, use that; otherwise, citations won't be clickable
-  const getDefaultPartyAbbr = (): string | null => {
-    if (selectedPartyIds.length === 1) {
-      const party = parties.find((p) => p.id === selectedPartyIds[0]);
-      return party?.abbreviation || null;
-    }
-    return null;
-  };
+  // Function to render message with clickable citations
+  const renderMessageWithCitations = (content: string) => {
+    // Track current party context by scanning for party headers
+    let currentParty: string | null = null;
 
-  // Function to render clickable citations
-  const renderCitationLink = (citation: string) => {
-    const pageNum = extractPageNumber(citation);
-    const partyAbbr = getDefaultPartyAbbr();
+    // Split content into sections by h2 headers (party names)
+    const sections = content.split(/^## /gm);
 
-    if (!pageNum || !partyAbbr) {
-      // Fallback: just style it without making it clickable
+    return sections.map((section, sectionIdx) => {
+      // Check if this section starts with a party name
+      const lines = section.split('\n');
+      const potentialPartyName = lines[0]?.trim();
+
+      if (potentialPartyName) {
+        const party = parties.find((p) => p.name === potentialPartyName);
+        if (party) {
+          currentParty = party.abbreviation;
+        }
+      }
+
+      // For single party selection, use that party
+      if (selectedPartyIds.length === 1 && !currentParty) {
+        const party = parties.find((p) => p.id === selectedPartyIds[0]);
+        currentParty = party?.abbreviation || null;
+      }
+
+      // Render this section with the current party context
+      const partyAbbr = currentParty;
+
       return (
-        <span className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose">
-          {citation}
-        </span>
+        <div key={`section-${sectionIdx}`} className="prose prose-sm max-w-none dark:prose-invert">
+          <ReactMarkdown
+            components={{
+              h2: ({ children }) => {
+                const text = String(children);
+                const party = parties.find((p) => p.name === text);
+                if (party) {
+                  return (
+                    <h2 className="flex items-center gap-2">
+                      <span className="relative h-5 w-8 flex-shrink-0 overflow-hidden rounded">
+                        <Image
+                          src={`/party_flags/${party.abbreviation}.jpg`}
+                          alt=""
+                          fill
+                          className="object-cover"
+                          unoptimized
+                        />
+                      </span>
+                      {children}
+                    </h2>
+                  );
+                }
+                return <h2>{children}</h2>;
+              },
+              p: ({ children }) => {
+                if (typeof children === 'string' && children.includes('[Página')) {
+                  const parts = children.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
+                  return (
+                    <p>
+                      {parts.map((part, idx) => {
+                        if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
+                          const pageNum = extractPageNumber(part);
+                          if (pageNum && partyAbbr) {
+                            return (
+                              <a
+                                key={`citation-${idx}`}
+                                href={`/pdf/${partyAbbr.toLowerCase()}?page=${pageNum}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose hover:underline cursor-pointer"
+                                title={`Ver página ${pageNum} del PDF de ${partyAbbr}`}
+                              >
+                                {part}
+                              </a>
+                            );
+                          }
+                          return (
+                            <span
+                              key={`citation-${idx}`}
+                              className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose"
+                            >
+                              {part}
+                            </span>
+                          );
+                        }
+                        return <span key={`text-${idx}`}>{part}</span>;
+                      })}
+                    </p>
+                  );
+                }
+                return <p>{children}</p>;
+              },
+              li: ({ children }) => {
+                if (typeof children === 'string' && children.includes('[Página')) {
+                  const parts = children.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
+                  return (
+                    <li>
+                      {parts.map((part, idx) => {
+                        if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
+                          const pageNum = extractPageNumber(part);
+                          if (pageNum && partyAbbr) {
+                            return (
+                              <a
+                                key={`citation-${idx}`}
+                                href={`/pdf/${partyAbbr.toLowerCase()}?page=${pageNum}`}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose hover:underline cursor-pointer"
+                                title={`Ver página ${pageNum} del PDF de ${partyAbbr}`}
+                              >
+                                {part}
+                              </a>
+                            );
+                          }
+                          return (
+                            <span
+                              key={`citation-${idx}`}
+                              className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose"
+                            >
+                              {part}
+                            </span>
+                          );
+                        }
+                        return <span key={`text-${idx}`}>{part}</span>;
+                      })}
+                    </li>
+                  );
+                }
+                return <li>{children}</li>;
+              },
+            }}
+          >
+            {sectionIdx === 0 ? section : `## ${section}`}
+          </ReactMarkdown>
+        </div>
       );
-    }
-
-    return (
-      <a
-        href={`/pdf/${partyAbbr.toLowerCase()}?page=${pageNum}`}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-xs font-semibold text-primary-600 dark:text-primary-400 italic ml-0.5 not-prose hover:underline cursor-pointer"
-        title={`Ver página ${pageNum} del PDF de ${partyAbbr}`}
-      >
-        {citation}
-      </a>
-    );
+    });
   };
 
   // Auto-scroll to bottom when new messages arrive
@@ -483,78 +585,9 @@ export function ChatSidebar({
                     }`}
                   >
                     <div className="text-sm prose prose-sm max-w-none dark:prose-invert prose-p:leading-relaxed prose-pre:bg-gray-800 prose-pre:text-gray-100 font-sans">
-                      <ReactMarkdown
-                        components={{
-                          h2: ({ children }) => {
-                            // Check if this heading is a party name
-                            const text = String(children);
-                            const party = parties.find((p) => p.name === text);
-                            if (party) {
-                              return (
-                                <h2 className="flex items-center gap-2">
-                                  <span className="relative h-5 w-8 flex-shrink-0 overflow-hidden rounded">
-                                    <Image
-                                      src={`/party_flags/${party.abbreviation}.jpg`}
-                                      alt=""
-                                      fill
-                                      className="object-cover"
-                                      unoptimized
-                                    />
-                                  </span>
-                                  {children}
-                                </h2>
-                              );
-                            }
-                            return <h2>{children}</h2>;
-                          },
-                          // Style page citations in text
-                          p: ({ children }) => {
-                            // Only process if children is actually a string
-                            if (typeof children === 'string' && children.includes('[Página')) {
-                              const parts = children.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
-                              return (
-                                <p>
-                                  {parts.map((part, idx) => {
-                                    if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
-                                      return (
-                                        <span key={`citation-${idx}`}>
-                                          {renderCitationLink(part)}
-                                        </span>
-                                      );
-                                    }
-                                    return <span key={`text-${idx}`}>{part}</span>;
-                                  })}
-                                </p>
-                              );
-                            }
-                            return <p>{children}</p>;
-                          },
-                          // Also handle citations in list items
-                          li: ({ children }) => {
-                            // Only process if children is actually a string
-                            if (typeof children === 'string' && children.includes('[Página')) {
-                              const parts = children.split(/(\[Páginas? \d+(?:-\d+)?\])/g);
-                              return (
-                                <li>
-                                  {parts.map((part, idx) => {
-                                    if (part.match(/\[Páginas? \d+(?:-\d+)?\]/)) {
-                                      return (
-                                        <span key={`citation-${idx}`}>
-                                          {renderCitationLink(part)}
-                                        </span>
-                                      );
-                                    }
-                                    return <span key={`text-${idx}`}>{part}</span>;
-                                  })}
-                                </li>
-                              );
-                            }
-                            return <li>{children}</li>;
-                          },
-                        }}
-                      >
-                        {message.content}
-                      </ReactMarkdown>
+                      {message.role === 'assistant'
+                        ? renderMessageWithCitations(message.content)
+                        : message.content}
                     </div>
                   </div>
                 </div>
