@@ -20,15 +20,8 @@ export async function GET(
       return NextResponse.json({ error: 'Party not found' }, { status: 404 });
     }
 
-    // Construct PDF path based on folder structure
-    const pdfPath = join(
-      process.cwd(),
-      '..',
-      'data',
-      'partidos',
-      party.folder_name,
-      `${party.abbreviation}.pdf`
-    );
+    // Construct PDF path from public folder
+    const pdfPath = join(process.cwd(), 'public', 'party_pdfs', `${party.abbreviation}.pdf`);
 
     // Read the PDF file
     const pdfBuffer = await readFile(pdfPath);
