@@ -111,7 +111,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className="min-h-screen bg-white text-gray-900 antialiased dark:bg-gray-950 dark:text-gray-100">
-        <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
           <ChatProvider parties={parties}>
             <div className="flex min-h-screen flex-col">
               <header className="sticky top-0 z-30 border-b border-[rgba(0,0,0,0.1)] bg-white/80 backdrop-blur-md dark:border-[rgba(255,255,255,0.1)] dark:bg-[#212121]/80">

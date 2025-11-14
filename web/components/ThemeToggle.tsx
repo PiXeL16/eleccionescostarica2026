@@ -8,7 +8,7 @@ import { useEffect, useState } from 'react';
 
 export function ThemeToggle() {
   const [mounted, setMounted] = useState(false);
-  const { theme, setTheme } = useTheme();
+  const { theme, resolvedTheme, setTheme } = useTheme();
 
   // useEffect only runs on the client, so now we can safely show the UI
   useEffect(() => {
@@ -40,14 +40,16 @@ export function ThemeToggle() {
     );
   }
 
+  const currentTheme = resolvedTheme ?? theme;
+
   return (
     <button
       type="button"
-      onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+      onClick={() => setTheme(currentTheme === 'dark' ? 'light' : 'dark')}
       className="rounded-lg border border-gray-300 bg-gray-100 p-2 text-gray-700 transition hover:bg-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
       aria-label="Toggle theme"
     >
-      {theme === 'dark' ? (
+      {currentTheme === 'dark' ? (
         <svg
           className="h-5 w-5"
           fill="none"
