@@ -13,6 +13,7 @@ export interface Party {
   name: string;
   abbreviation: string;
   folder_name: string;
+  ballot_position: number;
   created_at: string;
 }
 
@@ -100,7 +101,7 @@ function getDatabase() {
  */
 export function getAllParties(): Party[] {
   const db = getDatabase();
-  const stmt = db.prepare('SELECT * FROM parties ORDER BY name');
+  const stmt = db.prepare('SELECT * FROM parties ORDER BY ballot_position');
   return stmt.all() as Party[];
 }
 

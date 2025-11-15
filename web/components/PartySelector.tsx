@@ -6,7 +6,6 @@
 import Image from 'next/image';
 import { useRouter, useSearchParams } from 'next/navigation';
 import type { Party } from '@/lib/database';
-import { getPartyColors } from '@/lib/party-colors';
 import { getPartyFlagPath } from '@/lib/party-images';
 
 interface PartySelectorProps {
@@ -63,11 +62,10 @@ export function PartySelector({ parties }: PartySelectorProps) {
         )}
       </div>
 
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {parties.map((party) => {
           const slug = party.abbreviation.toLowerCase();
           const isSelected = selectedSlugs.includes(slug);
-          const _colors = getPartyColors(party.abbreviation);
 
           return (
             <button
@@ -75,29 +73,20 @@ export function PartySelector({ parties }: PartySelectorProps) {
               key={party.id}
               onClick={() => handleToggleParty(slug)}
               disabled={!isSelected && selectedSlugs.length >= 3}
-              className={`rounded-lg border p-4 text-left transition ${
+              className={`group flex h-full flex-col rounded-lg border p-4 transition ${
                 isSelected
-                  ? 'border-primary-500 bg-primary-50 dark:bg-blue-950/50'
-                  : 'border-gray-200 bg-white hover:border-gray-300 hover:shadow-sm dark:border-gray-800 dark:bg-gray-900 dark:hover:border-gray-700'
+                  ? 'border-primary-500 bg-primary-50 dark:bg-blue-950/50 ring-2 ring-primary-500'
+                  : 'border-[rgba(0,0,0,0.1)] bg-gray-100 hover:border-[rgba(0,0,0,0.2)] hover:shadow-md dark:border-[rgba(255,255,255,0.1)] dark:bg-gray-800/30 dark:hover:border-[rgba(255,255,255,0.2)]'
               } ${!isSelected && selectedSlugs.length >= 3 ? 'opacity-50 cursor-not-allowed' : ''}`}
             >
-              <div className="flex items-center gap-3">
-                <div className="w-20 aspect-[5/2] shrink-0 relative rounded overflow-hidden bg-gray-100 dark:bg-gray-800">
-                  <Image
-                    src={getPartyFlagPath(party.abbreviation)}
-                    alt={`Bandera de ${party.name}`}
-                    fill
-                    className="object-contain"
-                    unoptimized
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-gray-900 truncate dark:text-white">{party.name}</p>
-                  <p className="text-xs text-gray-500">{party.abbreviation}</p>
-                </div>
+              {/* Party Name */}
+              <div className="mb-3 h-12 text-center flex items-center justify-center relative">
+                <h3 className="text-sm font-semibold uppercase text-[#0D0D0D] group-hover:text-[#5D5D5D] dark:text-white dark:group-hover:text-gray-300 line-clamp-3">
+                  {party.name}
+                </h3>
                 {isSelected && (
                   <svg
-                    className="h-5 w-5 shrink-0 text-primary-600 dark:text-primary-400"
+                    className="absolute top-0 right-0 h-5 w-5 text-primary-600 dark:text-primary-400"
                     fill="currentColor"
                     viewBox="0 0 20 20"
                     aria-hidden="true"
@@ -109,6 +98,17 @@ export function PartySelector({ parties }: PartySelectorProps) {
                     />
                   </svg>
                 )}
+              </div>
+
+              {/* Party Flag */}
+              <div className="flex-1 mx-auto w-full aspect-[5/2] relative rounded overflow-hidden bg-white dark:bg-gray-700">
+                <Image
+                  src={getPartyFlagPath(party.abbreviation)}
+                  alt={`Bandera de ${party.name}`}
+                  fill
+                  className="object-contain"
+                  unoptimized
+                />
               </div>
             </button>
           );
