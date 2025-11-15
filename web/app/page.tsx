@@ -44,21 +44,28 @@ export default function HomePage() {
           >
             planes de gobierno publicados por el TSE
           </a>
-          . Solo se muestran partidos que han publicado su plan de gobierno.
+          . Solo se muestran partidos que han publicado su plan de gobierno, el orden de los partidos es el mismo que el que se muestra en la papeleta.
         </p>
       </div>
 
       {/* Party Cards Grid */}
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
         {parties.map((party) => (
           <Link
             key={party.id}
             href={`/partido/${party.abbreviation.toLowerCase()}`}
-            className="group"
+            className="group h-full"
           >
-            <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-5 transition-all hover:border-[rgba(0,0,0,0.2)] hover:shadow-lg dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A] dark:hover:border-[rgba(255,255,255,0.2)]">
+            <div className="flex h-full flex-col rounded-lg border border-[rgba(0,0,0,0.1)] bg-gray-100 p-4 transition-all hover:border-[rgba(0,0,0,0.2)] hover:shadow-md dark:border-[rgba(255,255,255,0.1)] dark:bg-gray-800/30 dark:hover:border-[rgba(255,255,255,0.2)]">
+              {/* Party Name */}
+              <div className="mb-3 h-12 text-center flex items-center justify-center">
+                <h3 className="text-sm font-semibold uppercase text-[#0D0D0D] group-hover:text-[#5D5D5D] dark:text-white dark:group-hover:text-gray-300 line-clamp-3">
+                  {party.name}
+                </h3>
+              </div>
+
               {/* Party Flag */}
-              <div className="mx-auto w-full aspect-[5/2] relative rounded-lg overflow-hidden bg-gray-100 dark:bg-gray-800">
+              <div className="flex-1 mx-auto w-full aspect-[5/2] relative rounded overflow-hidden bg-white dark:bg-gray-700">
                 <Image
                   src={getPartyFlagPath(party.abbreviation)}
                   alt={`Bandera de ${party.name}`}
@@ -66,16 +73,6 @@ export default function HomePage() {
                   className="object-contain"
                   unoptimized
                 />
-              </div>
-
-              {/* Party Info */}
-              <div className="mt-4 text-center">
-                <h3 className="text-base font-semibold text-[#0D0D0D] group-hover:text-[#5D5D5D] dark:text-white dark:group-hover:text-gray-300">
-                  {party.name}
-                </h3>
-                <p className="mt-1 text-sm text-[#8F8F8F] dark:text-gray-500">
-                  {party.abbreviation}
-                </p>
               </div>
 
               {/* View Button */}
