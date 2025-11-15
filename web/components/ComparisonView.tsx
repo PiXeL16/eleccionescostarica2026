@@ -3,15 +3,15 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
+import { ChevronDown } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
+import { useEffect, useState } from 'react';
 import { getCategoryDisplayName } from '@/lib/category-display';
 import type { Category, Party, PartyPosition } from '@/lib/database';
 import { getPartyFlagPath } from '@/lib/party-images';
 import { PartySelector } from './PartySelector';
-import { ChevronDown } from 'lucide-react';
 
 // Helper function to extract page number from citation
 function extractPageNumber(citation: string): number | null {
