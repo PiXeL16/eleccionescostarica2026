@@ -37,13 +37,13 @@ export function PartySelector({ parties }: PartySelectorProps) {
       newSlugs = [...selectedSlugs, slug];
     }
 
-    // Update URL
+    // Update URL without scrolling to top
     const params = new URLSearchParams();
     if (newSlugs.length > 0) {
       params.set('parties', newSlugs.join(','));
     }
 
-    router.push(`/comparar?${params.toString()}`);
+    router.push(`/comparar?${params.toString()}`, { scroll: false });
   };
 
   return (
@@ -55,7 +55,7 @@ export function PartySelector({ parties }: PartySelectorProps) {
         {selectedSlugs.length > 0 && (
           <button
             type="button"
-            onClick={() => router.push('/comparar')}
+            onClick={() => router.push('/comparar', { scroll: false })}
             className="text-sm text-red-600 hover:text-red-700 transition dark:text-red-400 dark:hover:text-red-300"
           >
             Limpiar selección

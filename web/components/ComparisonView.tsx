@@ -3,6 +3,7 @@
 
 'use client';
 
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -10,6 +11,7 @@ import { getCategoryDisplayName } from '@/lib/category-display';
 import type { Category, Party, PartyPosition } from '@/lib/database';
 import { getPartyFlagPath } from '@/lib/party-images';
 import { PartySelector } from './PartySelector';
+import { ChevronDown } from 'lucide-react';
 
 // Helper function to extract page number from citation
 function extractPageNumber(citation: string): number | null {
@@ -68,6 +70,7 @@ interface ComparisonViewProps {
 export function ComparisonView({ allParties, allCategories, comparisonData }: ComparisonViewProps) {
   const searchParams = useSearchParams();
   const partiesParam = searchParams.get('parties');
+  const [showScrollIndicator, setShowScrollIndicator] = useState(true);
 
   // Parse selected parties from URL
   const selectedSlugs =
@@ -87,6 +90,22 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
 
   // Show all categories
   const displayCategories = allCategories;
+
+  // Scroll detection to hide indicator - only hide after scrolling past party selector
+  useEffect(() => {
+    const handleScroll = () => {
+      // Keep indicator visible until user scrolls significantly (past party selector area)
+      const threshold = window.innerHeight * 0.5; // Hide after scrolling 50% of viewport height
+      if (window.scrollY > threshold) {
+        setShowScrollIndicator(false);
+      } else {
+        setShowScrollIndicator(true);
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div className="mx-auto max-w-6xl space-y-8">
@@ -137,6 +156,19 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
 
       {/* Party Selector */}
       <PartySelector parties={allParties} />
+
+      {/* Scroll Indicator - Fixed at bottom center of viewport */}
+      {comparison && comparison.parties.length > 0 && showScrollIndicator && (
+        <div className="fixed bottom-8 left-0 right-0 z-50 flex justify-center pointer-events-none">
+          <div className="flex items-center gap-2 rounded-full bg-white/95 dark:bg-[#2A2A2A]/95 px-4 py-3 shadow-lg border border-[rgba(0,0,0,0.1)] dark:border-[rgba(255,255,255,0.1)] backdrop-blur-sm pointer-events-auto max-w-[90vw] animate-bounce">
+            <ChevronDown className="h-5 w-5 text-[#0D0D0D] dark:text-white" />
+            <p className="text-sm text-[#0D0D0D] dark:text-white font-medium text-center">
+              Desplázate para ver la comparación
+            </p>
+            <ChevronDown className="h-5 w-5 text-[#0D0D0D] dark:text-white" />
+          </div>
+        </div>
+      )}
 
       {/* Comparison View */}
       {comparison && comparison.parties.length > 0 ? (
