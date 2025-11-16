@@ -403,7 +403,7 @@ export default function AboutPage() {
               href="https://github.com/PiXeL16/eleccionescostarica2026/issues"
               target="_blank"
               rel="noopener noreferrer"
-              className="block rounded-lg border border-gray-200 p-4 transition hover:border-gray-300 hover:bg-gray-50 dark:border-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-850"
+              className="block rounded-lg border border-gray-200 p-4 transition hover:border-gray-300 hover:bg-gray-50 dark:border-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-800"
             >
               <div className="flex items-center gap-2 font-medium text-gray-900 dark:text-white">
                 <AlertTriangle className="h-5 w-5 text-red-600 dark:text-red-400" />
@@ -417,7 +417,7 @@ export default function AboutPage() {
               href="https://github.com/PiXeL16/eleccionescostarica2026/discussions"
               target="_blank"
               rel="noopener noreferrer"
-              className="block rounded-lg border border-gray-200 p-4 transition hover:border-gray-300 hover:bg-gray-50 dark:border-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-850"
+              className="block rounded-lg border border-gray-200 p-4 transition hover:border-gray-300 hover:bg-gray-50 dark:border-gray-800 dark:hover:border-gray-700 dark:hover:bg-gray-800"
             >
               <div className="flex items-center gap-2 font-medium text-gray-900 dark:text-white">
                 <MessageSquare className="h-5 w-5 text-primary-600 dark:text-primary-400" />
