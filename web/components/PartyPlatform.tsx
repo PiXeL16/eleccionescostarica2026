@@ -253,12 +253,10 @@ export function PartyPlatform({ accordionItems, extractedText, candidate }: Part
             <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 dark:text-white">
               Candidatos
             </h2>
-            <div className="space-y-4">
-              <Accordion
-                items={[candidateAccordionItem]}
-                openId={openId}
-                onOpenChange={setOpenId}
-              />
+            <div className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
+              <div className="p-3 md:p-4">
+                {candidateAccordionItem.content}
+              </div>
             </div>
           </div>
         )}
