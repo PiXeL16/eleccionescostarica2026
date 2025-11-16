@@ -166,11 +166,11 @@ export default function FAQPage() {
         </div>
 
         {/* CTA */}
-        <div className="rounded-xl border border-primary-200 bg-primary-50 p-6 dark:border-primary-900 dark:bg-primary-950">
-          <h3 className="text-lg font-semibold text-gray-900 mb-2 dark:text-white">
+        <div className="rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
+          <h3 className="text-lg font-semibold text-gray-900 mb-3 dark:text-white">
             ¿No encontraste tu respuesta?
           </h3>
-          <p className="text-gray-700 mb-4 dark:text-gray-300">
+          <p className="text-gray-700 leading-relaxed mb-4 dark:text-gray-300">
             Puedes revisar los planes de gobierno completos en el sitio oficial del TSE o
             contactarnos a través de nuestro repositorio de GitHub.
           </p>
