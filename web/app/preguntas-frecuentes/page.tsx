@@ -105,7 +105,7 @@ const faqs: FAQ[] = [
   {
     question: '¿Puedo sugerir mejoras o reportar errores?',
     answer:
-      'Sí, por favor. Esta plataforma es de código abierto y apreciamos tu retroalimentación. Puedes reportar errores o sugerir mejoras a través de nuestro repositorio de GitHub. También puedes contactarnos por correo electrónico.',
+      'Sí, por favor. Esta plataforma es de código abierto y apreciamos tu retroalimentación. Puedes reportar errores o sugerir mejoras a través de nuestro repositorio de GitHub.',
   },
 ];
 
