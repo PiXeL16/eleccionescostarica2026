@@ -192,7 +192,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                     key={party.id}
                     className="flex items-center gap-3 rounded-xl border border-[rgba(0,0,0,0.1)] bg-white p-3 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]"
                   >
-                    <div className="w-20 aspect-[5/2] shrink-0 relative rounded overflow-hidden bg-gray-100 dark:bg-gray-800">
+                    <div className="w-12 sm:w-20 aspect-[5/2] shrink-0 relative rounded overflow-hidden bg-gray-100 dark:bg-gray-800">
                       <Image
                         src={getPartyFlagPath(party.abbreviation)}
                         alt={`Bandera de ${party.name}`}
@@ -202,7 +202,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                       />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <p className="text-sm font-semibold text-[#0D0D0D] truncate dark:text-white">
+                      <p className="text-xs sm:text-sm font-semibold text-[#0D0D0D] dark:text-white">
                         {party.name}
                       </p>
                     </div>

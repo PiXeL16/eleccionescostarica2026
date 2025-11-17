@@ -150,7 +150,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               </header>
 
               <main className="flex-1 bg-white dark:bg-[#212121]">
-                <div className="container mx-auto px-6 py-8">{children}</div>
+                <div className="container mx-auto px-4 md:px-6 py-8">{children}</div>
               </main>
 
               <footer className="border-t border-gray-200 bg-white py-6 dark:border-gray-800 dark:bg-gray-900">
