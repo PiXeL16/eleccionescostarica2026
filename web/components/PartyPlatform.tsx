@@ -47,7 +47,46 @@ interface PartyPlatformProps {
 }
 
 export function PartyPlatform({ accordionItems, extractedText, candidate }: PartyPlatformProps) {
-  const [openId, setOpenId] = useState<string | null>(null);
+  // Set first platform item as default open to show users how accordions work
+  const [openId, setOpenId] = useState<string | null>(
+    accordionItems.length > 0 ? accordionItems[0].id : null
+  );
+
+  // Create full text accordion item
+  const fullTextAccordionItem: AccordionItem | null = extractedText
+    ? {
+        id: 'texto-completo',
+        title: 'Texto Completo del Plan de Gobierno',
+        icon: (
+          <svg
+            className="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+            aria-hidden="true"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
+          </svg>
+        ),
+        content: (
+          <div>
+            <p className="text-sm text-gray-600 mb-4 dark:text-gray-400">
+              Este es el texto completo extraído del documento PDF oficial del partido.
+            </p>
+            <div className="prose max-w-none dark:prose-invert">
+              <pre className="whitespace-pre-wrap text-sm text-gray-700 leading-relaxed dark:text-gray-300">
+                {extractedText}
+              </pre>
+            </div>
+          </div>
+        ),
+      }
+    : null;
 
   // Create candidate accordion item
   const candidateAccordionItem: AccordionItem | null = candidate
@@ -233,13 +272,15 @@ export function PartyPlatform({ accordionItems, extractedText, candidate }: Part
                 {item.title}
               </button>
             ))}
-            {extractedText && (
-              <a
-                href="#texto-completo"
-                className="block rounded px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white break-words"
+            {fullTextAccordionItem && (
+              <button
+                type="button"
+                key={fullTextAccordionItem.id}
+                onClick={() => handleNavClick(fullTextAccordionItem.id)}
+                className="block w-full text-left rounded px-3 py-2 text-sm text-gray-600 transition hover:bg-gray-50 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-white break-words"
               >
-                Texto Completo
-              </a>
+                {fullTextAccordionItem.title}
+              </button>
             )}
           </nav>
         </div>
@@ -254,9 +295,7 @@ export function PartyPlatform({ accordionItems, extractedText, candidate }: Part
               Candidatos
             </h2>
             <div className="rounded-lg border border-gray-200 bg-white shadow-sm dark:border-gray-800 dark:bg-gray-900">
-              <div className="p-3 md:p-4">
-                {candidateAccordionItem.content}
-              </div>
+              <div className="p-3 md:p-4">{candidateAccordionItem.content}</div>
             </div>
           </div>
         )}
@@ -283,22 +322,10 @@ export function PartyPlatform({ accordionItems, extractedText, candidate }: Part
           )}
         </div>
 
-        {/* Full Extracted Text */}
-        {extractedText && (
+        {/* Full Text Accordion */}
+        {fullTextAccordionItem && (
           <div id="texto-completo" className="scroll-mt-8">
-            <h2 className="text-xl md:text-2xl font-bold text-gray-900 mb-4 dark:text-white">
-              Texto Completo Extraído
-            </h2>
-            <div className="rounded-xl border border-gray-200 bg-white p-4 md:p-6 shadow-sm dark:border-gray-800 dark:bg-gray-900">
-              <p className="text-sm text-gray-600 mb-4 dark:text-gray-400">
-                Este es el texto completo extraído del documento PDF oficial del partido.
-              </p>
-              <div className="prose max-w-none dark:prose-invert">
-                <pre className="whitespace-pre-wrap text-sm text-gray-700 leading-relaxed dark:text-gray-300">
-                  {extractedText}
-                </pre>
-              </div>
-            </div>
+            <Accordion items={[fullTextAccordionItem]} openId={openId} onOpenChange={setOpenId} />
           </div>
         )}
       </div>
