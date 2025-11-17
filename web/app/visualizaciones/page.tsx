@@ -1,14 +1,14 @@
 // ABOUTME: Demonstration page for all visual enhancements
 // ABOUTME: Showcases word clouds, charts, animations, and color-coded categories
 
-import AnimatedList, { AnimatedListItem } from '@/components/AnimatedList';
+import AgreementHeatmap from '@/components/AgreementHeatmap';
 import AnimatedSection from '@/components/AnimatedSection';
-import BudgetComparisonChart from '@/components/BudgetComparisonChart';
-import CategoryBadge from '@/components/CategoryBadge';
-import CategoryCoverageChart from '@/components/CategoryCoverageChart';
-import PartyWordCloud from '@/components/PartyWordCloud';
-import ProposalCountChart from '@/components/ProposalCountChart';
-import { compareParties, getAllCategories, getAllParties, getPartyPositions } from '@/lib/database';
+import IdeologySpectrumMap from '@/components/IdeologySpectrumMap';
+import SpecificityScoreChart from '@/components/SpecificityScoreChart';
+import { analyzeAgreement } from '@/lib/agreement-analyzer';
+import { getAllPartiesWithPositions } from '@/lib/database';
+import { calculateIdeologyScore } from '@/lib/ideology-analyzer';
+import { calculateAllSpecificityScores } from '@/lib/specificity-analyzer';
 
 export const metadata = {
   title: 'Visualizaciones | Elecciones 2026',
@@ -16,16 +16,24 @@ export const metadata = {
 };
 
 export default async function VisualizacionesPage() {
-  const parties = getAllParties();
-  const categories = getAllCategories();
+  // Calculate ideology scores for all parties
+  const partiesWithPositions = getAllPartiesWithPositions();
+  const ideologyScores = partiesWithPositions.map(({ party, positions }) =>
+    calculateIdeologyScore(party.id, party.name, party.abbreviation, positions)
+  );
 
-  // Get first 3 parties for comparison demos
-  const demoParties = parties.slice(0, 3);
-  const comparisonData = compareParties(demoParties.map((p) => p.abbreviation));
+  // Calculate specificity scores for all parties
+  const specificityScores = calculateAllSpecificityScores(
+    partiesWithPositions.map(({ party, positions }) => ({
+      id: party.id,
+      name: party.name,
+      abbreviation: party.abbreviation,
+      positions,
+    }))
+  );
 
-  // Get positions for first party for individual visualizations
-  const firstParty = parties[0];
-  const firstPartyPositions = getPartyPositions(firstParty.id);
+  // Calculate agreement analysis for cross-party heatmap
+  const agreementMatrix = analyzeAgreement(partiesWithPositions);
 
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8">
@@ -42,43 +50,39 @@ export default async function VisualizacionesPage() {
           </div>
         </AnimatedSection>
 
-        {/* Category Color Scheme */}
+        {/* Ideology Spectrum Map */}
         <AnimatedSection delay={0.1}>
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Categorías con Código de Color
+              Espectro Ideológico de los Partidos
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Cada categoría tiene un color único para facilitar la identificación visual
+              Posicionamiento de los partidos en el eje económico (izquierda-derecha) y social
+              (conservador-progresista) basado en análisis de sus propuestas
             </p>
-            <div className="flex flex-wrap gap-3">
-              {categories.map((category) => (
-                <CategoryBadge
-                  key={category.id}
-                  categoryKey={category.category_key}
-                  categoryName={category.name}
-                  variant="solid"
-                  size="md"
-                  animated
-                />
-              ))}
-            </div>
-            <div className="mt-4 flex flex-wrap gap-3">
-              {categories.slice(0, 5).map((category) => (
-                <CategoryBadge
-                  key={`light-${category.id}`}
-                  categoryKey={category.category_key}
-                  categoryName={category.name}
-                  variant="light"
-                  size="md"
-                />
-              ))}
-            </div>
+            <IdeologySpectrumMap scores={ideologyScores} />
           </section>
         </AnimatedSection>
 
-        {/* Word Cloud */}
+        {/* Cross-Party Agreement Heatmap */}
         <AnimatedSection delay={0.2}>
+          <section className="mb-12">
+            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
+              Mapa de Acuerdo Entre Partidos
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 mb-6">
+              Identifica temas de consenso nacional vs. temas polarizantes. Basado en similitud de
+              texto entre propuestas de los partidos.
+            </p>
+            <AgreementHeatmap
+              categories={agreementMatrix.categories}
+              overallConsensusScore={agreementMatrix.overallConsensusScore}
+            />
+          </section>
+        </AnimatedSection>
+
+        {/* Word Cloud - Temporarily disabled due to react-wordcloud library issue */}
+        {/* <AnimatedSection delay={0.2}>
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
               Nube de Palabras - {firstParty.name}
@@ -95,113 +99,132 @@ export default async function VisualizacionesPage() {
               />
             </div>
           </section>
-        </AnimatedSection>
+        </AnimatedSection> */}
 
-        {/* Proposal Count Chart */}
+        {/* Specificity Score - Total */}
         <AnimatedSection delay={0.3}>
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Propuestas por Categoría - {firstParty.name}
+              Puntuación de Especificidad
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Número de propuestas específicas en cada área temática
+              Mide qué tan concretas son las propuestas: presupuestos, cronogramas y planes de
+              implementación
             </p>
-            <ProposalCountChart positions={firstPartyPositions} />
+            <SpecificityScoreChart scores={specificityScores} mode="total" />
+
+            {/* Calculation Explanation */}
+            <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                <span className="text-lg">🧮</span>
+                Cómo se Calcula la Puntuación
+              </h4>
+              <div className="space-y-3 text-sm text-gray-700 dark:text-gray-300">
+                <p>
+                  El análisis automático examina <strong>todas las propuestas</strong> del plan de
+                  gobierno de cada partido y asigna puntos basándose en:
+                </p>
+                <div className="grid md:grid-cols-3 gap-3">
+                  <div className="bg-white dark:bg-gray-900 p-3 rounded border border-green-200 dark:border-green-800">
+                    <div className="font-semibold text-green-700 dark:text-green-400 mb-1">
+                      💰 Presupuesto (30%)
+                    </div>
+                    <div className="text-xs">Números, porcentajes, referencias monetarias</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-900 p-3 rounded border border-blue-200 dark:border-blue-800">
+                    <div className="font-semibold text-blue-700 dark:text-blue-400 mb-1">
+                      📅 Cronograma (30%)
+                    </div>
+                    <div className="text-xs">Fechas específicas, plazos temporales</div>
+                  </div>
+                  <div className="bg-white dark:bg-gray-900 p-3 rounded border border-orange-200 dark:border-orange-800">
+                    <div className="font-semibold text-orange-700 dark:text-orange-400 mb-1">
+                      ⚡ Acción (40%)
+                    </div>
+                    <div className="text-xs">Verbos concretos vs. lenguaje aspiracional</div>
+                  </div>
+                </div>
+                <div className="bg-blue-50 dark:bg-blue-900/20 p-3 rounded border-l-4 border-blue-500">
+                  <p className="text-xs font-mono">
+                    <strong>Fórmula:</strong> Total = (Presupuesto × 0.30) + (Cronograma × 0.30) +
+                    (Acción × 0.40)
+                  </p>
+                </div>
+              </div>
+            </div>
           </section>
         </AnimatedSection>
 
-        {/* Category Coverage Radar */}
+        {/* Specificity Score - Breakdown */}
         <AnimatedSection delay={0.4}>
           <section className="mb-12">
             <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Cobertura de Propuestas
+              Desglose de Especificidad
             </h2>
             <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Comparación de qué tan completas son las propuestas de cada partido por categoría
+              Comparación detallada: transparencia presupuestaria, especificidad de cronograma y
+              lenguaje de acción
             </p>
-            <CategoryCoverageChart
-              parties={comparisonData.parties}
-              categories={comparisonData.categories}
-              positions={comparisonData.positions}
-            />
-          </section>
-        </AnimatedSection>
+            <SpecificityScoreChart scores={specificityScores} mode="breakdown" />
 
-        {/* Budget Comparison */}
-        <AnimatedSection delay={0.5}>
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Comparación de Presupuestos
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Presupuestos propuestos por cada partido en categorías seleccionadas
-            </p>
-            <BudgetComparisonChart
-              parties={comparisonData.parties}
-              positions={comparisonData.positions}
-              categoryKey="salud"
-            />
-          </section>
-        </AnimatedSection>
-
-        {/* Party List with Animation */}
-        <AnimatedSection delay={0.6}>
-          <section className="mb-12">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Lista Animada de Partidos
-            </h2>
-            <p className="text-gray-600 dark:text-gray-400 mb-6">
-              Transiciones suaves al cargar contenido
-            </p>
-            <AnimatedList className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {parties.slice(0, 6).map((party) => (
-                <AnimatedListItem key={party.id}>
-                  <div className="bg-white dark:bg-gray-800 rounded-lg shadow-md p-6 border-l-4 border-primary-500">
-                    <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-2">
-                      {party.name}
-                    </h3>
-                    <p className="text-sm text-gray-600 dark:text-gray-400">{party.abbreviation}</p>
+            {/* Detailed Calculation Explanation */}
+            <div className="mt-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+              <h4 className="font-semibold text-gray-900 dark:text-white mb-3 flex items-center gap-2">
+                <span className="text-lg">📐</span>
+                Metodología de Cálculo por Dimensión
+              </h4>
+              <div className="space-y-4 text-sm">
+                <div className="bg-green-50 dark:bg-green-900/10 p-3 rounded border-l-4 border-green-500">
+                  <div className="font-semibold text-green-900 dark:text-green-300 mb-2">
+                    💰 Transparencia Presupuestaria
                   </div>
-                </AnimatedListItem>
-              ))}
-            </AnimatedList>
-          </section>
-        </AnimatedSection>
+                  <p className="text-xs text-gray-700 dark:text-gray-300 mb-2">
+                    Se buscan indicadores cuantitativos en el texto de las propuestas:
+                  </p>
+                  <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1 ml-3">
+                    <li>• Números y porcentajes → +10 puntos cada uno</li>
+                    <li>• Referencias monetarias → +20 puntos cada una</li>
+                    <li>
+                      • <strong>Fórmula:</strong> (números × 10 + montos × 20) / palabras totales ×
+                      100
+                    </li>
+                  </ul>
+                </div>
 
-        {/* Usage Instructions */}
-        <AnimatedSection delay={0.7}>
-          <section className="mb-12 bg-primary-50 dark:bg-primary-900/20 rounded-lg p-6">
-            <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-4">
-              Cómo Usar Estas Visualizaciones
-            </h2>
-            <div className="space-y-4 text-gray-700 dark:text-gray-300">
-              <div>
-                <h3 className="font-semibold mb-2">🎨 Categorías con Código de Color</h3>
-                <p>
-                  Cada categoría tiene un color único. Usa estos colores en toda la aplicación para
-                  identificar rápidamente el área temática de las propuestas.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold mb-2">☁️ Nubes de Palabras</h3>
-                <p>
-                  Las palabras más grandes aparecen con mayor frecuencia en las propuestas. Pasa el
-                  cursor sobre las palabras para ver su frecuencia exacta.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold mb-2">📊 Gráficos Interactivos</h3>
-                <p>
-                  Todos los gráficos son interactivos. Pasa el cursor sobre barras, líneas o puntos
-                  para ver detalles adicionales.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-semibold mb-2">✨ Animaciones</h3>
-                <p>
-                  Las transiciones suaves mejoran la experiencia de usuario al cambiar entre vistas
-                  o cargar nuevo contenido.
-                </p>
+                <div className="bg-blue-50 dark:bg-blue-900/10 p-3 rounded border-l-4 border-blue-500">
+                  <div className="font-semibold text-blue-900 dark:text-blue-300 mb-2">
+                    📅 Especificidad de Cronograma
+                  </div>
+                  <p className="text-xs text-gray-700 dark:text-gray-300 mb-2">
+                    Se detectan referencias temporales concretas:
+                  </p>
+                  <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1 ml-3">
+                    <li>• Plazos generales (años, meses) → +10 puntos cada uno</li>
+                    <li>• Fechas específicas (2026, 2027) → +20 puntos cada una</li>
+                    <li>
+                      • <strong>Fórmula:</strong> (plazos × 10 + fechas × 20) / palabras totales ×
+                      100
+                    </li>
+                  </ul>
+                </div>
+
+                <div className="bg-orange-50 dark:bg-orange-900/10 p-3 rounded border-l-4 border-orange-500">
+                  <div className="font-semibold text-orange-900 dark:text-orange-300 mb-2">
+                    ⚡ Lenguaje de Acción
+                  </div>
+                  <p className="text-xs text-gray-700 dark:text-gray-300 mb-2">
+                    Se evalúa el nivel de compromiso en el lenguaje:
+                  </p>
+                  <ul className="text-xs text-gray-600 dark:text-gray-400 space-y-1 ml-3">
+                    <li>• Verbos concretos (implementaremos, crearemos) → +15 puntos</li>
+                    <li>• Lenguaje vago (buscaremos, intentaremos) → -5 puntos</li>
+                    <li>• Mecanismos (mediante, a través de) → +10 puntos</li>
+                    <li>
+                      • <strong>Fórmula:</strong> (concretos × 15 + mecanismos × 10 - vagos × 5) /
+                      palabras × 100
+                    </li>
+                  </ul>
+                </div>
               </div>
             </div>
           </section>

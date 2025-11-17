@@ -327,3 +327,33 @@ export function getCandidateWithRunningMates(
     running_mates: runningMates,
   };
 }
+
+/**
+ * Get all parties with their positions for ideology analysis
+ */
+export function getAllPartiesWithPositions(): Array<{
+  party: Party;
+  positions: Array<{
+    summary: string;
+    key_proposals: string | null;
+    category: { category_key: string; name: string };
+  }>;
+}> {
+  const parties = getAllParties();
+
+  return parties.map((party) => {
+    const positions = getPartyPositions(party.id).map((p) => ({
+      summary: p.summary,
+      key_proposals: p.key_proposals,
+      category: {
+        category_key: p.category.category_key,
+        name: p.category.name,
+      },
+    }));
+
+    return {
+      party,
+      positions,
+    };
+  });
+}

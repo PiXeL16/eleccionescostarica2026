@@ -1,304 +1,194 @@
-# Feature Ideas for Elecciones 2026
+## New Analysis Features for Voter Decision-Making (November 2025)
 
-This document tracks potential features and enhancements for the political platform comparison website.
-
-## Recently Completed (November 2025)
-
-### ✅ AI-Powered Chat with Semantic Search
-**Status**: Deployed and live!
+### 🎯 1. Party Matcher Quiz (Future Priority)
+**Goal:** Help voters discover which parties align with their values
 
 **Features:**
-- Natural language question answering about party platforms
-- Multi-party support - query one party or compare many
-- Semantic search using OpenAI embeddings (text-embedding-3-small)
-- Vector similarity search with sqlite-vec
-- RAG (Retrieval-Augmented Generation) for accurate, source-based answers
-- Streaming responses from GPT-4
-- Source attribution with PDF page numbers
-- Responsive sidebar UI with party selector
-- Example questions to get started
-- PostHog feature flag control
+- 10-15 key questions across major policy categories
+- Users rank importance of each issue (1-5 scale)
+- Algorithm matches users to parties based on actual platform positions
+- Shows % match with each party
+- Highlights key agreement/disagreement areas
+- Shareable results for social media
 
-**Technical Architecture:**
-- Vector embeddings stored in SQLite with sqlite-vec extension
-- Adaptive text chunking (1500-3500 chars)
-- Cosine similarity for relevance ranking
-- Server-side API routes with Vercel AI SDK
-- Client-side streaming with React hooks
-- ~2,000 document pages embedded
-- 1536-dimensional vectors
+**Technical Approach:**
+- Weight user answers by importance ranking
+- Calculate cosine similarity between user vector and party position vectors
+- Use existing embeddings for semantic matching
 
-**User Experience:**
-- Floating chat button with pulse animation
-- Sliding sidebar from right
-- Multi-party checkbox selector
-- Context-aware example questions
-- Markdown formatting in responses
-- Mobile-responsive design
+### 📍 2. Ideological Spectrum Map ⭐ IN PROGRESS
+**Goal:** Visualize where parties actually sit on policy axes
 
-## Currently in Development
+**Features:**
+- 2D scatter plot: Economic (left-right) vs Social (conservative-progressive)
+- Position parties based on actual proposals (not labels or self-identification)
+- Interactive: click party to see positioning rationale
+- "Where am I?" feature for users to plot themselves
+- Color-coded by party
+- Mobile-responsive with touch interactions
 
-### Advanced Filtering (On Hold - Pending Data Quality)
-- Filter parties by ideology (left/center/right)
-- Filter by budget priority level
-- Filter by specific proposal types
-- **Note**: Removed from home page until we have better data coverage
+**Technical Approach:**
+- Analyze economic proposals for market vs. state intervention keywords
+- Analyze social proposals for progressive vs. conservative positions
+- Calculate positioning scores from text analysis
+- Use D3.js or Recharts for interactive visualization
 
-### Visual Comparisons (Future)
-- Charts showing budget priority differences
-- Ideology spectrum visualization
-- Side-by-side proposal highlighting
-- Statistics panel with agreement metrics
+### 📊 3. Specificity Score ⭐ IN PROGRESS
+**Goal:** Measure how concrete vs. vague party proposals are
 
-## Search & Discovery Features
+**Features:**
+- Score each party on: Budget transparency, Timeline specificity, Implementation details
+- Bar chart comparing "vagueness vs. specificity" across parties
+- Category-level breakdown (which topics get specific proposals?)
+- Highlight most/least specific proposals with examples
 
-### ✅ Smart Search (Completed via AI Chat)
-- ✅ Semantic search across all party positions
-- ✅ Search by natural language to find which parties mention specific topics
-- ✅ Multi-party comparison in conversational format
-- 🚧 "Find my party" quiz - answer questions about your priorities and get matched parties (Future)
+**Metrics to Analyze:**
+- Presence of numbers, percentages, dollar amounts
+- Timeline mentions (años, meses, "primer año")
+- Action verbs vs. vague language ("implementaremos" vs. "buscaremos")
+- Concrete mechanisms vs. aspirational goals
 
-### Advanced Filtering (Extended)
-- Tag-based browsing
-- Multiple simultaneous filters
-- Save and share filter presets
+**Technical Approach:**
+- NLP analysis of proposal text
+- Regex patterns for numbers, dates, budgets
+- Keyword scoring for concrete vs. vague language
+- Aggregate scores by party and category
 
-## Enhanced Comparisons
+### 🔥 4. Cross-Party Agreement Heatmap ⭐ IN PROGRESS
+**Goal:** Show consensus issues vs. divisive topics
 
-### Similarity Analysis
-- "Find similar parties" - calculate overlap between party positions
-- "Biggest differences" view - highlight where parties diverge most
-- Consensus indicators - show areas of agreement across all parties
+**Features:**
+- Matrix showing which parties agree on which categories
+- Color intensity = level of agreement (text similarity)
+- Reveals: "15 parties agree on healthcare" vs. "Huge split on economic policy"
+- Click cells to see specific areas of agreement/disagreement
+- Summary stats: "Most consensus on...", "Most divided on..."
 
-### Export & Share
-- Generate shareable comparison images for social media
-- Export comparison as PDF with full details
-- Create custom comparison URLs that preserve all settings
-- Embed widgets for other websites
+**Technical Approach:**
+- Use existing embeddings to calculate similarity between party positions per category
+- Cosine similarity matrix for each category
+- Heatmap visualization with tooltips
+- Threshold-based highlighting for high/low agreement
 
-### Visual Enhancements
-- Word clouds for each party's key themes
-- Interactive graphs and data visualization
-- Animated transitions between comparisons
-- Color-coded proposal categories
+### 👔 5. Candidate Experience Dashboard ⭐ IN PROGRESS
+**Goal:** Compare candidate qualifications objectively
 
-## Data Enrichment
+**Features:**
+- Visualize candidate backgrounds: public sector years, private sector, academic, political positions
+- Include running mates (VP1, VP2) comparison
+- Filter by: ministerial experience, legislative experience, executive roles
+- Timeline view of career progression
+- Education credentials comparison
+- Age and generational analysis
 
-### Historical Context
-- Compare 2026 platforms with 2022 platforms
-- Track if parties delivered on past promises
-- Timeline view of when proposals would be implemented
-- Historical voting records vs current platforms
+**Data Source:**
+- profiles.json already has: profession, age, education, profile_description
+- running_mates table in database
 
-### Fact-Checking Layer
-- Link proposals to news articles or analysis
-- Cost estimates for major proposals from economists
-- Feasibility ratings with expert opinions
-- Source citations (which PDF page, paragraph)
-- Community-driven validation
+**Visualizations:**
+- Stacked bar chart: years in different sectors
+- Network diagram: connections and roles
+- Table view with sortable columns
 
-### Candidate Information
-- Presidential candidate profiles with background
-- Vice-presidential candidates
-- Key party leaders and their roles
-- Candidate voting history if applicable
+### 🔍 6. What's Missing Analysis ⭐ IN PROGRESS
+**Goal:** Highlight which parties avoid certain topics
 
-### Impact Analysis
-- Cost-benefit analysis of major proposals
-- Environmental impact assessments
-- Social impact predictions
-- Economic modeling results
+**Features:**
+- Category coverage heatmap per party
+- "Silence Score" - which topics get zero/minimal coverage
+- Shows priorities (20 proposals) vs. gaps (0 proposals)
+- Examples: "Party X: 20 education proposals, 0 environment proposals"
+- Sort parties by most/least comprehensive platforms
 
-## User Engagement
+**Technical Approach:**
+- Count proposals per category per party
+- Normalize by total word count (some parties write more)
+- Highlight empty categories
+- Calculate "coverage completeness" score
 
-### Personalization
-- User accounts with saved preferences
-- Bookmark specific proposals or parties
-- Create custom comparison lists
-- Get email alerts when parties update platforms
-- Personal notes on proposals
+### 🔎 7. Keyword Explorer (Leverage Existing Semantic Search) ⭐ IN PROGRESS
+**Goal:** Find which parties discuss specific user concerns
 
-### Interactive Features
-- Rate or vote on proposals (crowd wisdom)
-- Submit questions for parties
-- Community-driven fact checking
-- Discussion threads per category
-- Report errors or corrections
+**Features:**
+- Search any keyword or phrase
+- Semantic search using existing embeddings
+- Results ranked by relevance with context snippets
+- Visual timeline: how much each party mentions the topic
+- Related keywords suggestion
+- Export search results
 
-### Gamification
-- "Policy impact simulator" - see how proposals might affect you
-- Quizzes about platforms with scoring
-- "Find your match" personality-style political quiz
-- Achievement badges for exploring platforms
-- Leaderboards for most active community members
+**Technical Approach:**
+- Use existing sqlite-vec embeddings
+- Enhance current AI chat with dedicated search UI
+- Add "Compare all parties on this topic" feature
+- Highlight matching text snippets
 
-## Accessibility & Reach
+### 🗺️ 8. Interactive Word Bubble Map ⭐ IN PROGRESS
+**Goal:** Visual representation of each party's key themes at a glance
 
-### Multi-language Support
-- English translation of all content
-- Spanish (Costa Rican) simplification for clarity
-- Indigenous languages support
+**Features:**
+- Force-directed graph with party nodes
+- Each party has a bubble with word cloud of their top keywords
+- Bubble size = total proposal count or word count
+- Word size within bubble = frequency in that party's platform
+- Hover to see larger view
+- Click party to navigate to full profile
+- Color-coded by ideology or category focus
+- Mobile-responsive with pinch-zoom
 
-### Accessibility Features
-- Text-to-speech for all proposals
-- High contrast mode improvements
-- Screen reader optimization
-- Keyboard navigation enhancements
-- WCAG AAA compliance
-- Simplified language mode
+**Visualization Approach:**
+- D3.js force simulation for bubble layout
+- SVG text for word clouds within circles
+- Interactive tooltips and navigation
+- Animated transitions when filtering/zooming
 
-### Mobile Optimization
-- Swipe gestures between parties
-- Condensed mobile-specific views
-- Quick comparison mode
-- Progressive Web App with offline access
-- Push notifications for updates
+**Technical Approach:**
+- Extract top 15-20 keywords per party from all proposals
+- TF-IDF to find distinctive words (not just common words)
+- Calculate bubble sizes based on platform length
+- Force layout to prevent overlap
 
-### Alternative Formats
-- Print-friendly comparison sheets
-- Audio podcast summaries
-- Video explainers for each party
-- Infographic generators
+### 🎓 10. Simplicity Dashboard ⭐ IN PROGRESS
+**Goal:** Make platforms accessible to all voters
 
-## Analytics & Insights
+**Features:**
+- "ELI5" (Explain Like I'm 5) summary for each party's top 5 priorities
+- Visual icons + one-sentence explanations
+- Reading level analysis (Flesch-Kincaid score)
+- Translation to simpler Spanish
+- Accessibility score per party
+- "Quick Facts" mode: bullet points only
 
-### Public Statistics
-- Most viewed parties this week
-- Trending policy topics
-- Popular comparisons
-- Geographic interest patterns
-- Peak usage times
+**Technical Approach:**
+- LLM-powered summarization of complex proposals
+- Readability metrics (sentence length, word complexity)
+- Manual curation of top priorities from each platform
+- Icon library for common policy areas
 
-### AI-Powered Insights
-- Automatically detect contradictions within platforms
-- Summarize key differences between parties
-- Generate "TL;DR" for each category
-- Predict policy impact using historical data
-- Sentiment analysis of proposals
-- Complexity scoring (readability analysis)
+---
 
-### Research Tools
-- Export full dataset for academic research
-- API access for developers
-- Bulk download options
-- Statistical analysis tools
-- Correlation matrices
+**Implementation Priority (November 2025):**
 
-## Technical Improvements
+**Week 1-2:**
+- ✅ Ideological Spectrum Map
+- ✅ Interactive Word Bubble Map
 
-### Performance
-- Lazy loading for images and charts
-- Service worker for offline functionality
-- Optimistic UI updates
-- Skeleton screens during loading
-- CDN optimization
+**Week 3-4:**
+- Specificity Score
+- What's Missing Analysis
 
-### Infrastructure
-- A/B testing framework
-- Feature flags for gradual rollouts
-- Error tracking and monitoring
-- Performance monitoring
-- Analytics dashboard
+**Week 5-6:**
+- Cross-Party Agreement Heatmap
+- Candidate Experience Dashboard
 
-### Developer Experience
-- API documentation
-- Component library documentation
-- Contributing guidelines
-- Testing framework expansion
-- CI/CD pipeline improvements
+**Week 7-8:**
+- Keyword Explorer enhancement
+- Simplicity Dashboard
 
-## Community Features
-
-### User-Generated Content
-- User-submitted questions to parties
-- Crowd-sourced analysis
-- Community fact-checking
-- Expert analysis sections
-- Discussion forums per topic
-
-### Social Integration
-- Share to social media with rich previews
-- Social login options
-- Community voting on important issues
-- Trending discussions
-- User profiles with activity history
-
-## Data Collection & Updates
-
-### Real-time Updates
-- Party platform change notifications
-- News integration (relevant articles)
-- Debate highlights linked to positions
-- Poll results integration
-- Election countdown and reminders
-
-### Extended Data Sources
-- Link to party websites
-- Social media feed integration
-- Campaign finance data
-- Party structure and organization info
-- Historical election results
-
-## Monetization (If Needed)
-
-### Sustainable Funding
-- Optional donations
-- Sponsored educational content (clearly marked)
-- Premium features for researchers
-- White-label versions for other countries
-- Grant funding applications
-
-## Long-term Vision
-
-### Platform Expansion
-- Support for local elections
-- Legislative candidate platforms
-- Ballot initiative analysis
-- International version for other countries
-- Historical archive of all elections
-
-### Democracy Tools
-- Voter registration integration
-- Polling location finder
-- Sample ballot generator
-- Civic engagement resources
-- Educational materials on voting process
-
-## Out of Scope (Not Planned)
-
-- Direct party endorsements
-- User comments on party platforms (too toxic)
-- Paid party promotions
-- Partisan analysis or editorializing
-- Social network features between users
-
-## Notes on Implementation Priority
-
-**High Priority (Next 6 months):**
-- Advanced filtering and visual comparisons (in progress)
-- Full-text search
-- Export/share features
-- Mobile optimization
-- Basic accessibility improvements
-
-**Medium Priority (6-12 months):**
-- Historical comparison with 2022
-- Fact-checking integration
-- Community features (moderated)
-- Multi-language support
-- AI-powered insights
-
-**Low Priority (Future):**
-- Gamification
-- Advanced analytics
-- Platform expansion
-- White-label versions
-
-**Needs User Research:**
-- Which features provide most value?
-- What barriers prevent people from using the site?
-- What additional data would be useful?
-- How do people actually make voting decisions?
+**Future (3+ months):**
+- Party Matcher Quiz (requires user research)
+- Promise Tracker (post-election feature)
+- Budget Reality Check (needs economic expertise)
 
 ---
 

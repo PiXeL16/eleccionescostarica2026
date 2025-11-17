@@ -67,13 +67,10 @@ interface ComparisonViewProps {
   } | null;
 }
 
-type ViewMode = 'category' | 'party';
-
 export function ComparisonView({ allParties, allCategories, comparisonData }: ComparisonViewProps) {
   const searchParams = useSearchParams();
   const partiesParam = searchParams.get('parties');
   const [showScrollIndicator, setShowScrollIndicator] = useState(true);
-  const [viewMode, setViewMode] = useState<ViewMode>('category');
 
   // Parse selected parties from URL
   const selectedSlugs =
@@ -178,35 +175,7 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
         <div className="space-y-6">
           {/* Sticky Header with Party Info */}
           <div className="sticky top-[57px] z-10 bg-white/80 backdrop-blur-md border-b border-[rgba(0,0,0,0.1)] pb-4 dark:bg-[#212121]/80 dark:border-[rgba(255,255,255,0.1)]">
-            <div className="mb-4 flex items-center justify-between">
-              <h2 className="text-2xl font-semibold text-[#0D0D0D] dark:text-white">Comparación</h2>
-
-              {/* View Mode Toggle */}
-              <div className="flex items-center gap-2 rounded-lg border border-gray-200 dark:border-gray-700 p-1 bg-white dark:bg-gray-800">
-                <button
-                  type="button"
-                  onClick={() => setViewMode('category')}
-                  className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
-                    viewMode === 'category'
-                      ? 'bg-primary-600 text-white'
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                  }`}
-                >
-                  Por Categoría
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setViewMode('party')}
-                  className={`px-3 py-1.5 text-sm font-medium rounded-md transition-colors ${
-                    viewMode === 'party'
-                      ? 'bg-primary-600 text-white'
-                      : 'text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
-                  }`}
-                >
-                  Por Partido
-                </button>
-              </div>
-            </div>
+            <h2 className="text-2xl font-semibold text-[#0D0D0D] mb-4 dark:text-white">Comparación</h2>
 
             {/* Compact Party Headers */}
             <div
@@ -242,117 +211,23 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
           </div>
 
           {/* Category View: Show categories with parties side-by-side */}
-          {viewMode === 'category' && (
-            <div className="space-y-6">
-              {displayCategories.map((category) => (
-              <div
-                key={category.id}
-                className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]"
-              >
-                <h3 className="text-xl font-semibold text-[#0D0D0D] mb-4 dark:text-white">
-                  {getCategoryDisplayName(category.name)}
-                </h3>
-
+          <div className="space-y-6">
+            {displayCategories.map((category) => (
                 <div
-                  className="grid gap-6"
-                  style={{
-                    gridTemplateColumns: `repeat(${comparison.parties.length}, minmax(0, 1fr))`,
-                  }}
-                >
-                  {comparison.parties.map((party) => {
-                    const position = comparison.positions
-                      .get(party.abbreviation)
-                      ?.get(category.category_key);
-                    const proposals = position?.key_proposals
-                      ? JSON.parse(position.key_proposals)
-                      : [];
-
-                    return (
-                      <div key={party.id} className="space-y-4">
-                        {position ? (
-                          <>
-                            {/* Ideology Info */}
-                            <div className="flex flex-wrap gap-2 mb-2">
-                              {position.ideology_position && (
-                                <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-primary-900 dark:text-blue-200">
-                                  {position.ideology_position}
-                                </span>
-                              )}
-                            </div>
-
-                            {/* Summary */}
-                            <div>
-                              <p className="text-sm text-[#0D0D0D] leading-relaxed dark:text-gray-300">
-                                {formatTextWithCitations(position.summary, party.abbreviation)}
-                              </p>
-                            </div>
-
-                            {/* Key Proposals */}
-                            {proposals.length > 0 && (
-                              <div>
-                                <h4 className="text-xs font-medium text-[#8F8F8F] mb-2 uppercase dark:text-gray-500">
-                                  Propuestas Clave
-                                </h4>
-                                <ul className="space-y-1">
-                                  {proposals.map((proposal: string) => (
-                                    <li
-                                      key={proposal}
-                                      className="flex gap-2 text-sm text-[#5D5D5D] dark:text-gray-400"
-                                    >
-                                      <span className="text-[#0D0D0D] dark:text-white">•</span>
-                                      <span>
-                                        {formatTextWithCitations(proposal, party.abbreviation)}
-                                      </span>
-                                    </li>
-                                  ))}
-                                </ul>
-                              </div>
-                            )}
-                          </>
-                        ) : (
-                          <p className="text-sm text-[#8F8F8F] italic dark:text-gray-500">
-                            No hay información disponible para esta categoría
-                          </p>
-                        )}
-                      </div>
-                    );
-                  })}
-                </div>
-              </div>
-            ))}
-            </div>
-          )}
-
-          {/* Party View: Show parties with all their categories */}
-          {viewMode === 'party' && (
-            <div className="space-y-6">
-              {comparison.parties.map((party) => (
-                <div
-                  key={party.id}
+                  key={category.id}
                   className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-6 dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]"
                 >
-                  {/* Party Header */}
-                  <div className="flex items-center gap-4 mb-6 pb-4 border-b border-gray-200 dark:border-gray-700">
-                    <div className="w-16 aspect-[5/2] shrink-0 relative rounded overflow-hidden bg-gray-100 dark:bg-gray-800">
-                      <Image
-                        src={getPartyFlagPath(party.abbreviation)}
-                        alt={`Bandera de ${party.name}`}
-                        fill
-                        className="object-contain"
-                        unoptimized
-                      />
-                    </div>
-                    <div>
-                      <h3 className="text-xl font-semibold text-[#0D0D0D] dark:text-white">
-                        {party.name}
-                      </h3>
-                      <p className="text-sm text-gray-500 dark:text-gray-400">{party.abbreviation}</p>
-                    </div>
-                  </div>
+                  <h3 className="text-xl font-semibold text-[#0D0D0D] mb-4 dark:text-white">
+                    {getCategoryDisplayName(category.name)}
+                  </h3>
 
-                  {/* Categories for this party */}
-                  <div className="space-y-6">
-                    {displayCategories.map((category) => {
+                  <div
+                    className="grid gap-6"
+                    style={{
+                      gridTemplateColumns: `repeat(${comparison.parties.length}, minmax(0, 1fr))`,
+                    }}
+                  >
+                    {comparison.parties.map((party) => {
                       const position = comparison.positions
                         .get(party.abbreviation)
                         ?.get(category.category_key);
@@ -360,50 +235,52 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                         ? JSON.parse(position.key_proposals)
                         : [];
 
-                      if (!position) return null; // Skip categories with no data
-
                       return (
-                        <div key={category.id} className="space-y-3">
-                          <h4 className="text-lg font-semibold text-[#0D0D0D] dark:text-white">
-                            {getCategoryDisplayName(category.name)}
-                          </h4>
+                        <div key={party.id} className="space-y-4">
+                          {position ? (
+                            <>
+                              {/* Ideology Info */}
+                              <div className="flex flex-wrap gap-2 mb-2">
+                                {position.ideology_position && (
+                                  <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-primary-900 dark:text-blue-200">
+                                    {position.ideology_position}
+                                  </span>
+                                )}
+                              </div>
 
-                          {/* Ideology Info */}
-                          {position.ideology_position && (
-                            <div className="flex flex-wrap gap-2">
-                              <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800 dark:bg-primary-900 dark:text-blue-200">
-                                {position.ideology_position}
-                              </span>
-                            </div>
-                          )}
+                              {/* Summary */}
+                              <div>
+                                <p className="text-sm text-[#0D0D0D] leading-relaxed dark:text-gray-300">
+                                  {formatTextWithCitations(position.summary, party.abbreviation)}
+                                </p>
+                              </div>
 
-                          {/* Summary */}
-                          <div>
-                            <p className="text-sm text-[#0D0D0D] leading-relaxed dark:text-gray-300">
-                              {formatTextWithCitations(position.summary, party.abbreviation)}
+                              {/* Key Proposals */}
+                              {proposals.length > 0 && (
+                                <div>
+                                  <h4 className="text-xs font-medium text-[#8F8F8F] mb-2 uppercase dark:text-gray-500">
+                                    Propuestas Clave
+                                  </h4>
+                                  <ul className="space-y-1">
+                                    {proposals.map((proposal: string) => (
+                                      <li
+                                        key={proposal}
+                                        className="flex gap-2 text-sm text-[#5D5D5D] dark:text-gray-400"
+                                      >
+                                        <span className="text-[#0D0D0D] dark:text-white">•</span>
+                                        <span>
+                                          {formatTextWithCitations(proposal, party.abbreviation)}
+                                        </span>
+                                      </li>
+                                    ))}
+                                  </ul>
+                                </div>
+                              )}
+                            </>
+                          ) : (
+                            <p className="text-sm text-[#8F8F8F] italic dark:text-gray-500">
+                              No hay información disponible para esta categoría
                             </p>
-                          </div>
-
-                          {/* Key Proposals */}
-                          {proposals.length > 0 && (
-                            <div>
-                              <h5 className="text-xs font-medium text-[#8F8F8F] mb-2 uppercase dark:text-gray-500">
-                                Propuestas Clave
-                              </h5>
-                              <ul className="space-y-1">
-                                {proposals.map((proposal: string) => (
-                                  <li
-                                    key={proposal}
-                                    className="flex gap-2 text-sm text-[#5D5D5D] dark:text-gray-400"
-                                  >
-                                    <span className="text-[#0D0D0D] dark:text-white">•</span>
-                                    <span>
-                                      {formatTextWithCitations(proposal, party.abbreviation)}
-                                    </span>
-                                  </li>
-                                ))}
-                              </ul>
-                            </div>
                           )}
                         </div>
                       );
@@ -412,7 +289,6 @@ export function ComparisonView({ allParties, allCategories, comparisonData }: Co
                 </div>
               ))}
             </div>
-          )}
         </div>
       ) : (
         <div className="rounded-2xl border border-[rgba(0,0,0,0.1)] bg-white p-12 text-center dark:border-[rgba(255,255,255,0.1)] dark:bg-[#2A2A2A]">

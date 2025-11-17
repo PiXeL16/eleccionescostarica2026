@@ -151,3 +151,35 @@ export function getPartyColors(abbreviation: string): PartyColors {
     }
   );
 }
+
+// Hex color mappings for charts/visualizations
+const PARTY_HEX_COLORS: Record<string, string> = {
+  PLN: '#059669', // green-600
+  PUSC: '#2563eb', // blue-600
+  FA: '#dc2626', // red-600
+  PAC: '#eab308', // yellow-500
+  ACRM: '#9333ea', // purple-600
+  CAC: '#4f46e5', // indigo-600
+  CDS: '#0d9488', // teal-600
+  CR1: '#ea580c', // orange-600
+  PA: '#db2777', // pink-600
+  PDLCT: '#e11d48', // rose-600
+  PEL: '#0891b2', // cyan-600
+  PEN: '#d97706', // amber-600
+  PIN: '#65a30d', // lime-600
+  PJSC: '#059669', // emerald-600
+  PLP: '#0284c7', // sky-600
+  PNG: '#7c3aed', // violet-600
+  PNR: '#c026d3', // fuchsia-600
+  PPSO: '#475569', // slate-600
+  PSD: '#52525b', // zinc-600
+  PUCD: '#525252', // neutral-600
+  UP: '#57534e', // stone-600
+};
+
+/**
+ * Get hex color for a party (for charts and visualizations)
+ */
+export function getPartyColor(abbreviation: string): string {
+  return PARTY_HEX_COLORS[abbreviation] || '#6b7280'; // gray-600 as fallback
+}

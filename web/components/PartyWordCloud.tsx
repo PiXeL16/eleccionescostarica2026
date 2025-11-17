@@ -182,19 +182,16 @@ export default function PartyWordCloud({
     return cloudWords;
   }, [positions, maxWords]);
 
-  const options = {
-    rotations: 2,
-    rotationAngles: [-90, 0] as [number, number],
-    fontSizes: [16, 60] as [number, number],
-    fontFamily: 'system-ui, -apple-system, sans-serif',
-    padding: 2,
-    deterministic: true,
-    enableTooltip: true,
-    tooltipOptions: {
-      allowHTML: true,
-      theme: 'light',
-    },
-  };
+  const options = useMemo(
+    () => ({
+      rotations: 0,
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      fontSizes: [20, 60] as [number, number],
+      padding: 4,
+      enableTooltip: false,
+    }),
+    []
+  );
 
   if (words.length === 0) {
     return (
@@ -211,7 +208,13 @@ export default function PartyWordCloud({
 
   return (
     <div className="rounded-lg bg-white p-4 shadow-md dark:bg-gray-800" style={{ width, height }}>
-      <ReactWordcloud words={words} options={options} />
+      {words && words.length > 0 ? (
+        <ReactWordcloud words={words} options={options} />
+      ) : (
+        <div className="flex items-center justify-center h-full">
+          <p className="text-gray-500 dark:text-gray-400">Cargando nube de palabras...</p>
+        </div>
+      )}
     </div>
   );
 }
