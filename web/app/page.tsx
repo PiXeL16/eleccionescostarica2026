@@ -44,7 +44,8 @@ export default function HomePage() {
           >
             planes de gobierno publicados por el TSE
           </a>
-          . Solo se muestran partidos que han publicado su plan de gobierno, el orden de los partidos es el mismo que el que se muestra en la papeleta.
+          . Solo se muestran partidos que han publicado su plan de gobierno, el orden de los
+          partidos es el mismo que el que se muestra en la papeleta.
         </p>
       </div>
 
