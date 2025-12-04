@@ -86,6 +86,33 @@ export interface RunningMate {
   created_at: string;
 }
 
+export interface TimeBoundPromise {
+  id: number;
+  party_id: number;
+  document_id: number;
+  category_id: number | null;
+  promise_text: string;
+  promise_summary: string | null;
+  promised_date: string | null;
+  promised_date_text: string;
+  promised_date_type: 'specific' | 'relative' | 'range' | 'milestone';
+  date_start: string | null;
+  date_end: string | null;
+  relative_days: number | null;
+  administration_year: number | null;
+  source_page: number | null;
+  source_text: string | null;
+  confidence_score: number | null;
+  created_at: string;
+}
+
+export interface TimeBoundPromiseWithParty extends TimeBoundPromise {
+  party_name: string;
+  party_abbreviation: string;
+  category_name: string | null;
+  category_key: string | null;
+}
+
 // Database singleton
 let db: Database.Database | null = null;
 
@@ -356,4 +383,154 @@ export function getAllPartiesWithPositions(): Array<{
       positions,
     };
   });
+}
+
+/**
+ * Get all time-bound promises for the accountability calendar
+ */
+export function getAllPromises(): TimeBoundPromiseWithParty[] {
+  const db = getDatabase();
+  const stmt = db.prepare(`
+    SELECT
+      tbp.*,
+      p.name as party_name,
+      p.abbreviation as party_abbreviation,
+      c.name as category_name,
+      c.category_key
+    FROM time_bound_promises tbp
+    JOIN parties p ON tbp.party_id = p.id
+    LEFT JOIN categories c ON tbp.category_id = c.id
+    ORDER BY
+      COALESCE(tbp.promised_date, tbp.date_end) ASC,
+      tbp.administration_year ASC,
+      tbp.id ASC
+  `);
+  return stmt.all() as TimeBoundPromiseWithParty[];
+}
+
+/**
+ * Get promises for a specific party
+ */
+export function getPromisesByParty(partyId: number): TimeBoundPromiseWithParty[] {
+  const db = getDatabase();
+  const stmt = db.prepare(`
+    SELECT
+      tbp.*,
+      p.name as party_name,
+      p.abbreviation as party_abbreviation,
+      c.name as category_name,
+      c.category_key
+    FROM time_bound_promises tbp
+    JOIN parties p ON tbp.party_id = p.id
+    LEFT JOIN categories c ON tbp.category_id = c.id
+    WHERE tbp.party_id = ?
+    ORDER BY
+      COALESCE(tbp.promised_date, tbp.date_end) ASC,
+      tbp.administration_year ASC,
+      tbp.id ASC
+  `);
+  return stmt.all(partyId) as TimeBoundPromiseWithParty[];
+}
+
+/**
+ * Get promises within a date range for calendar display
+ */
+export function getPromisesByDateRange(
+  startDate: string,
+  endDate: string
+): TimeBoundPromiseWithParty[] {
+  const db = getDatabase();
+  const stmt = db.prepare(`
+    SELECT
+      tbp.*,
+      p.name as party_name,
+      p.abbreviation as party_abbreviation,
+      c.name as category_name,
+      c.category_key
+    FROM time_bound_promises tbp
+    JOIN parties p ON tbp.party_id = p.id
+    LEFT JOIN categories c ON tbp.category_id = c.id
+    WHERE
+      (tbp.promised_date BETWEEN ? AND ?)
+      OR (tbp.date_start BETWEEN ? AND ?)
+      OR (tbp.date_end BETWEEN ? AND ?)
+    ORDER BY
+      COALESCE(tbp.promised_date, tbp.date_end) ASC,
+      tbp.administration_year ASC,
+      tbp.id ASC
+  `);
+  return stmt.all(startDate, endDate, startDate, endDate, startDate, endDate) as TimeBoundPromiseWithParty[];
+}
+
+/**
+ * Get a single promise by ID
+ */
+export function getPromiseById(id: number): TimeBoundPromiseWithParty | null {
+  const db = getDatabase();
+  const stmt = db.prepare(`
+    SELECT
+      tbp.*,
+      p.name as party_name,
+      p.abbreviation as party_abbreviation,
+      c.name as category_name,
+      c.category_key
+    FROM time_bound_promises tbp
+    JOIN parties p ON tbp.party_id = p.id
+    LEFT JOIN categories c ON tbp.category_id = c.id
+    WHERE tbp.id = ?
+  `);
+  return (stmt.get(id) as TimeBoundPromiseWithParty) || null;
+}
+
+/**
+ * Get promise statistics for dashboard
+ */
+export function getPromiseStats(): {
+  total: number;
+  byParty: { party_name: string; party_abbreviation: string; count: number }[];
+  byCategory: { category_name: string; count: number }[];
+  byDateType: { date_type: string; count: number }[];
+  byAdminYear: { year: number; count: number }[];
+} {
+  const db = getDatabase();
+
+  const totalStmt = db.prepare('SELECT COUNT(*) as total FROM time_bound_promises');
+  const total = (totalStmt.get() as { total: number }).total;
+
+  const byPartyStmt = db.prepare(`
+    SELECT p.name as party_name, p.abbreviation as party_abbreviation, COUNT(*) as count
+    FROM time_bound_promises tbp
+    JOIN parties p ON tbp.party_id = p.id
+    GROUP BY tbp.party_id
+    ORDER BY count DESC
+  `);
+  const byParty = byPartyStmt.all() as { party_name: string; party_abbreviation: string; count: number }[];
+
+  const byCategoryStmt = db.prepare(`
+    SELECT COALESCE(c.name, 'Sin categoría') as category_name, COUNT(*) as count
+    FROM time_bound_promises tbp
+    LEFT JOIN categories c ON tbp.category_id = c.id
+    GROUP BY tbp.category_id
+    ORDER BY count DESC
+  `);
+  const byCategory = byCategoryStmt.all() as { category_name: string; count: number }[];
+
+  const byDateTypeStmt = db.prepare(`
+    SELECT promised_date_type as date_type, COUNT(*) as count
+    FROM time_bound_promises
+    GROUP BY promised_date_type
+    ORDER BY count DESC
+  `);
+  const byDateType = byDateTypeStmt.all() as { date_type: string; count: number }[];
+
+  const byAdminYearStmt = db.prepare(`
+    SELECT administration_year as year, COUNT(*) as count
+    FROM time_bound_promises
+    WHERE administration_year IS NOT NULL
+    GROUP BY administration_year
+    ORDER BY administration_year
+  `);
+  const byAdminYear = byAdminYearStmt.all() as { year: number; count: number }[];
+
+  return { total, byParty, byCategory, byDateType, byAdminYear };
 }

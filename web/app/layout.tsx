@@ -132,6 +132,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                     </Link>
                     <div className="flex items-center gap-4">
                       <Link
+                        href="/calendario-rendicion"
+                        className="text-sm font-medium text-[#5D5D5D] hover:text-[#0D0D0D] transition-colors dark:text-gray-400 dark:hover:text-white"
+                      >
+                        <span className="hidden sm:inline">Calendario de Promesas</span>
+                        <span className="sm:hidden">Calendario</span>
+                      </Link>
+                      <Link
                         href="/acerca-de"
                         className="text-sm font-medium text-[#5D5D5D] hover:text-[#0D0D0D] transition-colors dark:text-gray-400 dark:hover:text-white"
                       >
@@ -141,7 +148,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         href="/preguntas-frecuentes"
                         className="text-sm font-medium text-[#5D5D5D] hover:text-[#0D0D0D] transition-colors dark:text-gray-400 dark:hover:text-white"
                       >
-                        Preguntas Frecuentes
+                        <span className="hidden sm:inline">Preguntas Frecuentes</span>
+                        <span className="sm:hidden">FAQ</span>
                       </Link>
                       <ThemeToggle />
                     </div>

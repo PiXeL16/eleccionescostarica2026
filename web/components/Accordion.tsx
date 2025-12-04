@@ -1,5 +1,5 @@
 // ABOUTME: Accordion component for displaying party positions by category
-// ABOUTME: Client-side component with collapsible sections
+// ABOUTME: Client-side component with collapsible sections, supports multiple open items
 
 'use client';
 
@@ -15,6 +15,7 @@ interface AccordionItem {
 interface AccordionProps {
   items: AccordionItem[];
   defaultOpen?: string;
+  defaultOpenAll?: boolean;
   openId?: string | null;
   onOpenChange?: (id: string | null) => void;
 }
@@ -22,19 +23,47 @@ interface AccordionProps {
 export function Accordion({
   items,
   defaultOpen,
+  defaultOpenAll = false,
   openId: controlledOpenId,
   onOpenChange,
 }: AccordionProps) {
-  const [internalOpenId, setInternalOpenId] = useState<string | null>(defaultOpen || null);
+  // Support multiple open items when defaultOpenAll is true
+  const [openIds, setOpenIds] = useState<Set<string>>(() => {
+    if (defaultOpenAll) {
+      return new Set(items.map(item => item.id));
+    }
+    return defaultOpen ? new Set([defaultOpen]) : new Set();
+  });
 
   const isControlled = controlledOpenId !== undefined;
-  const openId = isControlled ? controlledOpenId : internalOpenId;
-  const setOpenId = isControlled && onOpenChange ? onOpenChange : setInternalOpenId;
+
+  const toggleItem = (id: string) => {
+    if (isControlled && onOpenChange) {
+      onOpenChange(controlledOpenId === id ? null : id);
+    } else {
+      setOpenIds(prev => {
+        const newSet = new Set(prev);
+        if (newSet.has(id)) {
+          newSet.delete(id);
+        } else {
+          newSet.add(id);
+        }
+        return newSet;
+      });
+    }
+  };
+
+  const isItemOpen = (id: string) => {
+    if (isControlled) {
+      return controlledOpenId === id;
+    }
+    return openIds.has(id);
+  };
 
   return (
     <div className="space-y-3 w-full max-w-full">
       {items.map((item) => {
-        const isOpen = openId === item.id;
+        const isOpen = isItemOpen(item.id);
 
         return (
           <div
@@ -43,7 +72,7 @@ export function Accordion({
           >
             <button
               type="button"
-              onClick={() => setOpenId(isOpen ? null : item.id)}
+              onClick={() => toggleItem(item.id)}
               className="flex w-full items-center justify-between p-3 md:p-4 text-left transition hover:bg-gray-50 dark:hover:bg-gray-800"
             >
               <span className="font-semibold text-gray-900 dark:text-white dark:hover:text-gray-300 flex items-center gap-2">

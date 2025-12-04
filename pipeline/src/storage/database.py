@@ -187,6 +187,63 @@ class Database:
             # Index for embeddings
             cursor.execute("CREATE INDEX IF NOT EXISTS idx_embeddings_doc_text ON document_embeddings(document_text_id)")
 
+            # Time-bound promises for accountability calendar
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS time_bound_promises (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    party_id INTEGER NOT NULL,
+                    document_id INTEGER NOT NULL,
+                    category_id INTEGER,
+
+                    -- Promise content
+                    promise_text TEXT NOT NULL,
+                    promise_summary TEXT,
+
+                    -- Flexible date handling
+                    promised_date DATE,
+                    promised_date_text TEXT NOT NULL,
+                    promised_date_type TEXT NOT NULL,
+                    date_start DATE,
+                    date_end DATE,
+                    relative_days INTEGER,
+                    administration_year INTEGER,
+
+                    -- Source citation
+                    source_page INTEGER,
+                    source_text TEXT,
+
+                    -- Metadata
+                    confidence_score REAL,
+                    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+
+                    FOREIGN KEY (party_id) REFERENCES parties(id) ON DELETE CASCADE,
+                    FOREIGN KEY (document_id) REFERENCES documents(id) ON DELETE CASCADE,
+                    FOREIGN KEY (category_id) REFERENCES categories(id)
+                )
+            """)
+
+            # Promise extraction status tracking
+            cursor.execute("""
+                CREATE TABLE IF NOT EXISTS promise_extraction_status (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    document_id INTEGER NOT NULL,
+                    status TEXT NOT NULL DEFAULT 'pending',
+                    started_at TIMESTAMP,
+                    completed_at TIMESTAMP,
+                    promises_found INTEGER,
+                    error_message TEXT,
+                    FOREIGN KEY (document_id) REFERENCES documents(id) ON DELETE CASCADE,
+                    UNIQUE(document_id)
+                )
+            """)
+
+            # Indexes for time_bound_promises
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_promises_party ON time_bound_promises(party_id)")
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_promises_date ON time_bound_promises(promised_date)")
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_promises_date_type ON time_bound_promises(promised_date_type)")
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_promises_category ON time_bound_promises(category_id)")
+            cursor.execute("CREATE INDEX IF NOT EXISTS idx_promises_admin_year ON time_bound_promises(administration_year)")
+
     def add_party(self, name: str, abbreviation: str, folder_name: str, **kwargs) -> int:
         """Add a new political party."""
         with self.get_connection() as conn:
@@ -254,6 +311,21 @@ class Database:
             """, (document_id,))
             texts = [row['raw_text'] for row in cursor.fetchall()]
             return "\n\n".join(texts)
+
+    def get_extracted_text_with_pages(self, document_id: int) -> str:
+        """Get cached extracted text for a document with page markers for LLM extraction."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT page_number, raw_text FROM document_text
+                WHERE document_id = ?
+                ORDER BY page_number
+            """, (document_id,))
+            pages = []
+            for row in cursor.fetchall():
+                page_num = row['page_number'] or 1
+                pages.append(f"[PÁGINA {page_num}]\n{row['raw_text']}")
+            return "\n\n".join(pages)
 
     def is_text_extracted(self, document_id: int) -> bool:
         """Check if text has already been extracted for a document."""
@@ -390,5 +462,134 @@ class Database:
                     SUM(token_count) as total_tokens,
                     AVG(token_count) as avg_tokens_per_chunk
                 FROM document_embeddings
+            """)
+            return dict(cursor.fetchone())
+
+    def save_time_bound_promise(self, party_id: int, document_id: int,
+                                promise_text: str, promised_date_text: str,
+                                promised_date_type: str, **kwargs) -> int:
+        """Save a time-bound promise for accountability tracking."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                INSERT INTO time_bound_promises
+                (party_id, document_id, category_id, promise_text, promise_summary,
+                 promised_date, promised_date_text, promised_date_type,
+                 date_start, date_end, relative_days, administration_year,
+                 source_page, source_text, confidence_score)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+            """, (party_id, document_id, kwargs.get('category_id'),
+                  promise_text, kwargs.get('promise_summary'),
+                  kwargs.get('promised_date'), promised_date_text, promised_date_type,
+                  kwargs.get('date_start'), kwargs.get('date_end'),
+                  kwargs.get('relative_days'), kwargs.get('administration_year'),
+                  kwargs.get('source_page'), kwargs.get('source_text'),
+                  kwargs.get('confidence_score')))
+            return cursor.lastrowid
+
+    def get_promises_by_party(self, party_id: int) -> List[Dict]:
+        """Get all time-bound promises for a party."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT tbp.*, c.name as category_name, c.category_key
+                FROM time_bound_promises tbp
+                LEFT JOIN categories c ON tbp.category_id = c.id
+                WHERE tbp.party_id = ?
+                ORDER BY tbp.promised_date, tbp.administration_year, tbp.id
+            """, (party_id,))
+            return [dict(row) for row in cursor.fetchall()]
+
+    def get_all_promises(self) -> List[Dict]:
+        """Get all time-bound promises with party info."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT tbp.*, p.name as party_name, p.abbreviation as party_abbreviation,
+                       c.name as category_name, c.category_key
+                FROM time_bound_promises tbp
+                JOIN parties p ON tbp.party_id = p.id
+                LEFT JOIN categories c ON tbp.category_id = c.id
+                ORDER BY tbp.promised_date, tbp.administration_year, tbp.id
+            """)
+            return [dict(row) for row in cursor.fetchall()]
+
+    def get_promises_by_date_range(self, start_date: str, end_date: str) -> List[Dict]:
+        """Get promises within a date range."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT tbp.*, p.name as party_name, p.abbreviation as party_abbreviation,
+                       c.name as category_name, c.category_key
+                FROM time_bound_promises tbp
+                JOIN parties p ON tbp.party_id = p.id
+                LEFT JOIN categories c ON tbp.category_id = c.id
+                WHERE (tbp.promised_date BETWEEN ? AND ?)
+                   OR (tbp.date_start BETWEEN ? AND ?)
+                   OR (tbp.date_end BETWEEN ? AND ?)
+                ORDER BY tbp.promised_date, tbp.date_start, tbp.id
+            """, (start_date, end_date, start_date, end_date, start_date, end_date))
+            return [dict(row) for row in cursor.fetchall()]
+
+    def update_promise_extraction_status(self, document_id: int, status: str,
+                                         promises_found: int = None,
+                                         error_message: str = None):
+        """Update promise extraction status for a document."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            if status == 'started':
+                cursor.execute("""
+                    INSERT OR REPLACE INTO promise_extraction_status
+                    (document_id, status, started_at)
+                    VALUES (?, ?, ?)
+                """, (document_id, status, datetime.now()))
+            elif status == 'completed':
+                cursor.execute("""
+                    UPDATE promise_extraction_status
+                    SET status = ?, completed_at = ?, promises_found = ?
+                    WHERE document_id = ?
+                """, (status, datetime.now(), promises_found, document_id))
+            elif status == 'failed':
+                cursor.execute("""
+                    UPDATE promise_extraction_status
+                    SET status = ?, error_message = ?
+                    WHERE document_id = ?
+                """, (status, error_message, document_id))
+
+    def get_documents_without_promise_extraction(self) -> List[Dict]:
+        """Get documents that haven't had promises extracted."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT d.*, p.name as party_name, p.abbreviation as party_abbreviation
+                FROM documents d
+                JOIN parties p ON d.party_id = p.id
+                LEFT JOIN promise_extraction_status pes ON d.id = pes.document_id
+                WHERE pes.id IS NULL OR pes.status != 'completed'
+            """)
+            return [dict(row) for row in cursor.fetchall()]
+
+    def clear_promises_for_document(self, document_id: int):
+        """Clear existing promises for a document (for re-extraction)."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("DELETE FROM time_bound_promises WHERE document_id = ?", (document_id,))
+            cursor.execute("DELETE FROM promise_extraction_status WHERE document_id = ?", (document_id,))
+
+    def get_promise_stats(self) -> Dict:
+        """Get statistics about extracted promises."""
+        with self.get_connection() as conn:
+            cursor = conn.cursor()
+            cursor.execute("""
+                SELECT
+                    COUNT(*) as total_promises,
+                    COUNT(DISTINCT party_id) as parties_with_promises,
+                    COUNT(DISTINCT document_id) as documents_processed,
+                    SUM(CASE WHEN promised_date_type = 'specific' THEN 1 ELSE 0 END) as specific_dates,
+                    SUM(CASE WHEN promised_date_type = 'relative' THEN 1 ELSE 0 END) as relative_dates,
+                    SUM(CASE WHEN promised_date_type = 'milestone' THEN 1 ELSE 0 END) as milestone_dates,
+                    SUM(CASE WHEN promised_date_type = 'range' THEN 1 ELSE 0 END) as range_dates,
+                    AVG(confidence_score) as avg_confidence
+                FROM time_bound_promises
             """)
             return dict(cursor.fetchone())
