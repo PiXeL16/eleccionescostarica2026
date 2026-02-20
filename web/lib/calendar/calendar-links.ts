@@ -217,6 +217,6 @@ export function generateAllCalendarLinks(promise: TimeBoundPromiseWithParty): {
     google: generateGoogleCalendarUrl(event),
     outlook: generateOutlookUrl(event),
     yahoo: generateYahooCalendarUrl(event),
-    icsUrl: `/api/calendar/${promise.id}`,
+    icsUrl: `/calendar/${promise.id}.ics`,
   };
 }

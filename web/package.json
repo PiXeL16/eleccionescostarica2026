@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "prebuild": "bun scripts/generate-ics.ts",
     "build": "next build",
     "start": "next start",
     "lint": "biome check .",

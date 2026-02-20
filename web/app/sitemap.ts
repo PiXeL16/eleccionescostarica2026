@@ -4,6 +4,8 @@
 import type { MetadataRoute } from 'next';
 import { getAllParties } from '@/lib/database';
 
+export const dynamic = 'force-static';
+
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://eleccionescostarica.org';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {

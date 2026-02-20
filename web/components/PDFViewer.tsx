@@ -1,16 +1,16 @@
-'use client';
-
 // ABOUTME: PDF viewer component using native browser PDF rendering
 // ABOUTME: Simple iframe-based approach for maximum compatibility
 
+'use client';
+
 interface PDFViewerProps {
-  partySlug: string;
+  abbreviation: string;
   initialPage?: number;
 }
 
-export default function PDFViewer({ partySlug, initialPage = 1 }: PDFViewerProps) {
-  // Build PDF URL with page fragment for browser's native PDF viewer
-  const pdfUrl = `/api/pdf/${partySlug}#page=${initialPage}`;
+export default function PDFViewer({ abbreviation, initialPage = 1 }: PDFViewerProps) {
+  // Build PDF URL pointing directly to static files in public/party_pdfs/
+  const pdfUrl = `/party_pdfs/${abbreviation}.pdf#page=${initialPage}`;
 
   return (
     <div className="flex flex-col h-full">

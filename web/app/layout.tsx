@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { ChatProvider } from '@/components/ChatProvider';
 import { ThemeProvider } from '@/components/ThemeProvider';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { getAllPartiesForChat } from '@/lib/chat-data';
+import { getAllParties } from '@/lib/database';
 import { generateWebSiteSchema } from '@/lib/structured-data';
 import packageJson from '../package.json';
 
@@ -99,7 +99,7 @@ export const viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   // Fetch parties for chat dropdown (runs at build time for static pages)
-  const parties = getAllPartiesForChat();
+  const parties = getAllParties();
   const websiteSchema = generateWebSiteSchema();
 
   return (

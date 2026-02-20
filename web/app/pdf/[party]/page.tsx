@@ -1,71 +1,40 @@
-'use client';
-
 // ABOUTME: PDF viewer page for displaying party platform documents
-// ABOUTME: Accepts party slug and optional page query parameter for deep linking
+// ABOUTME: Server component with static generation that reads party data at build time
 
-import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { notFound, useParams, useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
+import { notFound } from 'next/navigation';
+import { Suspense } from 'react';
+import PDFPageClient from '@/components/PDFPageClient';
+import { getAllParties, getPartyBySlug } from '@/lib/database';
 
-// Dynamically import PDFViewer to prevent SSR issues with PDF.js
-const PDFViewer = dynamic(() => import('@/components/PDFViewer'), {
-  ssr: false,
-  loading: () => (
-    <div className="flex items-center justify-center h-full">
-      <div className="text-gray-600">Cargando visor de PDF...</div>
-    </div>
-  ),
-});
-
-interface Party {
-  id: number;
-  name: string;
-  abbreviation: string;
-  folder_name: string;
-  created_at: string;
+interface PageProps {
+  params: Promise<{ party: string }>;
 }
 
-export default function PDFPage() {
-  const params = useParams();
-  const searchParams = useSearchParams();
-  const [party, setParty] = useState<Party | null>(null);
-  const [loading, setLoading] = useState(true);
+export async function generateStaticParams() {
+  const parties = getAllParties();
+  return parties.map((party) => ({
+    party: party.abbreviation.toLowerCase(),
+  }));
+}
 
-  const partySlug = params.party as string;
-  const pageParam = searchParams.get('page');
-  const initialPage = pageParam ? parseInt(pageParam, 10) : 1;
+export async function generateMetadata({ params }: PageProps) {
+  const { party: partySlug } = await params;
+  const party = getPartyBySlug(partySlug);
 
-  useEffect(() => {
-    // Fetch party data on client side
-    async function fetchParty() {
-      try {
-        const response = await fetch(`/api/party/${partySlug}`);
-        if (!response.ok) {
-          setParty(null);
-          setLoading(false);
-          return;
-        }
-        const data = await response.json();
-        setParty(data);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error fetching party:', error);
-        setParty(null);
-        setLoading(false);
-      }
-    }
-
-    fetchParty();
-  }, [partySlug]);
-
-  if (loading) {
-    return (
-      <div className="h-screen flex items-center justify-center">
-        <div className="text-gray-600">Cargando...</div>
-      </div>
-    );
+  if (!party) {
+    return { title: 'Partido no encontrado' };
   }
+
+  return {
+    title: `PDF - ${party.name} (${party.abbreviation})`,
+    description: `Plataforma electoral del ${party.name} en formato PDF`,
+  };
+}
+
+export default async function PDFPage({ params }: PageProps) {
+  const { party: partySlug } = await params;
+  const party = getPartyBySlug(partySlug);
 
   if (!party) {
     notFound();
@@ -80,7 +49,7 @@ export default function PDFPage() {
             href="/"
             className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 text-sm mb-1 block"
           >
-            ← Volver al inicio
+            &larr; Volver al inicio
           </Link>
           <h1 className="text-xl font-bold text-gray-900 dark:text-white">
             {party.name} ({party.abbreviation})
@@ -91,7 +60,15 @@ export default function PDFPage() {
 
       {/* PDF Viewer */}
       <main className="flex-1 overflow-hidden">
-        <PDFViewer partySlug={partySlug} initialPage={initialPage} />
+        <Suspense
+          fallback={
+            <div className="flex items-center justify-center h-full">
+              <div className="text-gray-600">Cargando visor de PDF...</div>
+            </div>
+          }
+        >
+          <PDFPageClient abbreviation={party.abbreviation} />
+        </Suspense>
       </main>
     </div>
   );

@@ -4,6 +4,9 @@ node_modules
 # output
 out
 dist
+
+# generated calendar files (built by prebuild script)
+public/calendar/
 *.tgz
 .next
 

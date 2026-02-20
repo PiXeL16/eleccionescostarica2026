@@ -1,16 +1,14 @@
 // ABOUTME: Next.js configuration for the Plataformas Políticas CR 2026 website
-// ABOUTME: Configures hybrid rendering (static pages + API routes), image optimization, and SQLite integration
+// ABOUTME: Configures static export for Cloudflare Pages deployment with SQLite build-time integration
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // Image optimization configuration
+  output: 'export',
+  // Images must be unoptimized for static export (no image optimization server)
   images: {
-    formats: ['image/webp', 'image/avif'],
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920],
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    minimumCacheTTL: 60,
+    unoptimized: true,
   },
-  // Webpack configuration for better-sqlite3
+  // Webpack configuration for better-sqlite3 (needed at build time)
   webpack: (config, { isServer }) => {
     // Better-sqlite3 only works on the server
     if (isServer) {
